@@ -1,0 +1,98 @@
+#:kivy 1.0.9
+
+<TextworldDisplay>:
+    canvas:
+        Color:
+            rgba: (.5, .5, .5, .1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    markup: True
+    font_name: ".\Fonts\Monocraft.ttf"
+    font_size: 18
+    text_size: self.size
+    halign: 'center'
+    valign: 'center'
+
+<TextworldCommandTerminal>:
+    canvas:
+        Color:
+            rgba: (.15, .35, .35, .25)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    markup: True
+    font_name: ".\Fonts\Monocraft.ttf"
+    font_size: 18
+    text_size: self.size
+    halign: 'left'
+    valign: 'bottom'
+
+<TextworldCommandInput>:
+    multiline: False
+    font_name: ".\Fonts\Monocraft.ttf"
+    font_size: 18
+    size_hint_y: None
+    height: 34
+
+<TextworldGameMenu>:
+    markup: True
+    font_name: ".\Fonts\Monocraft.ttf"
+    font_size: 18
+    text_size: self.size
+    halign: 'center'
+    valign: 'top'
+
+<TextworldLeftLayout>:
+    canvas:
+        Color:
+            rgba: (.25, .25, .25, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    size_hint: (1.5, 1)
+    padding: [6,6,6,6]
+    orientation: 'vertical'
+    display: display
+    command_terminal: command_terminal
+    command_input: command_input
+    TextworldDisplay:
+        id: display
+    TextworldCommandTerminal:
+        id: command_terminal
+    TextworldCommandInput:
+        id: command_input
+
+<TextworldRightLayout>:
+    padding: [2,2,2,2]
+    size_hint: (.75, 1)
+    game_menu: game_menu
+    orientation: 'horizontal'
+    TextworldGameMenu:
+        id: game_menu
+
+<TextworldMiddleLayout>:
+    canvas:
+        Color:
+            rgba: (.35, .15, .15, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    padding: [2,2,2,2]
+    size_hint: (.25, 1)
+    #status_bars: status_bars
+    #menu_buttons: menu_buttons
+    orientation: 'horizontal'
+
+<TextworldGameLayout>:
+    padding: [2,2,2,2]
+    left_panel: left_panel
+    middle_panel: middle_panel
+    right_panel: right_panel
+    orientation: 'horizontal'
+    TextworldLeftLayout:
+        id: left_panel
+    TextworldMiddleLayout:
+        id: middle_panel
+    TextworldRightLayout:
+        id: right_panel
