@@ -6,6 +6,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
 from kivy.config import Config
 from generate import TextworldGenerator, TextworldMap # type: ignore
+from db_interface import TileDBInterface # type: ignore
 
 # Container for Display, Terminal and Input
 class TextworldLeftLayout(BoxLayout):
@@ -46,7 +47,7 @@ class TextworldCommandTerminal(Label):
     command_queue = []
     max_queue = 10
     # Take in some text, add it to the queue and display it
-    def updateText(self, text):
+    def updateText(self, text:str):
         if text == "":
             return
         else:
@@ -54,9 +55,9 @@ class TextworldCommandTerminal(Label):
             self.text += f'{text}\n'
         if len(self.command_queue) > self.max_queue:
             self.clearQueue('AGED')
-    
+
     # Take in a clearing mode and the queue will clear per mode
-    def clearQueue(self, mode):
+    def clearQueue(self, mode:str):
         match mode:
             # Remove everything
             case 'CLEAR':
@@ -77,11 +78,11 @@ class TextworldGameMenu(Label):
 class TextworldGameManagementSystem():
     def __init__(self):
         self.world_generator = TextworldGenerator()
-    
-    # Set the active World Map, Default gens new map 
-    def setActiveMap(self, map=None):
+
+    # Set the active World Map, Default gens new map
+    def setActiveMap(self, map:TextworldMap):
         if map == None:
-            self.active_map = self.world_generator.TestGen(38, 16)
+            self.active_map = self.world_generator.testGen(38, 16)
         else:
             self.active_map = map
 
@@ -91,10 +92,9 @@ class TextworldApp(App):
         management_system = TextworldGameManagementSystem()
         game = TextworldGameLayout()
         management_system.setActiveMap(management_system.world_generator.testGen(37, 14))
-        print(management_system.active_map.getMapTile(0, 0).tile_string)
         game.left_panel.display.text = management_system.active_map.map_string
         return game
-    
+
 # Config Write settings to be moved
 if __name__ == '__main__':
     Config.set('graphics','resizable', True)
