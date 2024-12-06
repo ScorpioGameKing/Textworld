@@ -91,7 +91,7 @@ class TextworldApp(App):
     def build(self):
         management_system = TextworldGameManagementSystem()
         game = TextworldGameLayout()
-        management_system.setActiveMap(management_system.world_generator.testGen(37, 14))
+        management_system.setActiveMap(management_system.world_generator.generateMap(58, 20, 420))
         game.left_panel.display.text = management_system.active_map.map_string
         return game
 

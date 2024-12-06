@@ -1,4 +1,6 @@
-from random import randint, choices
+from time import gmtime, strftime
+from numpy import array, interp, rint
+from opensimplex import OpenSimplex
 from db_interface import TileDBInterface # type: ignore
 
 # Temp DB for testing
@@ -42,22 +44,20 @@ class TextworldMap():
 
 # World Generation Class
 class TextworldGenerator():
-    # Used for testing
-    def testGen(self, cols:int, rows:int):
+
+    def generateMap(self, cols:int, rows:int, seed:int = int(strftime("%Y%m%d%H%M%S", gmtime()))):
         map = TextworldMap(cols, rows)
+        height_noise = OpenSimplex(seed)
+        y_range, x_range = array(range(0, rows)), array(range(0, cols))
+        heightmap = height_noise.noise2array(x=x_range, y=y_range)
         for y in range(rows):
             map_row = []
             for x in range(cols):
-                db_tile:tuple = TILEDBI.getTile(randint(0, len(TILEDBI.tile_db) - 1))
-                if len(db_tile) >= 1:
-                    tile_color = Color(db_tile[2])
-                    new_tile = TextworldTile(db_tile[1], tile_color)
-                    map_row.append(new_tile)
-                else:
-                    print("It's all gone wrong!")
-                    tile_color = Color()
-                    new_tile = TextworldTile(")", tile_color)
-                    map_row.append(new_tile)
+                db_tile:tuple = TILEDBI.getTile(int(rint(interp(heightmap[y][x],[-1.0, 1.0],[0, len(TILEDBI.tile_db) - 1]))))
+                print(db_tile)
+                tile_color = Color(db_tile[3])
+                new_tile = TextworldTile(db_tile[2], tile_color)
+                map_row.append(new_tile)
             map.addTileRow(map_row)
         map.updateMapString()
         return map
