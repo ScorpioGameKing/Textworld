@@ -72,8 +72,15 @@ class TextworldCommandTerminal(Label):
 class TextworldGameMenu(Label):
     text = "Place holder Text"
 
+# Game Container
+class TextworldGameLayout(BoxLayout):
+    left_panel = ObjectProperty(None)
+    right_panel = ObjectProperty(None)
+
 # Management system. This is the center for most data, Map, World, Active NPC lists, etc
 class TextworldGameManagementSystem(Widget):
+
+    # Using Super and Class type Widget to hack in Keyboard Support
     def __init__(self, _width:int, _height:int, _cols:int, _rows:int, spawn_x:int, spawn_y:int, *seed:int, **kwargs):
         super(TextworldGameManagementSystem, self).__init__(**kwargs)
         self._keyboard:Keyboard
@@ -81,24 +88,28 @@ class TextworldGameManagementSystem(Widget):
         self._keyboard.bind(on_key_down=self._on_key_down)
         self._keyboard.bind(on_key_up=self._on_key_up)
 
+        # Check if a custom generator was given, will be given during world settings step later
         if len(seed) == 1:
             self.world_generator = TextworldGenerator(seed[0])
         else:
             self.world_generator = TextworldGenerator()
+
+        # Load or Create a world, set inital map position and active map
         self.loadWorld(_width, _height, _cols, _rows)
         self.world_position = [spawn_x, spawn_y]
         self.setActiveMap(self.world_position[0], self.world_position[1])
 
+    # Clear out keyboard bindings, doesn't like being forced to none but it's fine for now
     def _on_keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_key_down)
         self._keyboard.unbind(on_key_up=self._on_key_up)
         self._keyboard = None
 
+    # Determin input and if movement is possible for temp camera
     def _on_key_down(self, keyboard, keycode, text, modifiers):
         # keycode is a tuple (integer, string)
         match keycode[1]:
             case 'left':
-                print('Left arrow pressed')
                 match self.world_position[0]:
                     case x if x - 1 < 0:
                         self.world_position[0] = 0
@@ -106,7 +117,6 @@ class TextworldGameManagementSystem(Widget):
                         self.world_position[0] -= 1
                 self.setActiveMap(self.world_position[0], self.world_position[1])
             case 'right':
-                print('Right arrow pressed')
                 match self.world_position[0]:
                     case x if x + 1 > self.active_world.dimensions[0] - 1:
                         self.world_position[0] = self.world_position[0]
@@ -114,7 +124,6 @@ class TextworldGameManagementSystem(Widget):
                         self.world_position[0] += 1
                 self.setActiveMap(self.world_position[0], self.world_position[1])
             case 'up':
-                print('Up arrow pressed')
                 match self.world_position[1]:
                     case y if y - 1 < 0:
                         self.world_position[1] = 0
@@ -122,7 +131,6 @@ class TextworldGameManagementSystem(Widget):
                         self.world_position[1] -= 1
                 self.setActiveMap(self.world_position[0], self.world_position[1])
             case 'down':
-                print('Down arrow pressed')
                 match self.world_position[1]:
                     case y if y + 1 > self.active_world.dimensions[1] - 1:
                         self.world_position[1] = self.world_position[1]
@@ -131,9 +139,11 @@ class TextworldGameManagementSystem(Widget):
                 self.setActiveMap(self.world_position[0], self.world_position[1])
         return True
 
+    # Does nothing at the moment
     def _on_key_up(self, keyboard, keycode):
         return True
 
+    # Takes an overload of either an existing world or the settings to create a world
     def loadWorld(self, *world):
         if len(world) == 1:
             self.active_world = world[0]
@@ -145,21 +155,27 @@ class TextworldGameManagementSystem(Widget):
         self.active_map = self.active_world.world_maps[map_x][map_y]
         print(f'X: {map_x} Y: {map_y}')
 
-# Game Container
-class TextworldGameLayout(BoxLayout):
-    left_panel = ObjectProperty(None)
-    right_panel = ObjectProperty(None)
-
 # The main kivy App, build the required parts, schedule the loops and return
 class TextworldApp(App):
+
+    # This Runs everything
     def build(self):
+
+        # Window Defaults
         Window.size = (1280,720)
         Window.maximize()
+
+        # Init UI and Management System
         self.game = TextworldGameLayout()
         self.management_system = TextworldGameManagementSystem(5, 5, 140, 38, 2, 2, 42069)
+
+        # Schedule Display Render Call
         Clock.schedule_interval(self.update_display, 1/30)
+
+        # Return App to be run
         return self.game
 
+    # Display Render Loop
     def update_display(self, dt):
         self.game.left_panel.display.text = self.management_system.active_map.map_string
 
