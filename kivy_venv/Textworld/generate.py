@@ -1,7 +1,6 @@
 from time import gmtime, strftime
 from numpy import array, interp, rint
 from opensimplex import OpenSimplex
-from opensimplex.api import noise2
 from db_interface import TileDBInterface # type: ignore
 
 # Temp DB for testing
@@ -47,19 +46,19 @@ class TextworldMap():
 class TextworldGenerator():
     def __init__(self, seed:int = int(strftime("%Y%m%d%H%M%S", gmtime()))):
         self.seed = seed
-        self.height_noise = [OpenSimplex(self.seed), OpenSimplex(self.seed * 2), OpenSimplex(self.seed * 4), OpenSimplex(self.seed * 8)]
+        self.height_noise = array([OpenSimplex(self.seed), OpenSimplex(self.seed * 2), OpenSimplex(self.seed * 4), OpenSimplex(self.seed * 8)])
 
     def generateMap(self, cols:int, rows:int, map_x:int, map_y:int, *seed:int):
-        scale = 0.0625
+        scale = 0.0625 * 0.5
         map = TextworldMap(cols, rows)
         for y in range(rows):
             map_row = []
             for x in range(cols):
                 noise_val = interp(
-                    (self.height_noise[0].noise2((x + map_x) * scale, (y + map_y) * scale) +
-                    (self.height_noise[1].noise2((x + map_x) * scale, (y + map_y) * scale) * 0.5) +
-                    (self.height_noise[2].noise2((x + map_x) * scale, (y + map_y) * scale) * 0.25) +
-                    (self.height_noise[3].noise2((x + map_x) * scale, (y + map_y) * scale) * 0.125)),
+                    (self.height_noise[0].noise2((x + (map_x * cols)) * scale, (y + (map_y * rows)) * scale) +
+                    (self.height_noise[1].noise2((x + (map_x * cols)) * scale, (y + (map_y * rows)) * scale) * 0.5) +
+                    (self.height_noise[2].noise2((x + (map_x * cols)) * scale, (y + (map_y * rows)) * scale) * 0.25) +
+                    (self.height_noise[3].noise2((x + (map_x * cols)) * scale, (y + (map_y * rows)) * scale) * 0.125)),
                      [-1,1], [0,1])
                 tile_index = 0
                 match noise_val:
@@ -89,7 +88,7 @@ class TextworldGenerator():
 
 class TextworldWorld():
     def __init__(self, _width:int, _height:int, _cols:int, _rows:int, generator:TextworldGenerator):
-        self.dimensions = [_width, _height]
+        self.dimensions = [_width, _height, _width * _cols, _height * _rows]
         self.world_maps = []
         self.buildWorld(generator, _cols, _rows)
 
