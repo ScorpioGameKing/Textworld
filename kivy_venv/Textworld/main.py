@@ -4,8 +4,8 @@ from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
-from kivy.config import Config
-from generate import TextworldGenerator, TextworldMap # type: ignore
+from kivy.core.window import Window
+from generate import TextworldGenerator, TextworldMap, TextworldWorld # type: ignore
 from db_interface import TileDBInterface # type: ignore
 
 # Container for Display, Terminal and Input
@@ -76,27 +76,34 @@ class TextworldGameMenu(Label):
 
 # Management system. This is the center for most data, Map, World, Active NPC lists, etc
 class TextworldGameManagementSystem():
-    def __init__(self):
-        self.world_generator = TextworldGenerator()
+    def __init__(self, _width:int, _height:int, _cols:int, _rows:int, *seed:int):
+        if len(seed) == 1:
+            self.world_generator = TextworldGenerator(seed[0])
+        else:
+            self.world_generator = TextworldGenerator()
+        self.loadWorld(_width, _height, _cols, _rows)
+
+    def loadWorld(self, *world):
+        if len(world) == 1:
+            self.active_world = world[0]
+        else:
+            self.active_world = TextworldWorld(world[0], world[1], world[2], world[3], self.world_generator)
 
     # Set the active World Map, Default gens new map
-    def setActiveMap(self, map:TextworldMap):
-        if map == None:
-            self.active_map = self.world_generator.testGen(38, 16)
-        else:
-            self.active_map = map
+    def setActiveMap(self, map_x:int, map_y:int):
+        self.active_map = self.active_world.world_maps[map_x][map_y]
 
 # The main kivy App, build the required parts, schedule the loops and return
 class TextworldApp(App):
     def build(self):
-        management_system = TextworldGameManagementSystem()
+        Window.size = (1280,720)
+        Window.maximize()
+        management_system = TextworldGameManagementSystem(1, 1, 140, 38, 42069)
         game = TextworldGameLayout()
-        management_system.setActiveMap(management_system.world_generator.generateMap(58, 20, 420))
+        management_system.setActiveMap(0, 0)
         game.left_panel.display.text = management_system.active_map.map_string
         return game
 
 # Config Write settings to be moved
 if __name__ == '__main__':
-    Config.set('graphics','resizable', True)
-    Config.write()
     TextworldApp().run()

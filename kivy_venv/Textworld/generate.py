@@ -1,6 +1,7 @@
 from time import gmtime, strftime
 from numpy import array, interp, rint
 from opensimplex import OpenSimplex
+from opensimplex.api import noise2
 from db_interface import TileDBInterface # type: ignore
 
 # Temp DB for testing
@@ -44,20 +45,61 @@ class TextworldMap():
 
 # World Generation Class
 class TextworldGenerator():
+    def __init__(self, seed:int = int(strftime("%Y%m%d%H%M%S", gmtime()))):
+        self.seed = seed
+        self.height_noise = [OpenSimplex(self.seed), OpenSimplex(self.seed * 2), OpenSimplex(self.seed * 4), OpenSimplex(self.seed * 8)]
 
-    def generateMap(self, cols:int, rows:int, seed:int = int(strftime("%Y%m%d%H%M%S", gmtime()))):
+    def generateMap(self, cols:int, rows:int, map_x:int, map_y:int, *seed:int):
+        scale = 0.0625
         map = TextworldMap(cols, rows)
-        height_noise = OpenSimplex(seed)
-        y_range, x_range = array(range(0, rows)), array(range(0, cols))
-        heightmap = height_noise.noise2array(x=x_range, y=y_range)
         for y in range(rows):
             map_row = []
             for x in range(cols):
-                db_tile:tuple = TILEDBI.getTile(int(rint(interp(heightmap[y][x],[-1.0, 1.0],[0, len(TILEDBI.tile_db) - 1]))))
-                print(db_tile)
+                noise_val = interp(
+                    (self.height_noise[0].noise2((x + map_x) * scale, (y + map_y) * scale) +
+                    (self.height_noise[1].noise2((x + map_x) * scale, (y + map_y) * scale) * 0.5) +
+                    (self.height_noise[2].noise2((x + map_x) * scale, (y + map_y) * scale) * 0.25) +
+                    (self.height_noise[3].noise2((x + map_x) * scale, (y + map_y) * scale) * 0.125)),
+                     [-1,1], [0,1])
+                tile_index = 0
+                match noise_val:
+                    case val if 1 >= val >= 0.9: # Snow
+                        tile_index = 7
+                    case val if 0.9 > noise_val >= 0.75: # Mountains
+                        tile_index = 6
+                    case val if 0.75 > noise_val >= 0.6: # Forests
+                        tile_index = 5
+                    case val if 0.6 > noise_val >= 0.55: # Dirt
+                        tile_index = 4
+                    case val if 0.55 > noise_val >= 0.35: # Grass
+                        tile_index = 3
+                    case val if .35 > noise_val >= 0.2: # Sand
+                        tile_index = 2
+                    case val if .2 > noise_val >= 0: # Water
+                        tile_index = 1
+                    case _:
+                        tile_index = 0
+                db_tile:tuple = TILEDBI.getTile(tile_index)
                 tile_color = Color(db_tile[3])
                 new_tile = TextworldTile(db_tile[2], tile_color)
                 map_row.append(new_tile)
             map.addTileRow(map_row)
         map.updateMapString()
         return map
+
+class TextworldWorld():
+    def __init__(self, _width:int, _height:int, _cols:int, _rows:int, generator:TextworldGenerator):
+        self.dimensions = [_width, _height]
+        self.world_maps = []
+        self.buildWorld(generator, _cols, _rows)
+
+    def addWorldMapRow(self, map_row:list):
+        self.world_maps.append(map_row)
+
+    def buildWorld(self, generator:TextworldGenerator, cols:int, rows:int):
+        for x in range(self.dimensions[0]):
+            map_row = []
+            for y in range(self.dimensions[1]):
+                map = generator.generateMap(cols, rows, x, y)
+                map_row.append(map)
+            self.addWorldMapRow(map_row)
