@@ -113,3 +113,6 @@ class TextworldWorld():
                 map = generator.generateMap(cols, rows, x, y)
                 map_row.append(map)
             self.addWorldMapRow(map_row)
+
+    def getMap(self, x:int, y:int):
+        return self.world_maps[y][x]
