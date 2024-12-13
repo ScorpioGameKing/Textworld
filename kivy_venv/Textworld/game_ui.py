@@ -22,12 +22,9 @@ class TextworldMiddleLayout(BoxLayout):
 
 # Display Class
 class TextworldDisplay(Label):
-    def buildCamera(self, _view_w, _view_h, _max_cols, _max_rows):
-        self.camera = TextworldCamera(_view_w, _view_h, _max_cols, _max_rows)
-
-    def update_text(self, text:str, position, main_chunk:TextworldMap, surrounding_8):
+    def update_text(self, text:str):
         self.text = text
-        self.camera.selectViewportArea(position, main_chunk, surrounding_8)
+
 
 # Terminal Input class, the main interface a play uses to interact with the game
 class TextworldCommandInput(TextInput):

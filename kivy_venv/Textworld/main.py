@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.clock import Clock
 from kivy.core.window import Keyboard, Window
 from kivy.uix.widget import Widget
+from Textworld.camera import TextworldCamera
 from game_ui import TextworldGameLayout
 from generate import TextworldGenerator, TextworldWorld
 from db_interface import TileDBInterface
@@ -38,36 +39,47 @@ class TextworldGameManagementSystem(Widget):
             case 'left':
                 match self.world_position[0]:
                     case x if x - 1 < 0:
-                        self.world_position[0] = 0
+                        #self.world_position[0] = 0
+                        self.camera.position[0] -= 1
                     case _:
-                        self.world_position[0] -= 1
+                        #self.world_position[0] -= 1
+                        self.camera.position[0] -= 1
                 self.setActiveMap(self.world_position[0], self.world_position[1])
             case 'right':
                 match self.world_position[0]:
                     case x if x + 1 > self.active_world.dimensions[0] - 1:
-                        self.world_position[0] = self.world_position[0]
+                        #self.world_position[0] = self.world_position[0]
+                        self.camera.position[0] += 1
                     case _:
-                        self.world_position[0] += 1
+                        #self.world_position[0] += 1
+                        self.camera.position[0] += 1
                 self.setActiveMap(self.world_position[0], self.world_position[1])
             case 'up':
                 match self.world_position[1]:
                     case y if y - 1 < 0:
-                        self.world_position[1] = 0
+                        #self.world_position[1] = 0
+                        self.camera.position[1] -= 1
                     case _:
-                        self.world_position[1] -= 1
+                        #self.world_position[1] -= 1
+                        self.camera.position[1] -= 1
                 self.setActiveMap(self.world_position[0], self.world_position[1])
             case 'down':
                 match self.world_position[1]:
                     case y if y + 1 > self.active_world.dimensions[1] - 1:
-                        self.world_position[1] = self.world_position[1]
+                        #self.world_position[1] = self.world_position[1]
+                        self.camera.position[1] += 1
                     case _:
-                        self.world_position[1] += 1
+                        #self.world_position[1] += 1
+                        self.camera.position[1] += 1
                 self.setActiveMap(self.world_position[0], self.world_position[1])
         return True
 
     # Does nothing at the moment
     def _on_key_up(self, keyboard, keycode):
         return True
+
+    def buildCamera(self, _view_w, _view_h, _max_cols, _max_rows):
+        self.camera = TextworldCamera(_view_w, _view_h, _max_cols, _max_rows)
 
     # Takes an overload of either an existing world or the settings to create a world
     def loadWorld(self, *world):
@@ -107,13 +119,13 @@ class TextworldApp(App):
             self._defaults[6]) # Generation Seed
         # Schedule Display Render Call
         Clock.schedule_interval(self.update_display, 1/30)
-        self.game.left_panel.display.buildCamera(20, 20, self._defaults[2], self._defaults[3])
+        self.management_system.buildCamera(20, 20, self._defaults[2], self._defaults[3])
         # Return App to be run
         return self.game
     # Display Render Loop
     def update_display(self, dt):
-        self.game.left_panel.display.update_text(
-            self.management_system.active_map.map_string, # Text
+        self.game.left_panel.display.update_text(self.management_system.active_map.map_string)
+        self.management_system.camera.selectViewportArea(
             self.management_system.world_position, # Position
             self.management_system.active_map, # Center Chunk Seperated for faster viewport
             [ # Surrounding 8 list, Only look at those in the veiwport based on how it overflows the main chunk
