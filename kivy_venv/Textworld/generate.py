@@ -1,7 +1,7 @@
 from time import gmtime, strftime
-from numpy import array, interp, rint
+from numpy import array, interp, random, rint
 from opensimplex import OpenSimplex
-from db_interface import TileDBInterface # type: ignore
+from db_interface import TileDBInterface
 
 # Temp DB for testing
 TILEDBI = TileDBInterface()
@@ -23,20 +23,12 @@ class TextworldTile():
 class TextworldMap():
     def __init__(self, _cols:int, _rows:int):
         self.cols = _cols
-        self.height = _rows
+        self.rows = _rows
         self.map_tiles = []
-        self.map_string = ""
 
     # Used for generation to finalize a row
     def addTileRow(self, row:list):
         self.map_tiles.append(row)
-
-    # Used to "Render" updates to the Map String
-    def updateMapString(self):
-        for y in range(len(self.map_tiles)):
-            for x in range(len(self.map_tiles[y])):
-                self.map_string += self.map_tiles[y][x].tile_string
-            self.map_string += "\n"
 
     # Used to find tiles by x,y coordinates
     def getMapTile(self, x:int, y:int):
@@ -55,6 +47,7 @@ class TextworldGenerator():
         for y in range(rows):
             map_row = []
             for x in range(cols):
+
                 # Generate and save noise by sampling the average value in height fields at 1, 1/2, 1/4, 1/8 weights finally mapping from -1, 1 to 0, 1
                 noise_val = interp(
                     (self.height_noise[0].noise2((x + (map_x * cols)) * scale, (y + (map_y * rows)) * scale) +
@@ -90,15 +83,17 @@ class TextworldGenerator():
                 map_row.append(new_tile)
             map.addTileRow(map_row)
 
-        # Update completed map string and return for use
-        map.updateMapString()
+        # Return for use
         return map
 
 # Textworld World Class
 class TextworldWorld():
-    def __init__(self, _width:int, _height:int, _cols:int, _rows:int, generator:TextworldGenerator):
-        self.dimensions = [_width, _height, _width * _cols, _height * _rows] # Num of maps Horizontally, Num of maps Vertically, Num of tiles Horizontally, Num of tiles Vertically,
+    def __init__(self, _width:int, _height:int, _cols:int, _rows:int, generator:TextworldGenerator, _name:str = f'DEFAULT_NAME {round(random.random() * 1000000, 0)}'):
+        self.dimensions = [_width, _height, _width * _cols, _height * _rows, _cols, _rows] # Num of maps Horizontally, Num of maps Vertically, Num of tiles Horizontally, Num of tiles Vertically,
         self.world_maps = []
+        self.save_count = 0
+        self.world_name = _name
+        self.position = [0, 0]
         self.buildWorld(generator, _cols, _rows)
 
     # Same as maps, we build by row
