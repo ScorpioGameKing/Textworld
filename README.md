@@ -8,7 +8,7 @@
   repos around. While most aren't really much and earlier projects are mostly lost at this point you can
   start to paint a picture of my interests.
 
-  ![alt text](./git_dat/images/TextFightRunning.png)
+  ![alt text](./git_data/images/TextFightRunning.png)
 
   -- Textworld started as a small Javascript game I made years ago in middle school. It was as simple as
   you could get, Attack, Defend, Run, 3 actions and some pretty cheesy writing but it worked and it was
