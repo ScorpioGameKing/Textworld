@@ -31,9 +31,7 @@ class TextworldGameManagementSystem(Widget):
     def __init__(self, *seed:int, **kwargs):
         super(TextworldGameManagementSystem, self).__init__(**kwargs)
         self._keyboard:Keyboard
-        self._keyboard = Window.request_keyboard(self._on_keyboard_closed, self)
-        self._keyboard.bind(on_key_down=self._on_key_down)
-        self._keyboard.bind(on_key_up=self._on_key_up)
+        self.get_focus()
 
         # Temp DBI Interfaces
         self.save_system = SaveDBInterface()
@@ -47,6 +45,11 @@ class TextworldGameManagementSystem(Widget):
         # Load or Create a world, set inital map position and active map
         self.world_position = [0,0]
 
+    def get_focus(self):
+        self._keyboard = Window.request_keyboard(self._on_keyboard_closed, self)
+        self._keyboard.bind(on_key_down=self._on_key_down)
+        self._keyboard.bind(on_key_up=self._on_key_up)
+
     # Clear out keyboard bindings, doesn't like being forced to none but it's fine for now
     def _on_keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_key_down)
@@ -56,7 +59,7 @@ class TextworldGameManagementSystem(Widget):
     # Determin input and if movement is possible for temp camera
     def _on_key_down(self, keyboard, keycode, text, modifiers):
         # keycode is a tuple (integer, string)
-        print(keycode[1])
+        #print(keycode[1])
         match keycode[1]:
             case 'left':
                 match self.camera.position[0]:
@@ -203,6 +206,10 @@ class TextworldApp(App):
             self.management_system.getMap(self.management_system.world_position[0] + 1, self.management_system.world_position[1] + 1)], # Bottom Right
         ])
         self.game.left_panel.display.update_text(view_text)
+        if self.game.left_panel.command_input.typing:
+            pass
+        else:
+            self.management_system.get_focus()
 
 # Config Write settings to be moved
 if __name__ == '__main__':

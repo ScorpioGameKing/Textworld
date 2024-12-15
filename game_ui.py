@@ -28,13 +28,18 @@ class TextworldDisplay(Label):
 
 # Terminal Input class, the main interface a play uses to interact with the game
 class TextworldCommandInput(TextInput):
+    def __init__(self, **kwargs):
+        super(TextworldCommandInput, self).__init__(**kwargs)
+        self.typing = False
+
     # Nothing on focus, Update and clear text on focus loss
     def on_focus(self, instance, value, *largs):
         if value:
-            return
+            self.typing = True
         else:
             instance.parent.command_terminal.updateText(self.text)
             self.text = ""
+            self.typing = False
 
 # Terminal to hold old player inputs and game outputs
 class TextworldCommandTerminal(Label):
