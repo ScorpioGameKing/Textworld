@@ -25,59 +25,7 @@ class TextworldCamera():
         #[[TL, T], [L, M]]
         if borders[2] < 0:
             if borders[0] < 0:
-                tl_view = []
-                t_view = []
-                s_top_row = []
-                l_view = []
-                m_view = []
-                s_m_row = []
-
-                # Tl Exists
-                if surrounding_8[0][0] != None:
-                    for tl_slice in surrounding_8[0][0].map_tiles[(self.chunk_dims[1] - 1) + borders[2]:(self.chunk_dims[1] - 1)]:
-                        tl_row = ""
-                        for tile in tl_slice[(self.chunk_dims[0] - 1) + (self.viewport_dim_offset[0] + self.position[0]):(self.chunk_dims[0])]:
-                            tl_row += tile.tile_string
-                            tl_view.append(tl_row)
-
-
-                        for top_row_slice in surrounding_8[0][1].map_tiles[(self.chunk_dims[1] - 1) + borders[2]:(self.chunk_dims[1] - 1)]:
-                            top_row = ""
-                            for tile in top_row_slice[0:borders[1]]:
-                                top_row += tile.tile_string
-                            t_view.append(top_row)
-
-
-                        for l_slice in surrounding_8[1][0].map_tiles[0:self.viewport_size[1] - (self.chunk_dims[1] - borders[2])]:
-                            l_row = ""
-                            for tile in l_slice[(self.chunk_dims[0] - 1) + (self.viewport_dim_offset[0] + self.position[0]):(self.chunk_dims[0])]:
-                                l_row += tile.tile_string
-                            l_view.append(l_row)
-
-
-                        for m_slice in main_chunk.map_tiles[0:self.viewport_size[1] - (self.chunk_dims[1] - borders[2])]:
-                            m_row = ""
-                            for tile in m_slice[0:borders[1]]:
-                                m_row += tile.tile_string
-                            m_view.append(m_row)
-
-                        for _t in range(len(t_view) - 1):
-                            s_top_row.append(f'{tl_view[_t]}{t_view[_t]}\n')
-                        for _l in range(len(l_view) - 1):
-                            s_top_row.append(f'{l_view[_l]}{m_view[_l]}\n')
-
-
-                # No TL Which means no left or top so grab main chunk
-                else:
-                    for tl_slice in main_chunk.map_tiles[0:self.viewport_size[1]]:
-                        tl_row = ""
-                        for tile in tl_slice[0:self.viewport_size[0]]:
-                            tl_row += tile.tile_string
-                            s_top_row.append(tl_row)
-
-                for row in s_top_row:
-                    view_string += f'{row}\n'
-
+                view_string += '[[TL, T], [L, M]]'
 
             elif borders[1] > main_chunk.cols - 1:
                 view_string = "[[T, TR], [M, R]]"

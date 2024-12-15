@@ -4,6 +4,7 @@ from kivy.uix.textinput import TextInput
 from kivy.properties import ObjectProperty
 from camera import TextworldCamera
 from generate import TextworldMap
+from handbook_lang import HandbookLexer
 
 # Container for Display, Terminal and Input
 class TextworldLeftLayout(BoxLayout):
@@ -43,6 +44,7 @@ class TextworldCommandInput(TextInput):
 
 # Terminal to hold old player inputs and game outputs
 class TextworldCommandTerminal(Label):
+    lexer = HandbookLexer()
     command_queue = []
     max_queue = 10
     # Take in some text, add it to the queue and display it
@@ -50,6 +52,7 @@ class TextworldCommandTerminal(Label):
         if text == "":
             return
         else:
+            self.lexer.lexRawString(text)
             self.command_queue.append(text)
             self.text += f'{text}\n'
         if len(self.command_queue) > self.max_queue:
@@ -71,7 +74,7 @@ class TextworldCommandTerminal(Label):
 
 # The right side menu for Stats, Equipment, Spells, etc
 class TextworldGameMenu(Label):
-    text = "Place holder Text"
+    text = "DEBUG CONTROLS:\nARROWS: Move Camera\nCLICK COMMAND INPUT: Enable Typing"
 
 # Game Container
 class TextworldGameLayout(BoxLayout):

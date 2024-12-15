@@ -19,6 +19,10 @@ class TextworldTile():
         self.color = _color
         self.tile_string = f'[color={self.color.bbstring}]{self.tile}[/color]'
 
+    def setColor(self, _rgb:str="000000"):
+        self.color = Color(_rgb)
+        self.tile_string = f'[color={self.color.bbstring}]{self.tile}[/color]'
+
 # Map class, made up of tiles
 class TextworldMap():
     def __init__(self, _cols:int, _rows:int):

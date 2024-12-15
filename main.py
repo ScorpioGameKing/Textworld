@@ -7,7 +7,7 @@ from datetime import timedelta
 from timeit import timeit, default_timer
 from camera import TextworldCamera
 from game_ui import TextworldGameLayout
-from generate import TextworldGenerator, TextworldWorld
+from generate import TextworldGenerator, TextworldMap, TextworldWorld
 from db_interface import SaveDBInterface, TileDBInterface
 
 class Timer:
@@ -76,6 +76,8 @@ class TextworldGameManagementSystem(Widget):
                     case _:
                         self.camera.position[0] -= 1
                 self.setMap(self.world_position[0], self.world_position[1])
+                if self.getMap(self.world_position[0], self.world_position[1]):
+                    self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
             case 'right':
                 match self.camera.position[0]:
                     case x if x + 1 > self.camera.chunk_dims[0] - 1:
@@ -91,6 +93,8 @@ class TextworldGameManagementSystem(Widget):
                     case _:
                         self.camera.position[0] += 1
                 self.setMap(self.world_position[0], self.world_position[1])
+                if self.getMap(self.world_position[0], self.world_position[1]):
+                    self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
             case 'up':
                 match self.camera.position[1]:
                     case y if y - 1 < 0:
@@ -106,6 +110,8 @@ class TextworldGameManagementSystem(Widget):
                     case _:
                         self.camera.position[1] -= 1
                 self.setMap(self.world_position[0], self.world_position[1])
+                if self.getMap(self.world_position[0], self.world_position[1]):
+                    self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
             case 'down':
                 match self.camera.position[1]:
                     case y if y + 1 > self.camera.chunk_dims[1] - 1:
@@ -121,6 +127,8 @@ class TextworldGameManagementSystem(Widget):
                     case _:
                         self.camera.position[1] += 1
                 self.setMap(self.world_position[0], self.world_position[1])
+                if self.getMap(self.world_position[0], self.world_position[1]):
+                    self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
         return True
 
     # Does nothing at the moment
@@ -149,7 +157,7 @@ class TextworldGameManagementSystem(Widget):
         self.active_map = self.active_world.world_maps[map_x][map_y]
 
     # Get a World Map, none if oob
-    def getMap(self, map_x:int, map_y:int):
+    def getMap(self, map_x:int, map_y:int) -> TextworldMap | None:
         if map_x < 0 or map_x > self.active_world.dimensions[0] - 1 or map_y < 0 or map_y > self.active_world.dimensions[1] - 1:
             return None
         else:
