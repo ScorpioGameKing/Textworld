@@ -3,19 +3,16 @@ import sqlite3, pickle, gzip
 # Used to connect and interact with the tile database
 class TileDBInterface():
     def __init__(self) -> None:
-        con = sqlite3.connect('Data\\textworld_tiles.db')
-        cur = con.cursor()
-        # Eventually make this more "global"
-        self.tile_db = cur.execute("SELECT * FROM tiles").fetchall()
-        cur.close()
-        con.close()
+        pass
 
     # Select tile by ID
     def getTile(self, id:int) -> tuple:
-        for tile in self.tile_db:
-            if tile[0] == id:
-                return tile
-        return ()
+        con = sqlite3.connect('Data\\textworld_tiles.db')
+        cur = con.cursor()
+        tile = cur.execute("SELECT * FROM tiles WHERE id = ?", str(id)).fetchall()
+        cur.close()
+        con.close()
+        return tile[0]
 
 class SaveDBInterface():
     def __init__(self) -> None:
