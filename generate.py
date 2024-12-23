@@ -1,4 +1,5 @@
 from time import gmtime, strftime
+from dataclasses import dataclass
 from numpy import array, interp, random, rint
 from opensimplex import OpenSimplex
 from db_interface import TileDBInterface
@@ -22,6 +23,17 @@ class TextworldTile():
     def setColor(self, _rgb:str="000000"):
         self.color = Color(_rgb)
         self.tile_string = f'[color={self.color.bbstring}]{self.tile}[/color]'
+
+@dataclass
+class Color:
+    rgb:str = "000000"
+    bbstring:str = f'{rgb[0:1]}{rgb[2:3]}{rgb[4:5]}'
+
+@dataclass
+class Tile:
+    tile:str = "X"
+    color:Color = Color
+    tile_string:str = f'[color={color.bbstring}]{tile}[/color]'
 
 # Map class, made up of tiles
 class TextworldMap():
@@ -82,8 +94,9 @@ class TextworldGenerator():
 
                 # Create and add tile to current map row
                 db_tile:tuple = TILEDBI.getTile(tile_index)
-                tile_color = Color(db_tile[3])
-                new_tile = TextworldTile(db_tile[2], tile_color)
+                color = Color(rgb=db_tile[3], bbstring=f'{db_tile[3][0:1]}{db_tile[3][2:3]}{db_tile[3][4:5]}')
+                new_tile = Tile(tile=db_tile[2], color=color, tile_string=f'[color={color.bbstring}]{db_tile[2]}[/color]')
+                #print(new_tile)
                 map_row.append(new_tile)
             map.addTileRow(map_row)
 

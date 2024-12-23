@@ -77,7 +77,8 @@ class TextworldGameManagementSystem(Widget):
                         self.camera.position[0] -= 1
                 self.setMap(self.world_position[0], self.world_position[1])
                 if self.getMap(self.world_position[0], self.world_position[1]):
-                    self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
+                    #self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
+                    pass
             case 'right':
                 match self.camera.position[0]:
                     case x if x + 1 > self.camera.chunk_dims[0] - 1:
@@ -94,7 +95,8 @@ class TextworldGameManagementSystem(Widget):
                         self.camera.position[0] += 1
                 self.setMap(self.world_position[0], self.world_position[1])
                 if self.getMap(self.world_position[0], self.world_position[1]):
-                    self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
+                    #self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
+                    pass
             case 'up':
                 match self.camera.position[1]:
                     case y if y - 1 < 0:
@@ -111,7 +113,8 @@ class TextworldGameManagementSystem(Widget):
                         self.camera.position[1] -= 1
                 self.setMap(self.world_position[0], self.world_position[1])
                 if self.getMap(self.world_position[0], self.world_position[1]):
-                    self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
+                    #self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
+                    pass
             case 'down':
                 match self.camera.position[1]:
                     case y if y + 1 > self.camera.chunk_dims[1] - 1:
@@ -128,7 +131,8 @@ class TextworldGameManagementSystem(Widget):
                         self.camera.position[1] += 1
                 self.setMap(self.world_position[0], self.world_position[1])
                 if self.getMap(self.world_position[0], self.world_position[1]):
-                    self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
+                    #self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
+                    pass
         return True
 
     # Does nothing at the moment
