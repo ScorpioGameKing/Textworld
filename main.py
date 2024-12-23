@@ -173,15 +173,15 @@ class TextworldApp(App):
         Window.size = (1438,720)
 
         # Default Settings
-        self._defaults = [5, 5, 250, 250, 2, 2, 42069, "Testing World 2"]
+        self._defaults = [4, 4, 150, 150, 2, 2, 42069, "Testing World 2"]
 
         # Init UI and Management System
         self.game = TextworldGameLayout()
         self.management_system = TextworldGameManagementSystem(self._defaults[6])
 
-        load_world = self.management_system.save_system.loadWorldFromDB("Testing Save 1")
-        self.management_system.loadWorld(load_world)
-        #self.management_system.loadWorld(self._defaults,self.management_system.world_generator)
+        #load_world = self.management_system.save_system.loadWorldFromDB("Testing Save 1")
+        #self.management_system.loadWorld(load_world)
+        self.management_system.loadWorld(self._defaults,self.management_system.world_generator)
 
         # Schedule Display Render Call
         Clock.schedule_interval(self.update_display, 1/30)

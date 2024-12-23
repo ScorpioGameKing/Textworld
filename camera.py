@@ -61,7 +61,7 @@ class TextworldCamera():
             else:
                 mid_view = []
                 bottom_view = []
-                for mid_row_slice in main_chunk.map_tiles[borders[2]:self.chunk_dims[1] - 1]:
+                for mid_row_slice in main_chunk.map_tiles[borders[2]:self.chunk_dims[1]]:
                     mid_row = ""
                     for tile in mid_row_slice[borders[0]:borders[1]]:
                         mid_row += tile.tile_string
