@@ -1,5 +1,5 @@
 from numpy import array
-from generate import TextworldWorld, TextworldMap, TextworldTile
+from generate import TextworldWorld, TextworldMap
 
 class TextworldCamera():
     def __init__(self, _view_w, _view_h, _max_cols, _max_rows):
@@ -37,13 +37,13 @@ class TextworldCamera():
                 for mid_row_slice in main_chunk.map_tiles[0:borders[3]]:
                     mid_row = ""
                     for tile in mid_row_slice[borders[0]:borders[1]]:
-                        mid_row += tile.tile_string
+                        mid_row += f'[color={tile.color}]{tile.tile}[/color]'
                     mid_view.append(mid_row)
                 if surrounding_8[0][1] != None:
                     for top_row_slice in surrounding_8[0][1].map_tiles[(self.chunk_dims[1] - 1) + borders[2]:(self.chunk_dims[1] - 1)]:
                         top_row = ""
                         for tile in top_row_slice[borders[0]:borders[1]]:
-                            top_row += tile.tile_string
+                            top_row += f'[color={tile.color}]{tile.tile}[/color]'
                         top_view.append(top_row)
                 for row in mid_view:
                     top_view.append(row)
@@ -64,13 +64,13 @@ class TextworldCamera():
                 for mid_row_slice in main_chunk.map_tiles[borders[2]:self.chunk_dims[1]]:
                     mid_row = ""
                     for tile in mid_row_slice[borders[0]:borders[1]]:
-                        mid_row += tile.tile_string
+                        mid_row += f'[color={tile.color}]{tile.tile}[/color]'
                     mid_view.append(mid_row)
                 if surrounding_8[2][1] != None:
                     for bottom_row_slice in surrounding_8[2][1].map_tiles[0:self.viewport_size[1] - (self.chunk_dims[1] - borders[2])]:
                         bot_row = ""
                         for tile in bottom_row_slice[borders[0]:borders[1]]:
-                            bot_row += tile.tile_string
+                            bot_row += f'[color={tile.color}]{tile.tile}[/color]'
                         bottom_view.append(bot_row)
                     for row in bottom_view:
                         mid_view.append(row)
@@ -85,13 +85,13 @@ class TextworldCamera():
             for mid_row_slice in main_chunk.map_tiles[borders[2]:borders[3]]:
                 mid_row = ""
                 for tile in mid_row_slice[0:borders[1]]:
-                    mid_row += tile.tile_string
+                    mid_row += f'[color={tile.color}]{tile.tile}[/color]'
                 mid_view.append(mid_row)
             if surrounding_8[1][0] != None:
                 for left_row_slice in surrounding_8[1][0].map_tiles[borders[2]:borders[3]]:
                     left_row = ""
                     for tile in left_row_slice[(self.chunk_dims[0]) + (self.viewport_dim_offset[0] + self.position[0]):(self.chunk_dims[0])]:
-                        left_row += tile.tile_string
+                        left_row += f'[color={tile.color}]{tile.tile}[/color]'
                     left_view.append(left_row)
                 for row in range(self.viewport_size[1] - 1):
                     view_string += f'{left_view[row]}{mid_view[row]}\n'
@@ -106,13 +106,13 @@ class TextworldCamera():
             for mid_row_slice in main_chunk.map_tiles[borders[2]:borders[3]]:
                 mid_row = ""
                 for tile in mid_row_slice[borders[0]:borders[1]]:
-                    mid_row += tile.tile_string
+                    mid_row += f'[color={tile.color}]{tile.tile}[/color]'
                 mid_view.append(mid_row)
             if surrounding_8[1][1] != None:
                 for right_row_slice in surrounding_8[1][1].map_tiles[borders[2]:borders[3]]:
                     right_row = ""
                     for tile in right_row_slice[0:self.viewport_size[0] - (self.chunk_dims[0] - borders[0])]:
-                        right_row += tile.tile_string
+                        right_row += f'[color={tile.color}]{tile.tile}[/color]'
                     right_view.append(right_row)
                 for row in range(self.viewport_size[1] - 1):
                     view_string += f'{mid_view[row]}{right_view[row]}\n'
@@ -124,6 +124,6 @@ class TextworldCamera():
         else:
             for row_slice in main_chunk.map_tiles[borders[2]:borders[3]]:
                 for tile in row_slice[borders[0]:borders[1]]:
-                    view_string += tile.tile_string
+                    view_string += f'[color={tile.color}]{tile.tile}[/color]'
                 view_string += '\n'
         return view_string

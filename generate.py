@@ -7,33 +7,10 @@ from db_interface import TileDBInterface
 # Temp DB for testing
 TILEDBI = TileDBInterface()
 
-# Color Class
-class Color():
-    def __init__(self, _rgb:str="000000"):
-        self.rgb = _rgb
-        self.bbstring = f'{self.rgb[0:1]}{self.rgb[2:3]}{self.rgb[4:5]}'
-
-# Tile class
-class TextworldTile():
-    def __init__(self, _tile:str="X", _color:Color=Color()):
-        self.tile = _tile
-        self.color = _color
-        self.tile_string = f'[color={self.color.bbstring}]{self.tile}[/color]'
-
-    def setColor(self, _rgb:str="000000"):
-        self.color = Color(_rgb)
-        self.tile_string = f'[color={self.color.bbstring}]{self.tile}[/color]'
-
-@dataclass
-class Color:
-    rgb:str = "000000"
-    bbstring:str = f'{rgb[0:1]}{rgb[2:3]}{rgb[4:5]}'
-
 @dataclass
 class Tile:
-    tile:str = "X"
-    color:Color = Color
-    tile_string:str = f'[color={color.bbstring}]{tile}[/color]'
+    tile:str
+    color:str
 
 # Map class, made up of tiles
 class TextworldMap():
@@ -65,38 +42,35 @@ class TextworldGenerator():
             for x in range(cols):
 
                 # Generate and save noise by sampling the average value in height fields at 1, 1/2, 1/4, 1/8 weights finally mapping from -1, 1 to 0, 1
-                noise_val = interp(
-                    (self.height_noise[0].noise2((x + (map_x * cols)) * scale, (y + (map_y * rows)) * scale) +
+                noise_val =(self.height_noise[0].noise2((x + (map_x * cols)) * scale, (y + (map_y * rows)) * scale) +
                     (self.height_noise[1].noise2((x + (map_x * cols)) * scale, (y + (map_y * rows)) * scale * 0.5)) +
                     (self.height_noise[2].noise2((x + (map_x * cols)) * scale, (y + (map_y * rows)) * scale * 0.25)) +
-                    (self.height_noise[3].noise2((x + (map_x * cols)) * scale, (y + (map_y * rows)) * scale * 0.125))) / 2,
-                     [-1,1], [0,1])
+                    (self.height_noise[3].noise2((x + (map_x * cols)) * scale, (y + (map_y * rows)) * scale * 0.125))) / 2
+                    
 
                 # Set TileDBI Index
                 tile_index = 0
                 match noise_val:
-                    case val if val >= 0.9: # Snow
+                    case val if val >= 0.75: # Snow
                         tile_index = 7
-                    case val if 0.9 > noise_val >= 0.75: # Mountains
+                    case val if 0.75 > noise_val >= 0.5: # Mountains
                         tile_index = 6
-                    case val if 0.75 > noise_val >= 0.6: # Forests
+                    case val if 0.5 > noise_val >= 0.35: # Forests
                         tile_index = 5
-                    case val if 0.6 > noise_val >= 0.55: # Dirt
+                    case val if 0.35 > noise_val >= 0.25: # Dirt
                         tile_index = 4
-                    case val if 0.55 > noise_val >= 0.35: # Grass
+                    case val if 0.25 > noise_val >= 0.1: # Grass
                         tile_index = 3
-                    case val if .35 > noise_val >= 0.2: # Sand
+                    case val if .1 > noise_val >= -0.1: # Sand
                         tile_index = 2
-                    case val if .2 > noise_val: # Water
+                    case val if -0.1 > noise_val: # Water
                         tile_index = 1
                     case _:
                         tile_index = 0
 
                 # Create and add tile to current map row
                 db_tile:tuple = TILEDBI.getTile(tile_index)
-                color = Color(rgb=db_tile[3], bbstring=f'{db_tile[3][0:1]}{db_tile[3][2:3]}{db_tile[3][4:5]}')
-                new_tile = Tile(tile=db_tile[2], color=color, tile_string=f'[color={color.bbstring}]{db_tile[2]}[/color]')
-                #print(new_tile)
+                new_tile:Tile = Tile(tile=db_tile[0], color=db_tile[1])
                 map_row.append(new_tile)
             map.addTileRow(map_row)
 

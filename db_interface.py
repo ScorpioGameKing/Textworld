@@ -9,7 +9,8 @@ class TileDBInterface():
     def getTile(self, id:int) -> tuple:
         con = sqlite3.connect('Data\\textworld_tiles.db')
         cur = con.cursor()
-        tile = cur.execute("SELECT * FROM tiles WHERE id = ?", str(id)).fetchall()
+        #print(cur.execute("SELECT cid FROM colors").fetchall())
+        tile = cur.execute("SELECT tiles.tile, colors.bbstring FROM tiles JOIN colors USING (cid) WHERE id = ?", str(id)).fetchall()
         cur.close()
         con.close()
         return tile[0]
