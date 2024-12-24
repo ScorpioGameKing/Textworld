@@ -7,7 +7,7 @@ class TileDBInterface():
 
     # Select tile by ID
     def getTile(self, id:int) -> tuple:
-        con = sqlite3.connect('Data\\textworld_tiles.db')
+        con = sqlite3.connect('Data\\textworld.db')
         cur = con.cursor()
         #print(cur.execute("SELECT cid FROM colors").fetchall())
         tile = cur.execute("SELECT tiles.tile, colors.bbstring FROM tiles JOIN colors USING (cid) WHERE id = ?", str(id)).fetchall()
@@ -17,7 +17,7 @@ class TileDBInterface():
 
 class SaveDBInterface():
     def __init__(self) -> None:
-        con = sqlite3.connect('data\\textworld_world_saves.db')
+        con = sqlite3.connect('data\\textworld.db')
         cur = con.cursor()
         cur.execute("CREATE TABLE IF NOT EXISTS worlds (save_name TEXT PRIMARY KEY, world BLOB)")
         cur.close()
@@ -27,7 +27,7 @@ class SaveDBInterface():
         print(f'SAVING: {world}')
         world_pickle = pickle.dumps(world)
         pickle_zip = gzip.compress(world_pickle)
-        con = sqlite3.connect('data\\textworld_world_saves.db')
+        con = sqlite3.connect('data\\textworld.db')
         cur = con.cursor()
         cur.execute("REPLACE INTO worlds (save_name, world) VALUES (?, ?)", (f'{save_name}', pickle_zip))
         con.commit()
@@ -37,7 +37,7 @@ class SaveDBInterface():
 
     def loadWorldFromDB(self, save_name:str):
         world = None
-        con = sqlite3.connect('data\\textworld_world_saves.db')
+        con = sqlite3.connect('data\\textworld.db')
         cur = con.cursor()
         db_world = cur.execute("SELECT * FROM worlds").fetchall()
         cur.close()

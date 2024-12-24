@@ -183,9 +183,9 @@ class TextworldApp(App):
         self.game = TextworldGameLayout()
         self.management_system = TextworldGameManagementSystem(self._defaults[6])
 
-        #load_world = self.management_system.save_system.loadWorldFromDB("Testing Save 1")
-        #self.management_system.loadWorld(load_world)
-        self.management_system.loadWorld(self._defaults,self.management_system.world_generator)
+        load_world = self.management_system.save_system.loadWorldFromDB("Testing Save 1")
+        self.management_system.loadWorld(load_world)
+        #self.management_system.loadWorld(self._defaults,self.management_system.world_generator)
 
         # Schedule Display Render Call
         Clock.schedule_interval(self.update_display, 1/30)
@@ -194,7 +194,7 @@ class TextworldApp(App):
         save_time = Timer()
         start = save_time()
         print(f'Saving: {start}')
-        self.management_system.save_system.saveWorldToDB(self.management_system.active_world, "Testing Save 1")
+        #self.management_system.save_system.saveWorldToDB(self.management_system.active_world, "Testing Save 1")
         end = save_time()
         print(f'Done: {end - start}')
 
