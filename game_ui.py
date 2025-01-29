@@ -26,7 +26,6 @@ class TextworldDisplay(Label):
     def update_text(self, text:str):
         self.text = text
 
-
 # Terminal Input class, the main interface a play uses to interact with the game
 class TextworldCommandInput(TextInput):
     def __init__(self, **kwargs):
