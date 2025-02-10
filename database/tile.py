@@ -1,7 +1,7 @@
-from database._base import IDatabase
+from database._base import Database
 from database._queries import Tile as TileQueries
 
-class TileDatabase(IDatabase):
+class TileDatabase(Database):
 
     # Select tile by ID
     def get_tile(self, tile_id:int) -> tuple:

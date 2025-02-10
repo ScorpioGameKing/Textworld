@@ -1,8 +1,8 @@
-from database._base import IDatabase
+from database._base import Database
 import pickle
 import gzip
 from database._queries import World as WorldQueries
-class WorldDatabase(IDatabase):
+class WorldDatabase(Database):
 
     def save_world_to_db(self, world, save_name:str):
         print(f'SAVING: {world}')

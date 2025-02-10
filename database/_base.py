@@ -1,6 +1,6 @@
 import sqlite3
 from database._cursor import Cursor
-class IDatabase():
+class Database():
     _file_name: str = ""
     _connection: sqlite3.Connection = None
 
