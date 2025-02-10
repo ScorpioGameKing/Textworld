@@ -190,6 +190,8 @@ class TextworldApp(App):
         self.management_system = TextworldGameManagementSystem(self._defaults[6])
 
         load_world = self.management_system.save_system.load_world_from_db("Testing Save 1")
+        if not load_world:
+            return self.game
         self.management_system.loadWorld(load_world)
         #self.management_system.loadWorld(self._defaults,self.management_system.world_generator)
 

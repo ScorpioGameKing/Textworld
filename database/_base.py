@@ -1,10 +1,13 @@
 import sqlite3
 from database._cursor import Cursor
+import os
 class Database():
     _file_name: str = ""
     _connection: sqlite3.Connection = None
 
     def __init__(self, file_name: str="./Data/textworld.db"):
+        if not os.path.exists(file_name):
+            os.makedirs(os.path.dirname(file_name), exist_ok=True)
         self._file_name = file_name
         
     def __del__(self):

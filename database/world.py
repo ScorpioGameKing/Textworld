@@ -16,6 +16,8 @@ class WorldDatabase(Database):
         world = None
         with self.get_cursor() as cur:
             db_world = cur.fetch_one(WorldQueries.SELECT_BY_NAME, [save_name])
+            if not db_world:
+                return None
 
         print("LOADING SAVE!!!!!!!!!!")
         world_decomp = gzip.decompress(db_world[0])
