@@ -8,7 +8,8 @@ from timeit import timeit, default_timer
 from camera import TextworldCamera
 from game_ui import TextworldGameLayout
 from generate import TextworldGenerator, TextworldMap, TextworldWorld
-from database import WorldDatabase, initDbs
+from database import WorldDatabase, Database
+from database import Color, World, Tile
 
 
 class Timer:
@@ -230,5 +231,6 @@ class TextworldApp(App):
 
 # Config Write settings to be moved
 if __name__ == '__main__':
-    initDbs()
+    with Database() as db:
+        db.init_db(Color.INIT, Color.FILL, Tile.INIT, World.INIT)
     TextworldApp().run()

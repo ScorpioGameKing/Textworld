@@ -19,6 +19,12 @@ class Database():
             self._connection.close()
             self._connection = None
             
+    def init_db(self, *initalization_queries: list[str]):
+        with self.get_cursor() as cur:
+            for q in initalization_queries:
+                cur.execute(q)
+        
+            
     def get_cursor(self):
         return Cursor(self._connection)
             
