@@ -20,6 +20,5 @@ class WorldDatabase(Database):
                 return None
 
         print("LOADING SAVE!!!!!!!!!!")
-        world_decomp = gzip.decompress(db_world[0])
-        world = pickle.loads(world_decomp)
+        world = pickle.loads(db_world[0])
         return world

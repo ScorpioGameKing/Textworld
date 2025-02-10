@@ -21,17 +21,21 @@ class World:
         world BLOB)
     """
     REPLACE_BY_NAME = """
-    REPLACE INTO worlds (
+    INSERT OR REPLACE INTO worlds (
         save_name,
-        world
-    ) VALUES (?, ?)
+        store_world(world)
+    ) VALUES (?, ?);
     """
     SELECT_ALL = """
-    SELECT * FROM worlds
+    SELECT save_name, load_world(world) FROM worlds
+    """
+    
+    SELECT_ALL_NAMES = """
+    SELECT save_name FROM worlds
     """
 
     SELECT_BY_NAME = """
-    SELECT world FROM worlds WHERE save_name = ?
+    SELECT load_world(world) FROM worlds WHERE save_name = ?
     """
 
 class Color:

@@ -1,6 +1,9 @@
 import sqlite3
 from database._cursor import Cursor
+from database._functions import load_world, store_world
 import os
+
+
 class Database():
     _file_name: str = ""
     _connection: sqlite3.Connection = None
@@ -16,6 +19,11 @@ class Database():
     def open(self):
         self._connection = sqlite3.connect(self._file_name)
         self._connection.isolation_level = None
+        self._connection.create_function('load_world', 1, load_world)
+        self._connection.create_function('store_world', 1, store_world)
+        
+        # self._connection.create_function('gzcompress', 1, gzip.compress)
+        # self._connection.create_function('gzdecompress', 1, gzip.decompress)
 
     def close(self):
         if self._connection:
@@ -26,7 +34,6 @@ class Database():
         with self.get_cursor() as cur:
             for q in initalization_queries:
                 cur.execute(q)
-        
             
     def get_cursor(self):
         return Cursor(self._connection)
