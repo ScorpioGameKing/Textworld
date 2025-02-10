@@ -1,24 +1,22 @@
 from database._base import IDatabase
 import pickle
 import gzip
-from database._queries import SELECT_SPECIFIC_WORLD, REPLACE_WORLD
+from database._queries import World as WorldQueries
 class WorldDatabase(IDatabase):
 
     def save_world_to_db(self, world, save_name:str):
         print(f'SAVING: {world}')
         world_pickle = pickle.dumps(world)
         pickle_zip = gzip.compress(world_pickle)
-        cur = self._connection.cursor()
-        cur.execute(REPLACE_WORLD, (f'{save_name}', pickle_zip))
-        self._connection.commit()
-        cur.close()
+        with self.get_cursor() as cur:
+            cur.execute(WorldQueries.REPLACE_BY_NAME, (f'{save_name}', pickle_zip))
         #print(pickle_zip, world.world_name, save_name)
 
     def load_world_from_db(self, save_name:str):
         world = None
-        cur = self._connection.cursor()
-        db_world = cur.execute(SELECT_SPECIFIC_WORLD, [save_name]).fetchone()
-        cur.close()
+        with self.get_cursor() as cur:
+            db_world = cur.fetch_one(WorldQueries.SELECT_BY_NAME, [save_name])
+
         print("LOADING SAVE!!!!!!!!!!")
         world_decomp = gzip.decompress(db_world[0])
         world = pickle.loads(world_decomp)
