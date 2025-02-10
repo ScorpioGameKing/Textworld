@@ -5,11 +5,11 @@ from database._queries import World as WorldQueries
 class WorldDatabase(Database):
 
     def save_world_to_db(self, world, save_name:str):
-        print(f'SAVING: {world}')
-        world_pickle = pickle.dumps(world)
-        pickle_zip = gzip.compress(world_pickle)
+        # print(f'SAVING: {world}')
+        # world_pickle = pickle.dumps(world)
+        # pickle_zip = gzip.compress(world_pickle)
         with self.get_cursor() as cur:
-            cur.execute(WorldQueries.REPLACE_BY_NAME, (f'{save_name}', pickle_zip))
+            cur.execute(WorldQueries.REPLACE_BY_NAME, (f'{save_name}', world))
         #print(pickle_zip, world.world_name, save_name)
 
     def load_world_from_db(self, save_name:str):
