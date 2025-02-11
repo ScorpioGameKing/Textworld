@@ -1,6 +1,5 @@
 from database._base import Database
 import pickle
-import gzip
 from database._queries import World as WorldQueries
 class WorldDatabase(Database):
 
@@ -19,6 +18,6 @@ class WorldDatabase(Database):
             if not db_world:
                 return None
 
-        print("LOADING SAVE!!!!!!!!!!")
+        # print("LOADING SAVE!!!!!!!!!!")
         world = pickle.loads(db_world[0])
         return world

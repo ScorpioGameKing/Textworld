@@ -48,7 +48,7 @@ class Color:
     """
     
     FILL = """
-    INSERT OR IGNORE INTO colors (name, bbstring) VALUES 
+    INSERT INTO colors (name, bbstring) VALUES 
     ( "Purple", "553565"),
     ( "Light Blue", "aabbff"),
     ( "Mid Blue", "8895cc"),
@@ -59,7 +59,7 @@ class Color:
     ( "Dark Green", "45814C"),
     ( "Gray", "5C8084"),
     ( "White", "FFFFFF"),
-    ( "Light Gray", "666666");
+    ( "Light Gray", "666666") ON CONFLICT(name) DO NOTHING;
     """
     
     SELECT_BY_ID = """
