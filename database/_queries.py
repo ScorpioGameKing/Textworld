@@ -1,15 +1,33 @@
 class Tile:
     INIT = """
     CREATE TABLE IF NOT EXISTS tiles (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tile TEXT PRIMARY KEY,
         name TEXT NOT NULL,
-        tile TEXT NOT NULL,
+        min_noise REAL,
+        max_noise REAL,
         cid INTEGER NOT NULL
     )
     """
     
-    SELECT_WITH_COLORS_BY_ID = """
-    SELECT tiles.tile, colors.bbstring FROM tiles JOIN colors USING (cid) WHERE id = ?
+    FILL = """
+        INSERT INTO tiles (tile, name, min_noise, max_noise, cid) VALUES 
+        ("X", "Background", NULL, NULL, 0),
+        ("~", "Water", -1.0, -0.1, 1),
+        ("s", "Sand", -0.1, 0.1, 4),
+        ("g", "Grass", 0.1, 0.25, 5),
+        ("d", "Dirt", 0.25, 0.35, 6),
+        ("f", "Forest", 0.35, 0.5, 7),
+        ("m", "Mountain", 0.5, 0.75, 8),
+        ("w", "Snow", 0.75, 1.0, 9),
+        ("p", "Path", NULL, NULL, 10) ON CONFLICT(tile) DO NOTHING
+    """
+    
+    SELECT_WITH_COLORS_BY_TILE = """
+    SELECT tiles.tile, colors.bbstring FROM tiles JOIN colors USING (cid) WHERE tile = ?
+    """
+    
+    SELECT_WITH_COLORS_BY_NOISE = """
+    SELECT tiles.tile, colors.bbstring FROM tiles JOIN Colors using (cid) WHERE min_noise <= ? AND max_noise > ?
     """
     
 class World:
@@ -42,7 +60,7 @@ class Color:
     INIT = """
     CREATE TABLE IF NOT EXISTS colors (
         cid INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
+        name TEXT NOT NULL UNIQUE,
         bbstring TEXT NOT NULL
     )
     """

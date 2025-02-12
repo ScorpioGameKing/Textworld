@@ -24,5 +24,6 @@ class Cursor:
         return self.__cursor.fetchmany(size=amount)
     
     def execute(self, query, params=()) -> None:
+        print(f'Executing: {query[:30]}...')
         self.__cursor.execute(query, params)
         self.__connection.commit()
