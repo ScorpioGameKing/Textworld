@@ -7,7 +7,7 @@ from datetime import timedelta
 from timeit import timeit, default_timer
 from camera import TextworldCamera
 from game_ui import TextworldGameLayout
-from generate import TextworldGenerator, TextworldMap, TextworldWorld
+from generation import TextworldGenerator, TextworldWorld
 from database import WorldDatabase, Database
 from database import Color, World, Tile
 

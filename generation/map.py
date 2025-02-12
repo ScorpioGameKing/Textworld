@@ -13,13 +13,11 @@ class TextworldWorld():
     __chunks: dict[Coords, np.array] = {}
 
     _chunk_count: Size[int]
-    __db: TileDatabase
     def __init__(self, chunk_count: Size[int], chunk_size: Size[int], seed:int = int(strftime("%Y%m%d%H%M%S", gmtime()))):
         self.chunk_count = chunk_count
         self.chunk_size = chunk_size
         self.generator = TextworldGenerator(seed)
         self.lock = threading.Lock()
-        self.__db = TileDatabase()
         
     def __generate_chunk(self, coords: Coords):
         
