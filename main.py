@@ -3,6 +3,7 @@ from kivy.clock import Clock
 from kivy.core.window import Keyboard, Window
 from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import ScreenManager
+from kivy.lang import Builder
 from time import gmtime, strftime
 from datetime import timedelta
 from timeit import timeit, default_timer
@@ -173,6 +174,9 @@ class TextworldApp(App):
 
     # This Runs everything
     def build(self):
+
+        Builder.load_file(".\\ui\\game_ui.kv")
+        Builder.load_file(".\\ui\\main_menu.kv")
 
         # Window Defaults
         Window.size = (1438,720)

@@ -3,8 +3,6 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
-from camera import TextworldCamera
-from generate import TextworldMap
 from handbook_lang import HandbookLexer
 
 # Container for Display, Terminal and Input
