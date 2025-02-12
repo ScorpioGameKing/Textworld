@@ -11,7 +11,7 @@ class Tile:
     
     FILL = """
         INSERT INTO tiles (tile, name, min_noise, max_noise, cid) VALUES 
-        ("X", "Background", NULL, NULL, 0),
+        ("X", "Background", NULL, NULL, 10),
         ("~", "Water", -1.0, -0.1, 1),
         ("s", "Sand", -0.1, 0.1, 4),
         ("g", "Grass", 0.1, 0.25, 5),
