@@ -2,11 +2,12 @@ from kivy.app import App
 from kivy.clock import Clock
 from kivy.core.window import Keyboard, Window
 from kivy.uix.widget import Widget
+from kivy.uix.screenmanager import ScreenManager
 from time import gmtime, strftime
 from datetime import timedelta
 from timeit import timeit, default_timer
 from camera import TextworldCamera
-from game_ui import TextworldGameLayout
+from game_ui import TextworldGameScreen
 from generate import TextworldGenerator, TextworldMap, TextworldWorld
 from db_interface import SaveDBInterface, TileDBInterface
 
@@ -180,7 +181,9 @@ class TextworldApp(App):
         self._defaults = [4, 4, 150, 150, 2, 2, 42069, "Testing World 2"]
 
         # Init UI and Management System
-        self.game = TextworldGameLayout()
+        self.screen_manager = ScreenManager()
+        self.screen_manager.add_widget(TextworldGameScreen(name='game_ui'))
+        self.game = self.screen_manager
         self.management_system = TextworldGameManagementSystem(self._defaults[6])
 
         load_world = self.management_system.save_system.loadWorldFromDB("Testing Save 1")
@@ -217,8 +220,8 @@ class TextworldApp(App):
             self.management_system.getMap(self.management_system.world_position[0]    , self.management_system.world_position[1] + 1), # Bottom
             self.management_system.getMap(self.management_system.world_position[0] + 1, self.management_system.world_position[1] + 1)], # Bottom Right
         ])
-        self.game.left_panel.display.update_text(view_text)
-        if self.game.left_panel.command_input.typing:
+        self.game.current_screen.game_layout.left_panel.display.update_text(view_text)
+        if self.game.current_screen.game_layout.left_panel.command_input.typing:
             pass
         else:
             self.management_system.get_focus()
