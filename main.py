@@ -10,6 +10,7 @@ from timeit import timeit, default_timer
 from camera import TextworldCamera
 from ui.game_ui import TextworldGScreen
 from ui.main_menu import TextworldMMScreen
+from ui.load_ui import TextworldLdScreen
 from generate import TextworldGenerator, TextworldMap, TextworldWorld
 from db_interface import SaveDBInterface, TileDBInterface
 
@@ -176,8 +177,11 @@ class TextworldApp(App):
     # This Runs everything
     def build(self):
 
-        Builder.load_file(".\\ui\\game_ui.kv")
+        Builder.load_file(".\\ui\\new_game_ui.kv")
+        Builder.load_file(".\\ui\\load_ui.kv")
+        Builder.load_file(".\\ui\\mod_tools_ui.kv")
         Builder.load_file(".\\ui\\main_menu.kv")
+        Builder.load_file(".\\ui\\game_ui.kv")
 
         # Window Defaults
         Window.size = (1438,720)
@@ -189,6 +193,7 @@ class TextworldApp(App):
         self.screen_manager = ScreenManager()
         self.screen_manager.add_widget(TextworldGScreen(name='game_ui'))
         self.screen_manager.add_widget(TextworldMMScreen(name='main_menu_ui'))
+        self.screen_manager.add_widget(TextworldLdScreen(name='load_ui'))
         self.game = self.screen_manager
         self.management_system = TextworldGameManagementSystem(self._defaults[6])
 
