@@ -8,8 +8,8 @@ from time import gmtime, strftime
 from datetime import timedelta
 from timeit import timeit, default_timer
 from camera import TextworldCamera
-from game_ui import TextworldGameScreen
-from main_menu_ui import TextworldMMScreen
+from ui.game_ui import TextworldGScreen
+from ui.main_menu import TextworldMMScreen
 from generate import TextworldGenerator, TextworldMap, TextworldWorld
 from db_interface import SaveDBInterface, TileDBInterface
 
@@ -187,7 +187,7 @@ class TextworldApp(App):
 
         # Init UI and Management System
         self.screen_manager = ScreenManager()
-        self.screen_manager.add_widget(TextworldGameScreen(name='game_ui'))
+        self.screen_manager.add_widget(TextworldGScreen(name='game_ui'))
         self.screen_manager.add_widget(TextworldMMScreen(name='main_menu_ui'))
         self.game = self.screen_manager
         self.management_system = TextworldGameManagementSystem(self._defaults[6])

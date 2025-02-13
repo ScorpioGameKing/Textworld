@@ -46,7 +46,6 @@ class TextworldGenerator():
                     (self.height_noise[1].noise2((x + (map_x * cols)) * scale, (y + (map_y * rows)) * scale * 0.5)) +
                     (self.height_noise[2].noise2((x + (map_x * cols)) * scale, (y + (map_y * rows)) * scale * 0.25)) +
                     (self.height_noise[3].noise2((x + (map_x * cols)) * scale, (y + (map_y * rows)) * scale * 0.125))) / 2
-                    
 
                 # Set TileDBI Index
                 tile_index = 0
