@@ -2,6 +2,7 @@ from time import gmtime, strftime
 import numpy as np
 from opensimplex import OpenSimplex
 
+from generation.map import TextworldMap
 from models import Size, Tile, Coords
 from database import TileDatabase
 
@@ -13,31 +14,25 @@ class TextworldGenerator():
         
 
     # Default Map Generation
-    def get_chunk(self, size:Size[int], chunk_coords: Coords):
-        scale = 0.0625 * 0.5 # Step Scaler
-        (chunk_x, chunk_y) = (chunk_coords.to_tuple())
-        chunk = []
-        
-        for y in range(size.height):
-            map_row = []
-            for x in range(size.width):
+    def get_chunk(self, size:Size[int], chunk_coords: Coords) -> TextworldMap:
+        scale = 0.5 * 0.0625
+        chunk = TextworldMap(size)
 
-                # Generate and save noise by sampling the average value in height fields at 1, 1/2, 1/4, 1/8 weights finally mapping from -1, 1 to 0, 1
-                noise_val =(self.height_noise[0].noise2((x + (chunk_x * size.width)) * scale, (y + (chunk_y * size.height)) * scale) +
-                    (self.height_noise[1].noise2((x + (chunk_x * size.width)) * scale, (y + (chunk_y * size.height)) * scale * 0.5)) +
-                    (self.height_noise[2].noise2((x + (chunk_x * size.width)) * scale, (y + (chunk_y * size.height)) * scale * 0.25)) +
-                    (self.height_noise[3].noise2((x + (chunk_x * size.width)) * scale, (y + (chunk_y * size.height)) * scale * 0.125))) / 2
+        
+        with TileDatabase() as db:
+        
+            for y in range(size.height):
                 
-                with TileDatabase() as db:
+                for x in range(size.width):
+                    noise_val =(self.height_noise[0].noise2((x + (chunk_coords.x * size.width)) * scale, (y + (chunk_coords.y * size.height)) * scale) +
+                    (self.height_noise[1].noise2((x + (chunk_coords.x * size.width)) * scale, (y + (chunk_coords.y * size.height)) * scale * 0.5)) +
+                    (self.height_noise[2].noise2((x + (chunk_coords.x * size.width)) * scale, (y + (chunk_coords.y * size.height)) * scale * 0.25)) +
+                    (self.height_noise[3].noise2((x + (chunk_coords.x * size.width)) * scale, (y + (chunk_coords.y * size.height)) * scale * 0.125))) / 2
                     db_tile = db.get_tile_by_noise(noise_val)
-                    
+
                     if not db_tile:
                         db_tile = db.get_tile('X')
-
-                # Create and add tile to current map row
-                
-                map_row.append(db_tile)
-            chunk.append(map_row)
+                    chunk[x,y] = db_tile
 
         # Return for use
         return chunk
