@@ -9,6 +9,7 @@ from datetime import timedelta
 from timeit import timeit, default_timer
 from camera import TextworldCamera
 from game_ui import TextworldGameScreen
+from main_menu_ui import TextworldMMScreen
 from generate import TextworldGenerator, TextworldMap, TextworldWorld
 from db_interface import SaveDBInterface, TileDBInterface
 
@@ -187,6 +188,7 @@ class TextworldApp(App):
         # Init UI and Management System
         self.screen_manager = ScreenManager()
         self.screen_manager.add_widget(TextworldGameScreen(name='game_ui'))
+        self.screen_manager.add_widget(TextworldMMScreen(name='main_menu_ui'))
         self.game = self.screen_manager
         self.management_system = TextworldGameManagementSystem(self._defaults[6])
 
@@ -195,8 +197,8 @@ class TextworldApp(App):
         #self.management_system.loadWorld(self._defaults,self.management_system.world_generator)
 
         # Schedule Display Render Call
-        Clock.schedule_interval(self.update_display, 1/30)
-        self.management_system.buildCamera(106, 25, self._defaults[2], self._defaults[3])
+        #Clock.schedule_interval(self.update_display, 1/30)
+        #self.management_system.buildCamera(106, 25, self._defaults[2], self._defaults[3])
 
         save_time = Timer()
         start = save_time()
@@ -205,6 +207,7 @@ class TextworldApp(App):
         end = save_time()
         print(f'Done: {end - start}')
 
+        self.screen_manager.current = 'main_menu_ui'
 
         # Return App to be run
         return self.game
