@@ -10,11 +10,10 @@ class LoadedSaveBtn(Button):
         super(LoadedSaveBtn, self).__init__(**kwargs)
         self.world = world
         self.id = world.world_name
-        print(f"Button INIT Parent: {self.parent}")
     
     def on_press(self):
         print(f"On_Press Parent {self.parent.parent.parent.parent.parent}")
-        self.parent.parent.parent.parent.parent.current= 'game_ui'
+        self.parent.parent.parent.parent.parent.loadSaveMenuCall(self.world)
         return super().on_press()
 
 class TextworldLdSaveView(BoxLayout):

@@ -5,10 +5,12 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
 from kivy.core.window import Window, Keyboard
 from kivy.properties import ObjectProperty
+from kivy.clock import Clock
 from handbook_lang import HandbookLexer
 from generate import TextworldGenerator, TextworldMap, TextworldWorld
 from camera import TextworldCamera
 from db_interface import SaveDBInterface
+from functools import partial
 
 # Container for Display, Terminal and Input
 class TextworldLLayout(BoxLayout):
@@ -201,7 +203,7 @@ class TextworldGameManagementSystem(Widget):
     def _on_key_up(self, keyboard, keycode):
         return True
 
-    def buildCamera(self, _view_w, _view_h, _max_cols, _max_rows):
+    def buildCamera(self, _view_w=106, _view_h=25, _max_cols=150, _max_rows=150):
         self.camera = TextworldCamera(_view_w, _view_h, _max_cols, _max_rows)
 
     # Takes an overload of either an existing world or the settings to create a world
@@ -249,3 +251,11 @@ class TextworldGameManagementSystem(Widget):
 class TextworldGScreen(Screen):
     game_layout = ObjectProperty(None)
     game_manager = TextworldGameManagementSystem()
+
+    def on_enter(self, *args):
+        self.displayUpdates = Clock.schedule_interval(partial(self.game_manager.update_display, self.game_layout.left_panel.display, self.game_layout.left_panel.command_input), 0.0125)
+        return super().on_enter(*args)
+
+    def on_pre_leave(self, *args):
+        self.displayUpdates.cancel()
+        return super().on_leave(*args)
