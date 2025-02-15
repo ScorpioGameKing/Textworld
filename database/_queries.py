@@ -12,15 +12,18 @@ class Tile:
     FILL = """
         INSERT INTO tiles (tile, name, min_noise, max_noise, cid) VALUES 
 
-        ("~", "Water", -1.0, -0.1, 'Deep Blue'),
-        ("s", "Sand", -0.1, 0.1, 'Light Yellow'),
-        ("g", "Grass", 0.1, 0.25, 'Mid Green'),
-        ("d", "Dirt", 0.25, 0.35, 'Brown'),
-        ("f", "Forest", 0.35, 0.5, 'Dark Green'),
+        ("~", "Water", -1.0, -0.5, 'Deep Blue'),
+        ("s", "Sand", -0.75, -0.5, 'Light Yellow'),
+        ("g", "Grass", -0.75, 0, 'Mid Green'),
+        ("d", "Dirt", 0, 0.25, 'Brown'),
+        ("f", "Forest", 0.25, 0.5, 'Dark Green'),
         ("m", "Mountain", 0.5, 0.75, 'Light Gray'),
-        ("w", "Snow", 0.75, 1.0, 'White'),
+        ("w", "Snow", 0.75, 10, 'White'),
         ('X', 'Background', NULL, NULL, 'Purple'),
-        ('p', 'Path', NULL, NULL, 'Black') ON CONFLICT(tile) DO NOTHING
+        ('p', 'Path', NULL, NULL, 'Black') ON CONFLICT(tile) 
+        DO UPDATE SET 
+        min_noise = excluded.min_noise,
+        max_noise = excluded.max_noise
     """
     
     SELECT_WITH_COLORS = """

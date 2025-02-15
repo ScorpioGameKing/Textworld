@@ -16,7 +16,7 @@ class TileDatabase(Database):
             tiles = self.execute_many(TileQueries.SELECT_WITH_COLORS)
             
             for t in tiles:
-                if t[2] and t[3] and t[2] <= noise < t[3]:
+                if t[2] != None and t[3] != None and t[2] <= noise < t[3]:
                     return Tile(t[0], t[1])
                 
         except:
