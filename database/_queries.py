@@ -5,21 +5,29 @@ class Tile:
         name TEXT NOT NULL,
         min_noise REAL,
         max_noise REAL,
-        cid INTEGER NOT NULL
+        cid TEXT NOT NULL
     )
     """
     
     FILL = """
         INSERT INTO tiles (tile, name, min_noise, max_noise, cid) VALUES 
-        ("X", "Background", NULL, NULL, 0),
-        ("~", "Water", -1.0, -0.1, 1),
-        ("s", "Sand", -0.1, 0.1, 4),
-        ("g", "Grass", 0.1, 0.25, 5),
-        ("d", "Dirt", 0.25, 0.35, 6),
-        ("f", "Forest", 0.35, 0.5, 7),
-        ("m", "Mountain", 0.5, 0.75, 8),
-        ("w", "Snow", 0.75, 1.0, 9),
-        ("p", "Path", NULL, NULL, 10) ON CONFLICT(tile) DO NOTHING
+
+        ("~", "Water", -1.0, -0.5, 'Deep Blue'),
+        ("s", "Sand", -0.75, -0.5, 'Light Yellow'),
+        ("g", "Grass", -0.75, 0, 'Mid Green'),
+        ("d", "Dirt", 0, 0.25, 'Brown'),
+        ("f", "Forest", 0.25, 0.5, 'Dark Green'),
+        ("m", "Mountain", 0.5, 0.75, 'Light Gray'),
+        ("w", "Snow", 0.75, 10, 'White'),
+        ('X', 'Background', NULL, NULL, 'Purple'),
+        ('p', 'Path', NULL, NULL, 'Black') ON CONFLICT(tile) 
+        DO UPDATE SET 
+        min_noise = excluded.min_noise,
+        max_noise = excluded.max_noise
+    """
+    
+    SELECT_WITH_COLORS = """
+    SELECT tiles.tile, colors.bbstring, tiles.min_noise, tiles.max_noise FROM tiles JOIN colors USING (cid)
     """
     
     SELECT_WITH_COLORS_BY_TILE = """
@@ -27,7 +35,7 @@ class Tile:
     """
     
     SELECT_WITH_COLORS_BY_NOISE = """
-    SELECT tiles.tile, colors.bbstring FROM tiles JOIN Colors using (cid) WHERE min_noise <= ? AND max_noise > ?
+    SELECT tiles.tile, colors.bbstring FROM tiles JOIN colors USING (cid) WHERE min_noise <= ? AND max_noise > ? AND tile != 'X'
     """
     
 class World:
@@ -59,14 +67,13 @@ class World:
 class Color:
     INIT = """
     CREATE TABLE IF NOT EXISTS colors (
-        cid INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL UNIQUE,
+        cid TEXT PRIMARY KEY,
         bbstring TEXT NOT NULL
     )
     """
     
     FILL = """
-    INSERT INTO colors (name, bbstring) VALUES 
+    INSERT INTO colors (cid, bbstring) VALUES 
     ( "Purple", "553565"),
     ( "Light Blue", "aabbff"),
     ( "Mid Blue", "8895cc"),
@@ -77,7 +84,8 @@ class Color:
     ( "Dark Green", "45814C"),
     ( "Gray", "5C8084"),
     ( "White", "FFFFFF"),
-    ( "Light Gray", "666666") ON CONFLICT(name) DO NOTHING;
+    ( "Light Gray", "666666"),
+    ( "Black", "000000") ON CONFLICT(cid) DO NOTHING;
     """
     
     SELECT_BY_ID = """
