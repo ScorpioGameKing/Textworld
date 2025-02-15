@@ -14,16 +14,17 @@ class TextworldWorld():
     __chunks: dict[Coords, np.array] = {}
 
     _chunk_count: Size[int]
+    __seed: int
     def __init__(self, chunk_count: Size[int], chunk_size: Size[int], seed:int = int(strftime("%Y%m%d%H%M%S", gmtime()))):
         self.chunk_count = chunk_count
         self.chunk_size = chunk_size
-        self.generator = TextworldGenerator(seed)
         self.lock = threading.Lock()
+        self.__seed = seed
         
-    def __generate_chunk(self, coords: Coords):
+    def __generate_chunk(self, coords: Coords, generator: TextworldGenerator):
         logging.debug(f"Generation for Chunk [{coords.x}, {coords.y}] started")
         
-        chunk = self.generator.get_chunk(self.chunk_size, coords)
+        chunk = generator.get_chunk(self.chunk_size, coords)
         with self.lock:
             self.__chunks[coords] = chunk
         logging.debug(f"Generation for Chunk [{coords.x}, {coords.y}] finished")
@@ -31,13 +32,17 @@ class TextworldWorld():
     def __generate_chunks(self):
         logging.debug('Chunk generation started')
         
-        half_height = round(self.chunk_count.height / 2) or 1
-        half_width = round(self.chunk_count.width / 2) or 1
-        logging.debug(f'Height values {0-half_height} - {half_height}')
-        logging.debug(f'Width values {0 - half_width} - {half_width}')
-        for x in range(0 - half_height, half_height ):
-             for y in range(0 - half_width, half_width):
-                self.__generate_chunk(Coords(x,y))
+        with TextworldGenerator(self.__seed) as generator:
+            half_height = self.chunk_count.height // 2
+            half_width =  self.chunk_count.width // 2
+            
+            
+            logging.debug(f'Height values {0 - half_height} - {half_height}')
+            logging.debug(f'Width values {0 - half_width} - {half_width}')
+            logging.debug(f'Chunk area {self.chunk_count.area()}')
+            for x in range(0-half_height, half_height if half_height != 0 else 1 ):
+                for y in range(0-half_width, half_width if half_width != 0 else 1):
+                    self.__generate_chunk(Coords(x,y), generator)
                 
         logging.debug('Chunk generation finished')
         
