@@ -49,3 +49,18 @@ class SaveDBInterface():
                 world = pickle.loads(world_decomp)
                 print(world)
         return world
+    
+    def loadWorldsLoadMenu(self):
+        con = sqlite3.connect('data\\textworld.db')
+        cur = con.cursor()
+        db_world = cur.execute("SELECT * FROM worlds").fetchall()
+        cur.close()
+        con.close()
+        worlds = []
+        for save in db_world:
+            print("LOADING SAVE!!!!!!!!!!")
+            world_decomp = gzip.decompress(save[1])
+            world = pickle.loads(world_decomp)
+            print(world)
+            worlds.append(world)
+        return worlds
