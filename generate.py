@@ -1,6 +1,6 @@
 from time import gmtime, strftime
 from dataclasses import dataclass
-from numpy import array, interp, random, rint
+from numpy import array, random
 from opensimplex import OpenSimplex
 from db_interface import TileDBInterface
 

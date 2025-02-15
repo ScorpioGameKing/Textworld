@@ -1,5 +1,4 @@
-from numpy import array
-from generate import TextworldWorld, TextworldMap
+from generate import TextworldMap
 
 class TextworldCamera():
     def __init__(self, _view_w, _view_h, _max_cols, _max_rows):
