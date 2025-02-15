@@ -14,6 +14,7 @@ class TileDatabase(Database):
     def get_tile_by_noise(self, noise: float) -> Tile:
         try:
             tiles = self.execute_many(TileQueries.SELECT_WITH_COLORS)
+            
             for t in tiles:
                 if t[2] and t[3] and t[2] <= noise < t[3]:
                     return Tile(t[0], t[1])
