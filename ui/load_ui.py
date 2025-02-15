@@ -1,9 +1,7 @@
-from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
-from db_interface import SaveDBInterface
 
 class LoadedSaveBtn(Button):
     def __init__(self, world, **kwargs):

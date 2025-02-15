@@ -2,7 +2,6 @@ from kivy.uix.widget import Widget
 from kivy.core.window import Window, Keyboard
 from generate import TextworldGenerator, TextworldMap, TextworldWorld
 from engine.camera import TextworldCamera
-from db_interface import SaveDBInterface
 
 # Management system. This is the center for most data, Map, World, Active NPC lists, etc
 class TextworldGameManagementSystem(Widget):
@@ -14,9 +13,6 @@ class TextworldGameManagementSystem(Widget):
         
         # Default Settings
         self._defaults = [4, 4, 150, 150, 2, 2, 42069, "Testing World 2"]
-
-        # Temp DBI Interfaces
-        self.save_system = SaveDBInterface()
 
         # Check if a custom generator was given, will be given during world settings step later
         if len(world) == 1:
