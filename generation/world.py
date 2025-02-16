@@ -65,8 +65,9 @@ class TextworldWorld():
         progress_thread.start()
         progress_thread.join()
 
-    def save_chunks(self):
-        data = pickle.dumps(self.__chunks)
+    def save_world(self):
+        self.lock = None
+        data = pickle.dumps(self)
         return gzip.compress(data)
         
     def __getitem__(self, coords: tuple[int,int]) -> np.typing.NDArray:

@@ -50,7 +50,7 @@ class World:
     INSERT OR REPLACE INTO worlds (
         save_name,
         world
-    ) VALUES (?, store_world(?));
+    ) VALUES (?, ?);
     """
     SELECT_ALL = """
     SELECT save_name, load_world(world) FROM worlds

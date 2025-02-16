@@ -15,7 +15,7 @@ class LoadedSaveBtn(Button):
         print(f"On_Press Parent {self.parent.parent.parent.parent.parent}")
         world_data = self.db.load_world_from_db(self.id)
         print(world_data)
-        self.parent.parent.parent.parent.parent.loadSaveMenuCall(self.id)
+        self.parent.parent.parent.parent.parent.loadSaveMenuCall(world_data)
         return super().on_press()
 
 class TextworldLdSaveView(BoxLayout):
@@ -35,7 +35,7 @@ class TextworldLdSaveView(BoxLayout):
                 btn = LoadedSaveBtn(world=self.worlds[i - 1], db=db, text=self.worlds[i - 1])
                 self.ids[f'{self.worlds[i - 1]}'] = btn
                 self.add_widget(btn)
-        print(f"Layout Children: {self.ids}")
+        print(f"Layout Children: {self.ids} Count: {len(self.children)}")
         
 
 class TextworldLdBackBtn(Button):
