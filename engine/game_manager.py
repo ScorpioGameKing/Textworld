@@ -1,6 +1,6 @@
 from kivy.uix.widget import Widget
 from kivy.core.window import Window, Keyboard
-from generate import TextworldGenerator, TextworldMap, TextworldWorld
+from generation import TextworldGenerator, TextworldMap, TextworldWorld
 from engine.camera import TextworldCamera
 
 # Management system. This is the center for most data, Map, World, Active NPC lists, etc

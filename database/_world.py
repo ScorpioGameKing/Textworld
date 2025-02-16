@@ -16,3 +16,7 @@ class WorldDatabase(Database):
 
         world = pickle.loads(db_world[0])
         return world
+
+    def load_save_names(self):
+        with self._get_cursor() as cur:
+            return cur.fetch_one(WorldQueries.SELECT_ALL_NAMES)

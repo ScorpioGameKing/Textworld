@@ -2,8 +2,10 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
+from database import WorldDatabase
 
 class LoadedSaveBtn(Button):
+
     def __init__(self, world, **kwargs):
         super(LoadedSaveBtn, self).__init__(**kwargs)
         self.world = world
@@ -15,10 +17,20 @@ class LoadedSaveBtn(Button):
         return super().on_press()
 
 class TextworldLdSaveView(BoxLayout):
+
+    db: WorldDatabase
+
+    def __enter__(self):
+        self.db = WorldDatabase()
+        self.db.open()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.db.close()
+
     def updateWorldList(self):
-        _dbi = SaveDBInterface()
-        self.worlds = _dbi.loadWorldsLoadMenu()
-        print(f"DB Size: {len(self.worlds)}")
+        self.worlds = self.db.load_save_names()
+        print(f"DB Saves: {self.worlds}")
         for i in range(len(self.worlds)):
             if self.children:
                 if self.children[i].text == self.worlds[i].world_name:
