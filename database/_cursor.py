@@ -16,13 +16,13 @@ class Cursor:
         self.__cursor.close()
 
     def fetch_one(self, query, params=()) -> Any:
-        logging.debug(f'Executing query: {query[:30]}...')
+        #logging.debug(f'Executing query: {query[:30]}...')
         self.__cursor.execute(query, params)
         self.__connection.commit()
         return self.__cursor.fetchone()
     
     def fetch_many(self, query, params=(), amount=-1) -> list:
-        logging.debug(f'Executing query: {query[:30]}...')
+        #logging.debug(f'Executing query: {query[:30]}...')
         self.__cursor.execute(query, params)
         return self.__cursor.fetchmany(size=amount)
     

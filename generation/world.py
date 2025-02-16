@@ -9,9 +9,10 @@ from generation.generator import TextworldGenerator
 import pickle, gzip, threading, math, logging
 import numpy as np
 
+logging.basicConfig(level=logging.DEBUG)
+
 class TextworldWorld():
     __chunks: dict[Coords, np.array] = {}
-
     _chunk_count: Size[int]
     __seed: int
     def __init__(self, chunk_count: Size[int], chunk_size: Size[int], seed:int = int(strftime("%Y%m%d%H%M%S", gmtime()))):
@@ -43,10 +44,7 @@ class TextworldWorld():
                 for y in range(0-half_width, half_width if half_width != 0 else 1):
                     self.__generate_chunk(Coords(x,y), generator)
                 
-        logging.debug('Chunk generation finished')
-        
-        
-                 
+        logging.debug('Chunk generation finished')     
     
     def generate_map(self, progress_callback: Callable[[],None] = (lambda x:logging.debug(f"Progress: {math.floor(x*100)}%"))):
 

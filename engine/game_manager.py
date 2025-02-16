@@ -6,22 +6,12 @@ from engine.camera import TextworldCamera
 # Management system. This is the center for most data, Map, World, Active NPC lists, etc
 class TextworldGameManagementSystem(Widget):
     # Using Super and Class type Widget to hack in Keyboard Support
-    def __init__(self, *world:int, **kwargs):
+    def __init__(self, **kwargs):
         super(TextworldGameManagementSystem, self).__init__(**kwargs)
         self._keyboard:Keyboard
         self.get_focus()
-        
-        # Default Settings
-        self._defaults = [4, 4, 150, 150, 2, 2, 42069, "Testing World 2"]
-
-        # Check if a custom generator was given, will be given during world settings step later
-        if len(world) == 1:
-            self.world_generator = TextworldGenerator(world[0])
-        else:
-            self.world_generator = TextworldGenerator(self._defaults[6])
-
-        # Load or Create a world, set inital map position and active map
         self.world_position = [0,0]
+        self.chunk_position = [100, 100]
 
     def get_focus(self):
         self._keyboard = Window.request_keyboard(self._on_keyboard_closed, self)
@@ -124,14 +114,14 @@ class TextworldGameManagementSystem(Widget):
     def loadWorld(self, *world):
         if len(world) == 1:
             self.active_world = world[0]
-            self.setMap(self.active_world.position[0], self.active_world.position[1])
+            self.setMap(self.world_position[0], self.world_position[1])
         else:
             self.active_world = TextworldWorld(world[0][0], world[0][1], world[0][2], world[0][3], world[1], world[0][7])
             self.setMap(world[0][4], world[0][5])
 
     # Set the active World Map, Default gens new map
     def setMap(self, map_x:int, map_y:int):
-        self.active_map = self.active_world.world_maps[map_x][map_y]
+        self.active_map = self.active_world[map_x, map_y]
 
     # Get a World Map, none if oob
     def getMap(self, map_x:int, map_y:int) -> TextworldMap | None:
