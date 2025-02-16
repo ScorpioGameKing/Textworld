@@ -6,12 +6,15 @@ from database import WorldDatabase
 
 class LoadedSaveBtn(Button):
 
-    def __init__(self, world, **kwargs):
+    def __init__(self, world, db, **kwargs):
         super(LoadedSaveBtn, self).__init__(**kwargs)
         self.id = world
+        self.db = db
     
     def on_press(self):
         print(f"On_Press Parent {self.parent.parent.parent.parent.parent}")
+        world_data = self.db.load_world_from_db(self.id)
+        print(world_data)
         self.parent.parent.parent.parent.parent.loadSaveMenuCall(self.id)
         return super().on_press()
 
@@ -25,11 +28,11 @@ class TextworldLdSaveView(BoxLayout):
                 if self.children[i - 1].text == self.worlds[i - 1]:
                     continue
                 else:
-                    btn = LoadedSaveBtn(world=self.worlds[i - 1], text=self.worlds[i - 1])
+                    btn = LoadedSaveBtn(world=self.worlds[i - 1], db=db, text=self.worlds[i - 1])
                     self.ids[f'{self.worlds[i - 1]}'] = btn
                     self.add_widget(btn)
             else:
-                btn = LoadedSaveBtn(world=self.worlds[i - 1], text=self.worlds[i - 1])
+                btn = LoadedSaveBtn(world=self.worlds[i - 1], db=db, text=self.worlds[i - 1])
                 self.ids[f'{self.worlds[i - 1]}'] = btn
                 self.add_widget(btn)
         print(f"Layout Children: {self.ids}")

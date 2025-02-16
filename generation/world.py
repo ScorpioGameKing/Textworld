@@ -6,9 +6,8 @@ from database import TileDatabase
 from models.coords import Coords
 from models.size import Size
 from generation.generator import TextworldGenerator
+import pickle, gzip, threading, math, logging
 import numpy as np
-import threading
-import math
 
 class TextworldWorld():
     __chunks: dict[Coords, np.array] = {}
@@ -65,6 +64,10 @@ class TextworldWorld():
         progress_thread = threading.Thread(target=progress, name='progress thread' )
         progress_thread.start()
         progress_thread.join()
+
+    def save_chunks(self):
+        data = pickle.dumps(self.__chunks)
+        return gzip.compress(data)
         
     def __getitem__(self, coords: tuple[int,int]) -> np.typing.NDArray:
         return self.__chunks[Coords(*coords)]
