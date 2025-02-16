@@ -18,5 +18,9 @@ class WorldDatabase(Database):
         return world
 
     def load_save_names(self):
+        names = []
         with self._get_cursor() as cur:
-            return cur.fetch_one(WorldQueries.SELECT_ALL_NAMES)
+            name = cur.fetch_many(WorldQueries.SELECT_ALL_NAMES)
+            for n in name:
+                names.append(n[0])
+            return names

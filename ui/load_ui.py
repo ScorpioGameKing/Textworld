@@ -8,40 +8,29 @@ class LoadedSaveBtn(Button):
 
     def __init__(self, world, **kwargs):
         super(LoadedSaveBtn, self).__init__(**kwargs)
-        self.world = world
-        self.id = world.world_name
+        self.id = world
     
     def on_press(self):
         print(f"On_Press Parent {self.parent.parent.parent.parent.parent}")
-        self.parent.parent.parent.parent.parent.loadSaveMenuCall(self.world)
+        self.parent.parent.parent.parent.parent.loadSaveMenuCall(self.id)
         return super().on_press()
 
 class TextworldLdSaveView(BoxLayout):
 
-    db: WorldDatabase
-
-    def __enter__(self):
-        self.db = WorldDatabase()
-        self.db.open()
-        return self
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        self.db.close()
-
-    def updateWorldList(self):
-        self.worlds = self.db.load_save_names()
-        print(f"DB Saves: {self.worlds}")
+    def updateWorldList(self, db):
+        self.worlds = db.load_save_names()
+        print(f"Children: {self.children} Count: {len(self.children)} db Count: {len(self.worlds)}")
         for i in range(len(self.worlds)):
-            if self.children:
-                if self.children[i].text == self.worlds[i].world_name:
+            if len(self.children) > 0:
+                if self.children[i - 1].text == self.worlds[i - 1]:
                     continue
                 else:
-                    btn = LoadedSaveBtn(world=self.worlds[i], text=self.worlds[i].world_name)
-                    self.ids[f'{self.worlds[i].world_name}'] = btn
+                    btn = LoadedSaveBtn(world=self.worlds[i - 1], text=self.worlds[i - 1])
+                    self.ids[f'{self.worlds[i - 1]}'] = btn
                     self.add_widget(btn)
             else:
-                btn = LoadedSaveBtn(world=self.worlds[i], text=self.worlds[i].world_name)
-                self.ids[f'{self.worlds[i].world_name}'] = btn
+                btn = LoadedSaveBtn(world=self.worlds[i - 1], text=self.worlds[i - 1])
+                self.ids[f'{self.worlds[i - 1]}'] = btn
                 self.add_widget(btn)
         print(f"Layout Children: {self.ids}")
         
@@ -76,6 +65,16 @@ class TextworldLdMenuLayout(BoxLayout):
 
 class TextworldLdScreen(Screen):
     layout = ObjectProperty(None)
+    __db: WorldDatabase
+
+    def __init__(self, **kw):
+        super(TextworldLdScreen, self).__init__(**kw)
+        self.__db = WorldDatabase()
+        self.__db.open()
+
+    def __del__(self, exc_type, exc_value, traceback):
+        self.__db.close()
+
     def on_pre_enter(self, *args):
-        self.layout.left_panel.save_view.updateWorldList()
+        self.layout.left_panel.save_view.updateWorldList(self.__db)
         return super().on_enter(*args)

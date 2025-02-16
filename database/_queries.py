@@ -49,8 +49,8 @@ class World:
     REPLACE_BY_NAME = """
     INSERT OR REPLACE INTO worlds (
         save_name,
-        store_world(world)
-    ) VALUES (?, ?);
+        world
+    ) VALUES (?, store_world(?));
     """
     SELECT_ALL = """
     SELECT save_name, load_world(world) FROM worlds
