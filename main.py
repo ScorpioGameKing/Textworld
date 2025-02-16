@@ -8,7 +8,9 @@ from timeit import timeit, default_timer
 from camera import TextworldCamera
 from game_ui import TextworldGameLayout
 from generate import TextworldGenerator, TextworldMap, TextworldWorld
-from db_interface import SaveDBInterface, TileDBInterface
+from database import WorldDatabase, Database
+from database import Color, World, Tile
+
 
 class Timer:
     """Measure time used."""
@@ -34,7 +36,8 @@ class TextworldGameManagementSystem(Widget):
         self.get_focus()
 
         # Temp DBI Interfaces
-        self.save_system = SaveDBInterface()
+        self.save_system = WorldDatabase()
+        self.save_system.open()
 
         # Check if a custom generator was given, will be given during world settings step later
         if len(seed) == 1:
@@ -44,6 +47,9 @@ class TextworldGameManagementSystem(Widget):
 
         # Load or Create a world, set inital map position and active map
         self.world_position = [0,0]
+        
+    def __del__(self):
+        self.save_system.close()
 
     def get_focus(self):
         self._keyboard = Window.request_keyboard(self._on_keyboard_closed, self)
@@ -183,7 +189,9 @@ class TextworldApp(App):
         self.game = TextworldGameLayout()
         self.management_system = TextworldGameManagementSystem(self._defaults[6])
 
-        load_world = self.management_system.save_system.loadWorldFromDB("Testing Save 1")
+        load_world = self.management_system.save_system.load_world_from_db("Testing Save 1")
+        if not load_world:
+            return self.game
         self.management_system.loadWorld(load_world)
         #self.management_system.loadWorld(self._defaults,self.management_system.world_generator)
 
@@ -225,4 +233,6 @@ class TextworldApp(App):
 
 # Config Write settings to be moved
 if __name__ == '__main__':
+    with Database() as db:
+        db.init_db(Color.INIT, Color.FILL, Tile.INIT, World.INIT)
     TextworldApp().run()

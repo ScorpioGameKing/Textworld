@@ -1,5 +1,7 @@
-from db_interface import TileDBInterface
+from database import TileDatabase
 
 class TileBuilder():
+    db: TileDatabase
     def __init__(self):
-        self.db_interface = TileDBInterface()
+        self.db = TileDatabase()
+        self.db.open()
