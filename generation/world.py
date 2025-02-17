@@ -64,8 +64,7 @@ class TextworldWorld():
         progress_thread.join()
 
     def save_world(self):
-        self.lock = None
-        data = pickle.dumps(self)
+        data = pickle.dumps(self, protocol=pickle.HIGHEST_PROTOCOL)
         return gzip.compress(data)
         
     def __getitem__(self, coords: tuple[int,int]) -> np.typing.NDArray:
@@ -73,4 +72,14 @@ class TextworldWorld():
     
     def __setitem__(self, _: Coords, __:np.array):
         raise NotImplementedError('TextworldWorld object does not support setting indecies')
+    
+    def __getstate__(self):
+        self.lock = None
+        return (self.chunk_count, self.chunk_size, self.__chunks)
+    
+    def __setstate__(self, state):
+        (self.chunk_count, self.chunk_size, self.__chunks) = state
+        self.lock = threading.Lock()
             
+    def __repr__(self) -> str:
+        return f'Chunks: {len(self.__chunks.keys())}'
