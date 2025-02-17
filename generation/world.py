@@ -55,9 +55,9 @@ class TextworldWorld():
             
             logging.debug("Progress thread started")
             while t.is_alive():
+                sleep(3)
                 _progress =  len(self.__chunks.keys()) / self.chunk_count.area()
                 progress_callback(_progress)
-                sleep(3)
         
         progress_thread = threading.Thread(target=progress, name='progress thread' )
         progress_thread.start()

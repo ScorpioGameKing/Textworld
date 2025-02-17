@@ -11,7 +11,7 @@ class TextworldGameManagementSystem(Widget):
         self._keyboard:Keyboard
         self.get_focus()
         self.world_position = [0,0]
-        self.chunk_position = [100, 100]
+        self.chunk_position = [75, 75]
 
     def get_focus(self):
         self._keyboard = Window.request_keyboard(self._on_keyboard_closed, self)
@@ -30,77 +30,13 @@ class TextworldGameManagementSystem(Widget):
         #print(keycode[1])
         match keycode[1]:
             case 'left':
-                match self.camera.position[0]:
-                    case x if x - 1 < 0 :
-                        match self.world_position[0]:
-                            case x if x - 1 < 0:
-                                self.world_position[0] = self.world_position[0]
-                                self.active_world.position[0] = self.active_world.position[0]
-                                self.camera.position[0] = self.camera.position[0]
-                            case _:
-                                self.world_position[0] -= 1
-                                self.active_world.position[0] -= 1
-                                self.camera.position[0] = self.active_world.dimensions[4] - 1
-                    case _:
-                        self.camera.position[0] -= 1
-                self.setMap(self.world_position[0], self.world_position[1])
-                if self.getMap(self.world_position[0], self.world_position[1]):
-                    #self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
-                    pass
+                pass
             case 'right':
-                match self.camera.position[0]:
-                    case x if x + 1 > self.camera.chunk_dims[0] - 1:
-                        match self.world_position[0]:
-                            case x if x + 1 > self.active_world.dimensions[0] - 1:
-                                self.world_position[0] = self.world_position[0]
-                                self.active_world.position[0] = self.active_world.position[0]
-                                self.camera.position[0] = self.camera.position[0]
-                            case _:
-                                self.world_position[0] += 1
-                                self.active_world.position[0] += 1
-                                self.camera.position[0] = 0
-                    case _:
-                        self.camera.position[0] += 1
-                self.setMap(self.world_position[0], self.world_position[1])
-                if self.getMap(self.world_position[0], self.world_position[1]):
-                    #self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
-                    pass
+                pass
             case 'up':
-                match self.camera.position[1]:
-                    case y if y - 1 < 0:
-                        match self.world_position[1]:
-                            case y if y - 1 < 0:
-                                self.world_position[1] = self.world_position[1]
-                                self.active_world.position[1] = self.active_world.position[1]
-                                self.camera.position[1] = self.camera.position[1]
-                            case _:
-                                self.world_position[1] -= 1
-                                self.active_world.position[1] -= 1
-                                self.camera.position[1] = self.active_world.dimensions[5] - 1
-                    case _:
-                        self.camera.position[1] -= 1
-                self.setMap(self.world_position[0], self.world_position[1])
-                if self.getMap(self.world_position[0], self.world_position[1]):
-                    #self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
-                    pass
+                pass
             case 'down':
-                match self.camera.position[1]:
-                    case y if y + 1 > self.camera.chunk_dims[1] - 1:
-                        match self.world_position[1]:
-                            case y if y + 1 > self.active_world.dimensions[1] - 1:
-                                self.world_position[1] = self.world_position[1]
-                                self.active_world.position[1] = self.active_world.position[1]
-                                self.camera.position[1] = self.camera.position[1]
-                            case _:
-                                self.world_position[1] += 1
-                                self.active_world.position[1] += 1
-                                self.camera.position[1] = 0
-                    case _:
-                        self.camera.position[1] += 1
-                self.setMap(self.world_position[0], self.world_position[1])
-                if self.getMap(self.world_position[0], self.world_position[1]):
-                    #self.getMap(self.world_position[0], self.world_position[1]).getMapTile(self.camera.position[0] ,self.camera.position[1]).setColor("FFFFFF")
-                    pass
+                pass
         return True
 
     # Does nothing at the moment
@@ -125,10 +61,10 @@ class TextworldGameManagementSystem(Widget):
 
     # Get a World Map, none if oob
     def getMap(self, map_x:int, map_y:int) -> TextworldMap | None:
-        if map_x < 0 or map_x > self.active_world.dimensions[0] - 1 or map_y < 0 or map_y > self.active_world.dimensions[1] - 1:
+        if map_x < 0 or map_x > self.active_world.chunk_size.width - 1 or map_y < 0 or map_y > self.active_world.chunk_size.height - 1:
             return None
         else:
-            return self.active_world.world_maps[map_x][map_y]
+            return self.active_world[map_x, map_y]
         
     # Display Render Loop
     def update_display(self, display, command_input, dt):
