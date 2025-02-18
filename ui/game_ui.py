@@ -4,7 +4,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
 from kivy.clock import Clock
-from engine.handbook_lang import HandbookLexer
+from engine.handbook import HandbookLexer
 from engine.game_manager import TextworldGameManagementSystem
 from functools import partial
 
