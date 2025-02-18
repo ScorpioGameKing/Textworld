@@ -23,6 +23,6 @@ class TextworldCamera():
         borders = [(self.viewport_dim_offset[0] + self.position.x), (self.viewport_dim_offset[1] + self.position.x), (self.viewport_dim_offset[2] + self.position.y), (self.viewport_dim_offset[3] + self.position.y)]
         #print(f'chunk pos: {_position} cam pos: {self.position} world pos: {world_position} Borders: {borders}')
 
-        print(f"Chunk: {main_chunk} Cols: {main_chunk.columns} Rows: {main_chunk.rows} Pos: {self.position} Tile: {main_chunk[self.position.x,self.position.y]}")
+        print(f"Chunk: {main_chunk} Max Cols: {main_chunk.columns} Max Rows: {main_chunk.rows} Cam Pos: {self.position} Tile: {main_chunk[self.position.x,self.position.y]}")
 
         return view_string

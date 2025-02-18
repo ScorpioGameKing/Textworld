@@ -1,4 +1,3 @@
-
 import logging
 from time import gmtime, strftime, sleep
 from typing import Callable
