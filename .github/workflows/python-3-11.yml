@@ -16,6 +16,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    - uses: actions/checkout@v4
     - name: Set up Python 3.11
       uses: ./.github/actions/python-test
       with:
