@@ -36,8 +36,8 @@ class TextworldWorld():
             half_width =  self.chunk_count.width // 2
             
             
-            logging.debug(f'Height values {0 - half_height} - {half_height}')
-            logging.debug(f'Width values {0 - half_width} - {half_width}')
+            logging.debug(f'Height values {0 - half_height} , {half_height}')
+            logging.debug(f'Width values {0 - half_width} , {half_width}')
             logging.debug(f'Chunk area {self.chunk_count.area()}')
             for x in range(0-half_height, half_height if half_height != 0 else 1 ):
                 for y in range(0-half_width, half_width if half_width != 0 else 1):

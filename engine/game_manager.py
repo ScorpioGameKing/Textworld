@@ -64,14 +64,14 @@ class TextworldGameManagementSystem(Widget):
             self.world_position,
             self.active_map, # Center Chunk Seperated for faster viewport
             [ # Surrounding 8 list, Only look at those in the veiwport based on how it overflows the main chunk
-            [self.getMap(Coords(self.world_position.x - 1, self.world_position.y - 1)) , # Top Left
-             self.getMap(Coords(self.world_position.x    , self.world_position.y - 1)) , # Top
-             self.getMap(Coords(self.world_position.x + 1, self.world_position.y - 1))], # Top Left
-            [self.getMap(Coords(self.world_position.x - 1, self.world_position.y    )) , # Left
-             self.getMap(Coords(self.world_position.x + 1, self.world_position.y    ))], # Right
-            [self.getMap(Coords(self.world_position.x - 1, self.world_position.y + 1)) , # Bottom Left
-             self.getMap(Coords(self.world_position.x    , self.world_position.y + 1)) , # Bottom
-             self.getMap(Coords(self.world_position.x + 1, self.world_position.y + 1))], # Bottom Right
+            [self.getMap(Coords(self.world_position.x - 1, self.world_position.y - 1)) , # Top Left [0][0]
+             self.getMap(Coords(self.world_position.x    , self.world_position.y - 1)) , # Top [0][1]
+             self.getMap(Coords(self.world_position.x + 1, self.world_position.y - 1))], # Top Right [0][2]
+            [self.getMap(Coords(self.world_position.x - 1, self.world_position.y    )) , # Left [1][0]
+             self.getMap(Coords(self.world_position.x + 1, self.world_position.y    ))], # Right [1][1]
+            [self.getMap(Coords(self.world_position.x - 1, self.world_position.y + 1)) , # Bottom Left [2][0]
+             self.getMap(Coords(self.world_position.x    , self.world_position.y + 1)) , # Bottom [2][1]
+             self.getMap(Coords(self.world_position.x + 1, self.world_position.y + 1))], # Bottom Right [2][2]
         ])
         display.update_text(view_text)
         if command_input.typing:

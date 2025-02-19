@@ -22,11 +22,46 @@ class TextworldCamera():
         borders = [(self.viewport_dim_offset[0] + self.position.x), (self.viewport_dim_offset[1] + self.position.x), (self.viewport_dim_offset[2] + self.position.y), (self.viewport_dim_offset[3] + self.position.y)]
         #print(f'chunk pos: {_position} cam pos: {self.position} world pos: {world_position} Borders: {borders}')
 
-        #print(f"Borders: {borders} R-L: {borders[1] - borders[0]} B-T: {borders[3] - borders[2]} Max Cols: {main_chunk.columns} Max Rows: {main_chunk.rows} Cam Pos: {self.position} Tile: {main_chunk[self.position.x,self.position.y]}")
+        print(f"Borders: {borders} Cam Pos: {self.position}")
 
-        for _y in range(borders[2], borders[3]):
-            _row = ""
-            for _x in range(borders[0], borders[1]):
-                view_string += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+        # Main & Top
+        if borders[2] < 0:
+            # Top
+            print(self.chunk_size.height + borders[2], self.chunk_size.height, surrounding_8[0][1])
+            for _y in range(self.chunk_size.height + borders[2], self.chunk_size.height):
+                _row = ""
+                for _x in range(borders[0], borders[1]):
+                    _row += f"[color=#{surrounding_8[0][1][_x, _y].color}]{surrounding_8[0][1][_x, _y].tile_char}[/color]"
+                view_string += f"{_row}\n"
 
+            # Main
+            for _y in range(0, borders[3]):
+                _row = ""
+                for _x in range(borders[0], borders[1]):
+                    _row += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                view_string += f"{_row}\n"
+
+        # Main & Bottom
+        if borders[3] > self.chunk_size.height:
+            # Main
+            for _y in range(borders[2], self.chunk_size.height):
+                _row = ""
+                for _x in range(borders[0], borders[1]):
+                    _row += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                view_string += f"{_row}\n"
+
+            # Bottom
+            for _y in range(0, borders[3] - self.chunk_size.height):
+                _row = ""
+                for _x in range(borders[0], borders[1]):
+                    _row += f"[color=#{surrounding_8[2][1][_x, _y].color}]{surrounding_8[2][1][_x, _y].tile_char}[/color]"
+                view_string += f"{_row}\n"
+
+        # Main Chunk
+        else:
+            for _y in range(borders[2], borders[3]):
+                _row = ""
+                for _x in range(borders[0], borders[1]):
+                    _row += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                view_string += f"{_row}\n"
         return view_string
