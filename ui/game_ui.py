@@ -45,7 +45,7 @@ class TextworldGInput(TextInput):
 
 # Terminal to hold old player inputs and game outputs
 class TextworldGTerminal(Label):
-    handbook = HandbookLang()
+    handbook:HandbookLang
     command_queue = []
     max_queue = 10
     # Take in some text, add it to the queue and display it
@@ -89,6 +89,7 @@ class TextworldGScreen(Screen):
 
     def on_pre_enter(self, *args):
         self.displayUpdates = Clock.schedule_interval(partial(self.game_manager.update_display, self.game_layout.left_panel.display, self.game_layout.left_panel.command_input), 0.0125)
+        self.game_layout.left_panel.command_terminal.handbook = HandbookLang()
         return super().on_enter(*args)
 
     def on_pre_leave(self, *args):

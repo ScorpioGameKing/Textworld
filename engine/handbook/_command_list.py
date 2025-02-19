@@ -4,7 +4,7 @@ class CommandList:
     command_list: dict[str, Command]
     
     def __init__(self):
-        self.command_list = dict[str]
+        self.command_list = dict[str, Command]
 
     def get_command(self, command_name, *args):
         self.command_list[command_name]

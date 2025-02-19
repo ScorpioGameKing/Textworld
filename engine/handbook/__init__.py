@@ -12,6 +12,7 @@ class HandbookLang():
         self.lexer = HandbookLexer()
         self._sys_commands = CommandList()
         self._user_commands = CommandList()
+        self.build_default_commands()
 
     def build_default_commands(self):
         print(cmd_data.commands)
