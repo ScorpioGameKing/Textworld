@@ -4,7 +4,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
 from kivy.clock import Clock
-from engine.handbook import HandbookLexer
+from engine.handbook import HandbookLang
 from engine.game_manager import TextworldGameManagementSystem
 from functools import partial
 
@@ -45,7 +45,7 @@ class TextworldGInput(TextInput):
 
 # Terminal to hold old player inputs and game outputs
 class TextworldGTerminal(Label):
-    lexer = HandbookLexer()
+    handbook = HandbookLang()
     command_queue = []
     max_queue = 10
     # Take in some text, add it to the queue and display it
@@ -53,7 +53,7 @@ class TextworldGTerminal(Label):
         if text == "":
             return
         else:
-            self.lexer.lexRawString(text)
+            self.handbook.lexer.lexRawString(text)
             self.command_queue.append(text)
             self.text += f'{text}\n'
         if len(self.command_queue) > self.max_queue:

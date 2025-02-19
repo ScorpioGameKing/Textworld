@@ -14,4 +14,5 @@ class HandbookLexer():
                 stitched.append(group[2])
             groups_stitch.append(stitched)
         print(groups_stitch)
+        return(groups_stitch)
     
