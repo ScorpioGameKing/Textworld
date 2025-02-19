@@ -23,21 +23,20 @@ class TextworldGameManagementSystem(Widget):
         self._keyboard = None #type: ignore
 
     # Keyboard Parsing, May move to standalone class and just pass keys
-    def _on_key_down(self, keyboard, keycode, text, modifiers) -> bool:
+    def _on_key_down(self, keyboard, keycode, text, modifiers) -> None:
         # keycode is a tuple (integer, string)
         #print(keycode[1])
         match keycode[1]:
             case 'left':
-                pass
+                self.camera.position.x -= 1
             case 'right':
-                pass
+                self.camera.position.x += 1
             case 'up':
-                pass
+                self.camera.position.y -= 1
             case 'down':
-                pass
-        return True
+                self.camera.position.y += 1
 
-    def buildCamera(self, _view_size:Size = Size(106, 25), _chunk_size:Size = Size(150, 150)) -> None:
+    def buildCamera(self, _view_size:Size = Size(25, 106), _chunk_size:Size = Size(150, 150)) -> None:
         self.camera = TextworldCamera(_view_size, _chunk_size)
 
     # Takes an overload of either an existing world or the settings to create a world
