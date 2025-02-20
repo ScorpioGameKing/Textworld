@@ -23,12 +23,14 @@ class TextworldCamera():
         #print(f'chunk pos: {_position} cam pos: {self.position} world pos: {world_position} Borders: {borders}')
 
         #print(surrounding_8)
-        #print(f"Borders: {borders} Cam Pos: {self.position}")
+        print(f"Borders: {borders} Cam Pos: {self.position} TM: {borders[2] < 0}")
 
         # Main & Top
         if borders[2] < 0:
+            print("TopMain")
             # None Failsafe
             if surrounding_8[0][1] == None:
+                print("Failsafe")
                 for _y in range(0, borders[3]):
                     _row = ""
                     for _x in range(borders[0], borders[1]):
@@ -50,9 +52,11 @@ class TextworldCamera():
                     view_string += f"{_row}\n"
 
         # Main & Bottom
-        if borders[3] > self.chunk_size.height:
+        elif borders[3] > self.chunk_size.height:
+            print("MainBottom")
             # None Failsafe
             if surrounding_8[2][1] == None:
+                print("Failsafe")
                 for _y in range(borders[2], self.chunk_size.height):
                     _row = ""
                     for _x in range(borders[0], borders[1]):
@@ -75,6 +79,7 @@ class TextworldCamera():
 
         # Main Chunk
         else:
+            print("Main")
             for _y in range(borders[2], borders[3]):
                 _row = ""
                 for _x in range(borders[0], borders[1]):

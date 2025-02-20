@@ -1,11 +1,11 @@
 from engine.handbook import Command, CommandList
 
-sys_cmds:CommandList
+class SysCommands(CommandList):
 
-def __init__(self):
-    print(self.commands)
+    def build_system_commands(self):
+        self.command_list["SYS", self._sys_EXIT("Exit", self._sys_EXIT._sys_exit)]
+        print(self.commands)
 
-def _sys_EXIT(self):
-    pass
-
-sys_cmds.append("Exit", Command("Exit",_sys_EXIT))
+    class _sys_EXIT(Command):
+        def _sys_exit():
+            print("Exit")

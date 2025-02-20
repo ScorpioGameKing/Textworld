@@ -11,7 +11,7 @@ class TextworldGameManagementSystem(Widget):
         super(TextworldGameManagementSystem, self).__init__(**kwargs)
         self._keyboard:Keyboard
         self.get_focus()
-        self.world_position = Coords(0, 0)
+        self.world_position = Coords(1, 1)
 
     def get_focus(self) -> None:
         self._keyboard = Window.request_keyboard(self._on_keyboard_closed, self)
@@ -30,22 +30,22 @@ class TextworldGameManagementSystem(Widget):
                 self.camera.position.x -= 1
                 if self.camera.position.x < 0:
                     self.camera.position.x = self.camera.chunk_size.width - 1
-                    self.world_position.x -= 1
+                    #self.world_position.x -= 1
             case 'right':
                 self.camera.position.x += 1
                 if self.camera.position.x > self.camera.chunk_size.width:
                     self.camera.position.x = 1
-                    self.world_position.x += 1
+                    #self.world_position.x += 1
             case 'up':
                 self.camera.position.y -= 1
                 if self.camera.position.y < 0:
                     self.camera.position.y = self.camera.chunk_size.height - 1
-                    self.world_position.y -= 1
+                    #self.world_position.y -= 1
             case 'down':
                 self.camera.position.y += 1
                 if self.camera.position.y > self.camera.chunk_size.height:
                     self.camera.position.y = 1
-                    self.world_position.y += 1
+                    #self.world_position.y += 1
 
     def buildCamera(self, _view_size:Size = Size(25, 106), _chunk_size:Size = Size(150, 150)) -> None:
         self.camera = TextworldCamera(_view_size, _chunk_size)
@@ -76,14 +76,14 @@ class TextworldGameManagementSystem(Widget):
             self.world_position,
             self.active_map, # Center Chunk Seperated for faster viewport
             [ # Surrounding 8 list, Only look at those in the veiwport based on how it overflows the main chunk
-            [self.getMap(Coords(self.world_position.x - 1, self.world_position.y - 1)) , # Top Left [0][0]
-             self.getMap(Coords(self.world_position.x, self.world_position.y - 1)) , # Top [0][1]
-             self.getMap(Coords(self.world_position.x + 1, self.world_position.y - 1))], # Top Right [0][2]
-            [self.getMap(Coords(self.world_position.x - 1, self.world_position.y)) , # Left [1][0]
-             self.getMap(Coords(self.world_position.x + 1, self.world_position.y))], # Right [1][1]
-            [self.getMap(Coords(self.world_position.x - 1, self.world_position.y + 1)) , # Bottom Left [2][0]
-             self.getMap(Coords(self.world_position.x, self.world_position.y + 1)) , # Bottom [2][1]
-             self.getMap(Coords(self.world_position.x + 1, self.world_position.y + 1))], # Bottom Right [2][2]
+            [self.active_world[self.world_position.x - 1, self.world_position.y - 1] , # Top Left [0][0]
+             self.active_world[self.world_position.x, self.world_position.y - 1] , # Top [0][1]
+             self.active_world[self.world_position.x + 1, self.world_position.y - 1]], # Top Right [0][2]
+            [self.active_world[self.world_position.x - 1, self.world_position.y] , # Left [1][0]
+             self.active_world[self.world_position.x + 1, self.world_position.y]], # Right [1][1]
+            [self.active_world[self.world_position.x - 1, self.world_position.y + 1] , # Bottom Left [2][0]
+             self.active_world[self.world_position.x, self.world_position.y + 1] , # Bottom [2][1]
+             self.active_world[self.world_position.x + 1, self.world_position.y + 1]], # Bottom Right [2][2]
         ])
         display.update_text(view_text)
         if command_input.typing:
