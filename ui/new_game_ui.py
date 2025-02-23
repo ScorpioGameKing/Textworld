@@ -1,8 +1,9 @@
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
+from kivy.uix.progressbar import ProgressBar
 from kivy.properties import ObjectProperty
-from database import WorldDatabase
+import math as m
 
 class TextworldNGTitle(Label):
     pass
@@ -19,12 +20,18 @@ class TextworldNGCountRow(BoxLayout):
 class TextworldNGButtonRow(BoxLayout):
     pass
 
+class TextworldNGProgressBar(ProgressBar):
+    def update_progress(self, _value:float):
+        print(f"Updating: {_value}")
+        self.value = _value
+
 class TextworldNGLayout(BoxLayout):
     title = ObjectProperty(None)
     name_row = ObjectProperty(None)
     size_row = ObjectProperty(None)
     count_row = ObjectProperty(None)
     button_row = ObjectProperty(None)
+    progress = ObjectProperty(None)
 
 class TextworldNGScreen(Screen):
     layout = ObjectProperty(None)

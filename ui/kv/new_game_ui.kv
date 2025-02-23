@@ -11,6 +11,7 @@
 <TextworldNGNameRow>:
     orientation: 'horizontal'
     padding: [8,8,8,8]
+    save_name: save_name
     Label:
         markup: True
         font_name: ".\Fonts\Monocraft.ttf"
@@ -29,6 +30,7 @@
 <TextworldNGSizeRow>:
     orientation: 'horizontal'
     padding: [8,8,8,8]
+    chunk_size: chunk_size
     Label:
         markup: True
         font_name: ".\Fonts\Monocraft.ttf"
@@ -47,6 +49,7 @@
 <TextworldNGCountRow>:
     orientation: 'horizontal'
     padding: [8,8,8,8]
+    chunk_count: chunk_count
     Label:
         markup: True
         font_name: ".\Fonts\Monocraft.ttf"
@@ -80,6 +83,13 @@
         halign: 'center'
         valign: 'center'
         text: "Generate"
+        on_press: app.get_running_app().game.newGenMenuCall()
+
+<TextworldNGProgressBar>:
+    size_hint_y: None
+    size: (self.width, 64)
+    min: 0
+    max: 1
 
 <TextworldNGLayout>:
     orientation: 'vertical'
@@ -89,6 +99,7 @@
     size_row: size_row
     count_row: count_row
     button_row: button_row
+    progress: progress
     TextworldNGTitle:
         id: title
     TextworldNGNameRow:
@@ -99,6 +110,8 @@
         id: count_row
     TextworldNGButtonRow:
         id: button_row
+    TextworldNGProgressBar:
+        id: progress
 
 <TextworldNGScreen>:
     layout: layout
