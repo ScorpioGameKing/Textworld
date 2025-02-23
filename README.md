@@ -2,6 +2,8 @@
 
 #### -Yet another version of Textworld.
 
+![image info](./git_data/images/037%20Temp%20Main%20Menu%201.png)
+
 ## Foreward
   -- Now what do I mean by "another" version? Well scattered arcoss my github are various repos name
   "Textworld" this or "Heartbeat" something. There's even a few generic "Language/Service" name "engine"
@@ -9,10 +11,12 @@
   start to paint a picture of my interests.
 
   -- Textworld started as a small Javascript game I made years ago in middle school. It was as simple as
-  you could get, Attack, Defend, Run, 3 actions and some pretty cheesy writing but it worked and it was
+  you could get, Attack and Run, 2 actions and some pretty cheesy writing but it worked and it was
   a game I made, the beginning of Textworld.
 
-  -- Textworld quickly went from a simple 3 command game to a randomly generated open world dungeon
+  ![image info](./git_data/images/TextFightRunning.png)
+
+  -- Textworld quickly went from a simple 2 command game to a randomly generated open world dungeon
   crawler. Towns and dungeons would spawn around a grid and you'd spawn somewhere on the map. As you
   traveled the map and slayed monsters you'd gain XP and increase your level. It wasn't much but there was
   the begining to a progression system, having been a Disgaea player most my life I wanted to have
@@ -26,6 +30,8 @@
   my other Repo [Godot-Textworld](https://github.com/ScorpioGameKing/Godot-TextWorldRPG) was
   the project. But just before that there was one other project. A theoretical one that gave me a
   new spark and desire to work on Textworld.
+
+  ![image info](./git_data/images/000%20display.png)
 
   -- I'm a big fan of Rouge-likes and lites as well as old school dungeon crawlers. I'm an avid survial game
   player, randomly generated worlds can have such potential for emergent gameplay with creating bases and
