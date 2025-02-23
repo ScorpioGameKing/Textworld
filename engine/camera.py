@@ -24,24 +24,61 @@ class TextworldCamera():
             (self.viewport_dim_offset[2] + self.position.y), (self.viewport_dim_offset[3] + self.position.y)
             ]
 
-        # Main & Top
+        # Top Checks
         if borders[2] < 0:
-            #logging.debug(f"TopMain Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Top Range: {self.chunk_size.height + borders[2], self.chunk_size.height} Main Range: {0, borders[3]}")
 
-            # Top
-            if surrounding_8[0][1] != None:
-                for _y in range(self.chunk_size.height + borders[2], self.chunk_size.height):
+            # Top Left + Top & Left + Main
+            if borders[0] < 0:
+                view_string += "TL T L M"
+
+            # Top + Top Right & Main + Right
+            elif borders[1] > self.chunk_size.width:
+                view_string += "T TR M R"
+            
+            # Top & Main
+            else:
+                logging.debug(f"TopMain Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Top Range: {self.chunk_size.height + borders[2], self.chunk_size.height} Main Range: {0, borders[3]}")
+
+                # Top
+                if surrounding_8[0][1] != None:
+                    for _y in range(self.chunk_size.height + borders[2], self.chunk_size.height):
+                        for _x in range(borders[0], borders[1]):
+                            view_string += f"[color=#{surrounding_8[0][1][_x, _y].color}]{surrounding_8[0][1][_x, _y].tile_char}[/color]"
+
+                # Main
+                for _y in range(0, borders[3]):
                     for _x in range(borders[0], borders[1]):
-                        view_string += f"[color=#{surrounding_8[0][1][_x, _y].color}]{surrounding_8[0][1][_x, _y].tile_char}[/color]"
+                        view_string += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
 
-            # Main
-            for _y in range(0, borders[3]):
-                for _x in range(borders[0], borders[1]):
-                    view_string += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+        # Bottom Checks
+        elif borders[3] > self.chunk_size.height:
+
+            # Left + Main & Bottom Left + Bottom
+            if borders[0] < 0:
+                view_string += "L M BL B"
+
+            # Main + Right & Bottom + Bottom Right
+            elif borders[1] > self.chunk_size.width:
+                view_string += "M R B BR"
+            
+            # Main & Bottom
+            else:
+                logging.debug(f"MainBottom Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Main Range: {borders[2], self.chunk_size.height} Bottom Range: {0, borders[3] - self.chunk_size.height}")
+
+                # Main
+                for _y in range(borders[2], self.chunk_size.height):
+                    for _x in range(borders[0], borders[1]):
+                        view_string += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                
+                # Bottom
+                if surrounding_8[2][1] != None:
+                    for _y in range(0, borders[3] - self.chunk_size.height):
+                        for _x in range(borders[0], borders[1]):
+                            view_string += f"[color=#{surrounding_8[2][1][_x, _y].color}]{surrounding_8[2][1][_x, _y].tile_char}[/color]"
 
         # Main & Right
         elif borders[1] > self.chunk_size.width:
-            #logging.debug(f"MainRight Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Main Range: {borders[0], self.chunk_size.width} Right Range: {0, borders[1] - self.chunk_size.width}")
+            logging.debug(f"MainRight Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Main Range: {borders[0], self.chunk_size.width} Right Range: {0, borders[1] - self.chunk_size.width}")
             
             main_h = []
             right_h = []
@@ -70,7 +107,7 @@ class TextworldCamera():
         
         # Left & Main
         elif borders[0] < 0:
-            #logging.debug(f"MainLeft Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Left Range: {self.chunk_size.width + borders[0], self.chunk_size.width} Main Range: {0, borders[1]} ")
+            logging.debug(f"MainLeft Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Left Range: {self.chunk_size.width + borders[0], self.chunk_size.width} Main Range: {0, borders[1]} ")
 
             left_h = []
             main_h = []
@@ -97,26 +134,9 @@ class TextworldCamera():
                 for string in main_h:
                     view_string += f"{string}"
 
-
-        # Main & Bottom
-        elif borders[3] > self.chunk_size.height:
-            #logging.debug(f"MainBottom Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Main Range: {borders[2], self.chunk_size.height} Bottom Range: {0, borders[3] - self.chunk_size.height}")
-
-            # Main
-            for _y in range(borders[2], self.chunk_size.height):
-                for _x in range(borders[0], borders[1]):
-                    view_string += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
-            
-            # Bottom
-            if surrounding_8[2][1] != None:
-                for _y in range(0, borders[3] - self.chunk_size.height):
-                    for _x in range(borders[0], borders[1]):
-                        view_string += f"[color=#{surrounding_8[2][1][_x, _y].color}]{surrounding_8[2][1][_x, _y].tile_char}[/color]"
-
         # Main Only
         else:
-            #logging.debug(f"Main Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
-
+            logging.debug(f"Main Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
             for _y in range(borders[2], borders[3]):
                 for _x in range(borders[0], borders[1]):
                     view_string += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
