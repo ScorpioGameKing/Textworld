@@ -1,6 +1,6 @@
 #:kivy 1.0.9
 
-<TextworldDisplay>:
+<TextworldGDisplay>:
     markup: True
     font_name: ".\Fonts\Monocraft.ttf"
     font_size: 12
@@ -8,7 +8,7 @@
     halign: 'center'
     valign: 'center'
 
-<TextworldCommandTerminal>:
+<TextworldGTerminal>:
     canvas:
         Color:
             rgba: (.15, .35, .35, .25)
@@ -22,14 +22,14 @@
     halign: 'left'
     valign: 'bottom'
 
-<TextworldCommandInput>:
+<TextworldGInput>:
     multiline: False
     font_name: ".\Fonts\Monocraft.ttf"
     font_size: 18
     size_hint_y: None
     height: 34
 
-<TextworldGameMenu>:
+<TextworldGMenu>:
     markup: True
     font_name: ".\Fonts\Monocraft.ttf"
     font_size: 18
@@ -37,7 +37,7 @@
     halign: 'center'
     valign: 'top'
 
-<TextworldLeftLayout>:
+<TextworldLLayout>:
     canvas:
         Color:
             rgba: (.0625, .0625, .0625, 1)
@@ -50,19 +50,19 @@
     display: display
     command_terminal: command_terminal
     command_input: command_input
-    TextworldDisplay:
+    TextworldGDisplay:
         id: display
-    TextworldCommandTerminal:
+    TextworldGTerminal:
         id: command_terminal
-    TextworldCommandInput:
+    TextworldGInput:
         id: command_input
 
-<TextworldRightLayout>:
+<TextworldRLayout>:
     padding: [2,2,2,2]
     size_hint: (.75, 1)
     game_menu: game_menu
     orientation: 'horizontal'
-    TextworldGameMenu:
+    TextworldGMenu:
         id: game_menu
 
 <TextworldMiddleLayout>:
@@ -78,15 +78,20 @@
     #menu_buttons: menu_buttons
     orientation: 'horizontal'
 
-<TextworldGameLayout>:
+<TextworldGLayout>:
     padding: [2,2,2,2]
     left_panel: left_panel
     middle_panel: middle_panel
     right_panel: right_panel
     orientation: 'horizontal'
-    TextworldLeftLayout:
+    TextworldLLayout:
         id: left_panel
     TextworldMiddleLayout:
         id: middle_panel
-    TextworldRightLayout:
+    TextworldRLayout:
         id: right_panel
+
+<TextworldGScreen>:
+    game_layout: game_ui
+    TextworldGLayout:
+        id: game_ui

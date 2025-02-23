@@ -1,0 +1,119 @@
+#:kivy 1.0.9
+
+<TextworldNGTitle>:
+    markup: True
+    font_name: ".\Fonts\Monocraft.ttf"
+    font_size: 64
+    halign: 'center'
+    valign: 'center'
+    text: "World Generation Settings"
+
+<TextworldNGNameRow>:
+    orientation: 'horizontal'
+    padding: [8,8,8,8]
+    save_name: save_name
+    Label:
+        markup: True
+        font_name: ".\Fonts\Monocraft.ttf"
+        font_size: 24
+        halign: 'center'
+        valign: 'center'
+        text: "Save Name"
+    TextInput:
+        id: save_name
+        multiline: False
+        font_name: ".\Fonts\Monocraft.ttf"
+        font_size: 24
+        size_hint_y: None
+        height: 34
+    
+<TextworldNGSizeRow>:
+    orientation: 'horizontal'
+    padding: [8,8,8,8]
+    chunk_size: chunk_size
+    Label:
+        markup: True
+        font_name: ".\Fonts\Monocraft.ttf"
+        font_size: 24
+        halign: 'center'
+        valign: 'center'
+        text: "Chunk Size"
+    TextInput:
+        id: chunk_size
+        multiline: False
+        font_name: ".\Fonts\Monocraft.ttf"
+        font_size: 24
+        size_hint_y: None
+        height: 34
+
+<TextworldNGCountRow>:
+    orientation: 'horizontal'
+    padding: [8,8,8,8]
+    chunk_count: chunk_count
+    Label:
+        markup: True
+        font_name: ".\Fonts\Monocraft.ttf"
+        font_size: 24
+        halign: 'center'
+        valign: 'center'
+        text: "Chunk Count"
+    TextInput:
+        id: chunk_count
+        multiline: False
+        font_name: ".\Fonts\Monocraft.ttf"
+        font_size: 24
+        size_hint_y: None
+        height: 34
+
+<TextworldNGButtonRow>:
+    orientation: 'horizontal'
+    padding: [8,8,8,8]
+    Button:
+        markup: True
+        font_name: ".\Fonts\Monocraft.ttf"
+        font_size: 24
+        halign: 'center'
+        valign: 'center'
+        text: "Back"
+        on_press: app.get_running_app().game.current = 'main_menu_ui'
+    Button:
+        markup: True
+        font_name: ".\Fonts\Monocraft.ttf"
+        font_size: 24
+        halign: 'center'
+        valign: 'center'
+        text: "Generate"
+        on_press: app.get_running_app().game.newGenMenuCall()
+
+<TextworldNGProgressBar>:
+    size_hint_y: None
+    size: (self.width, 64)
+    min: 0
+    max: 1
+
+<TextworldNGLayout>:
+    orientation: 'vertical'
+    padding: [8,8,8,8]
+    title: title
+    name_row: name_row
+    size_row: size_row
+    count_row: count_row
+    button_row: button_row
+    progress: progress
+    TextworldNGTitle:
+        id: title
+    TextworldNGNameRow:
+        id: name_row
+    TextworldNGSizeRow:
+        id: size_row
+    TextworldNGCountRow:
+        id: count_row
+    TextworldNGButtonRow:
+        id: button_row
+    TextworldNGProgressBar:
+        id: progress
+
+<TextworldNGScreen>:
+    layout: layout
+    TextworldNGLayout:
+        id: layout
