@@ -8,6 +8,7 @@ from ui.new_game_ui import TextworldNGScreen
 from generation import TextworldWorld
 from models import Size
 from database import WorldDatabase
+import logging
 
 class TextworldUIManager(ScreenManager):
     def __init__(self, **kwargs):
@@ -35,16 +36,19 @@ class TextworldUIManager(ScreenManager):
         _save_name = self.get_screen(self.current).layout.name_row.save_name.text
         _chunk_size = self.get_screen(self.current).layout.size_row.chunk_size.text
         _chunk_count = self.get_screen(self.current).layout.count_row.chunk_count.text
+        
         try:
             _chunk_size = int(_chunk_size)
         except:
-            print("Size is not a number!")
+            logging.debug("Size is not a number!")
             pass
+
         try:
             _chunk_count = int(_chunk_count)
         except:
-            print("count is not a number!")
+            logging.debug("Count is not a number!")
             pass
+
         if type(_chunk_size) == int and type(_chunk_count) == int:
             world = TextworldWorld(chunk_count=Size(_chunk_count,_chunk_count), chunk_size=Size(_chunk_size,_chunk_size))
             world.generate_map()

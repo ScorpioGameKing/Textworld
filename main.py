@@ -1,6 +1,6 @@
 from kivy.app import App
 from engine.ui_manager import TextworldUIManager
-from database import WorldDatabase, Database
+from database import Database
 from database import Color, World, Tile
 
 # The main kivy App, build the required parts, schedule the loops and return
@@ -18,5 +18,5 @@ class TextworldApp(App):
 # Config Write settings to be moved
 if __name__ == '__main__':
     with Database() as db:
-        db.init_db(Color.INIT, Color.FILL, Tile.INIT, World.INIT)
+        db.init_db(Color.INIT, Color.FILL, Tile.INIT, Tile.FILL, World.INIT)
     TextworldApp().run()

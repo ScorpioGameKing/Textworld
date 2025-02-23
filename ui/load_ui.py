@@ -4,6 +4,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
 from kivy.app import App
 from database import WorldDatabase
+import logging
 
 class LoadedSaveBtn(Button):
 
@@ -13,9 +14,9 @@ class LoadedSaveBtn(Button):
         self.db = db
     
     def on_press(self):
-        print(f"On_Press Parent {self.parent.parent.parent.parent.parent}")
+        logging.debug(f"On_Press Parent {self.parent.parent.parent.parent.parent}")
         world_data = self.db.load_world_from_db(self.id)
-        print(world_data)
+        logging.debug(world_data)
         App.get_running_app().game.loadSaveMenuCall(world_data)
         return super().on_press()
 
@@ -23,7 +24,7 @@ class TextworldLdSaveView(BoxLayout):
 
     def updateWorldList(self, db):
         self.worlds = db.load_save_names()
-        print(f"Children: {self.children} Count: {len(self.children)} db Count: {len(self.worlds)}")
+        logging.debug(f"Children: {self.children} Count: {len(self.children)} db Count: {len(self.worlds)}")
         for i in range(len(self.worlds)):
             if len(self.children) > 0:
                 if self.children[i - 1].text == self.worlds[i - 1]:
@@ -36,7 +37,7 @@ class TextworldLdSaveView(BoxLayout):
                 btn = LoadedSaveBtn(world=self.worlds[i - 1], db=db, text=self.worlds[i - 1])
                 self.ids[f'{self.worlds[i - 1]}'] = btn
                 self.add_widget(btn)
-        print(f"Layout Children: {self.ids} Count: {len(self.children)}")
+        logging.debug(f"Layout Children: {self.ids} Count: {len(self.children)}")
         
 
 class TextworldLdBackBtn(Button):

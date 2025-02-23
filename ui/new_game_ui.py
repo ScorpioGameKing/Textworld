@@ -3,7 +3,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.progressbar import ProgressBar
 from kivy.properties import ObjectProperty
-import math as m
+import logging
 
 class TextworldNGTitle(Label):
     pass
@@ -22,7 +22,7 @@ class TextworldNGButtonRow(BoxLayout):
 
 class TextworldNGProgressBar(ProgressBar):
     def update_progress(self, _value:float):
-        print(f"Updating: {_value}")
+        logging.debug(f"Updating: {_value}")
         self.value = _value
 
 class TextworldNGLayout(BoxLayout):

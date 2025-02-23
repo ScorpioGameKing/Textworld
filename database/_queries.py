@@ -37,6 +37,10 @@ class Tile:
     SELECT_WITH_COLORS_BY_NOISE = """
     SELECT tiles.tile, colors.bbstring FROM tiles JOIN colors USING (cid) WHERE min_noise <= ? AND max_noise > ? AND tile != 'X'
     """
+
+    SELECT_ALL = """
+    SELECT tiles.tile, tiles.name, tiles.min_noise, tiles.max_noise, colors.bbstring FROM tiles JOIN colors USING (cid)
+    """
     
 class World:
     

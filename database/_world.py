@@ -1,5 +1,6 @@
 from database._base import Database
 import pickle
+import logging
 from database._queries import World as WorldQueries
 class WorldDatabase(Database):
 
@@ -21,7 +22,7 @@ class WorldDatabase(Database):
         names = []
         with self._get_cursor() as cur:
             name = cur.fetch_many(WorldQueries.SELECT_ALL_NAMES)
-            print(f"FROM DB SELECT_ALL_NAMES: {name}")
+            logging.debug(f"FROM DB SELECT_ALL_NAMES: {name}")
             for n in name:
                 names.append(n[0])
             return names

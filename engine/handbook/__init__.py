@@ -1,14 +1,12 @@
-from engine.handbook.command import Command
-from engine.handbook._command_list import CommandList
 from engine.handbook._lexer import HandbookLexer
-from engine.handbook._sys_commands import SysCommands
+from engine.handbook._parser import HandbookParser
 
 class HandbookLang():
 
     def __init__(self):
         self.lexer = HandbookLexer()
-        self._sys_commands = SysCommands()
-
-    # KEY ERRORs are pain
-    def build_default_commands(self):
-        self._sys_commands.build_system_commands()
+        self.parser = HandbookParser()
+    
+    def execute(self, text):
+        token_list = self.lexer.lex_raw_string(text)
+        self.parser.parse_token_list(token_list)

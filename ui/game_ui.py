@@ -53,7 +53,7 @@ class TextworldGTerminal(Label):
         if text == "":
             return
         else:
-            self.handbook.lexer.lexRawString(text)
+            self.handbook.execute(text)
             self.command_queue.append(text)
             self.text += f'{text}\n'
         if len(self.command_queue) > self.max_queue:

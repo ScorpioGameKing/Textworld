@@ -3,6 +3,7 @@ from kivy.core.window import Window, Keyboard
 from generation import TextworldMap, TextworldWorld
 from engine.camera import TextworldCamera
 from models import Size, Coords
+import logging
 
 # Management system. This is the center for most data, Map, World, Active NPC lists, etc
 class TextworldGameManagementSystem(Widget):
@@ -11,7 +12,7 @@ class TextworldGameManagementSystem(Widget):
         super(TextworldGameManagementSystem, self).__init__(**kwargs)
         self._keyboard:Keyboard
         self.get_focus()
-        self.world_position = Coords(3, 3)
+        self.world_position = Coords(0, 0)
 
     def get_focus(self) -> None:
         self._keyboard = Window.request_keyboard(self._on_keyboard_closed, self)
@@ -24,7 +25,7 @@ class TextworldGameManagementSystem(Widget):
     # Keyboard Parsing, May move to standalone class and just pass keys
     def _on_key_down(self, keyboard, keycode, text, modifiers) -> None:
         # keycode is a tuple (integer, string)
-        #print(keycode[1])
+        #logging.debug(keycode[1])
         match keycode[1]:
             case 'left':
                 self.camera.position.x -= 1
@@ -61,7 +62,7 @@ class TextworldGameManagementSystem(Widget):
 
     def setMap(self, pos:Coords) -> None:
         self.active_map = self.active_world[pos.x, pos.y]
-        print(self.active_world[pos.x, pos.y])
+        logging.debug(self.active_world[pos.x, pos.y])
 
     # Get a World Map, none if OOB currently, eventually proc new generation
     def getMap(self, pos:Coords) -> TextworldMap | None:
@@ -72,8 +73,8 @@ class TextworldGameManagementSystem(Widget):
         
     # Display Render Loop
     def update_display(self, display, command_input, dt) -> None:
-        #print(f"Chunk Count: {self.active_world.chunk_count}")
-        #print(f"TL: {self.world_position.x - 1, self.world_position.y - 1} T: {self.world_position.x, self.world_position.y - 1} TR: {self.world_position.x + 1, self.world_position.y - 1} \n R: {self.world_position.x - 1, self.world_position.y} M: {self.world_position.x, self.world_position.y} L: {self.world_position.x + 1, self.world_position.y}\n BL: {self.world_position.x - 1, self.world_position.y + 1} B: {self.world_position.x, self.world_position.y + 1} BR: {self.world_position.x + 1, self.world_position.y + 1}")
+        #logging.debug(f"Chunk Count: {self.active_world.chunk_count}")
+        #logging.debug(f"TL: {self.world_position.x - 1, self.world_position.y - 1} T: {self.world_position.x, self.world_position.y - 1} TR: {self.world_position.x + 1, self.world_position.y - 1} \n R: {self.world_position.x - 1, self.world_position.y} M: {self.world_position.x, self.world_position.y} L: {self.world_position.x + 1, self.world_position.y}\n BL: {self.world_position.x - 1, self.world_position.y + 1} B: {self.world_position.x, self.world_position.y + 1} BR: {self.world_position.x + 1, self.world_position.y + 1}")
         view_text = self.camera.selectViewportArea(
             self.world_position,
             self.active_map, # Center Chunk Seperated for faster viewport

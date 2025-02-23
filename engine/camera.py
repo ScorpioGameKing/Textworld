@@ -1,6 +1,7 @@
 from generation import TextworldMap
 from models import Coords, Size
 import math as m
+import logging
 
 class TextworldCamera():
     def __init__(self, _view_size:Size, _chunk_size:Size) -> None:
@@ -18,13 +19,14 @@ class TextworldCamera():
 
     def selectViewportArea(self, chunk_pos:Coords, main_chunk:TextworldMap, surrounding_8) -> str:
         view_string = ""
-        borders = [(self.viewport_dim_offset[0] + self.position.x), (self.viewport_dim_offset[1] + self.position.x), (self.viewport_dim_offset[2] + self.position.y), (self.viewport_dim_offset[3] + self.position.y)]
-        
-        #print(f"Above: {surrounding_8[0]} LR: {surrounding_8[1]} Below: {surrounding_8[2]}")
+        borders = [  # MIN | MAX, MIN | MAX
+            (self.viewport_dim_offset[0] + self.position.x), (self.viewport_dim_offset[1] + self.position.x),
+            (self.viewport_dim_offset[2] + self.position.y), (self.viewport_dim_offset[3] + self.position.y)
+            ]
 
         # Main & Top
         if borders[2] < 0:
-            print(f"TopMain Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Top Range: {self.chunk_size.height + borders[2], self.chunk_size.height} Main Range: {0, borders[3]}")
+            #logging.debug(f"TopMain Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Top Range: {self.chunk_size.height + borders[2], self.chunk_size.height} Main Range: {0, borders[3]}")
 
             # Top
             if surrounding_8[0][1] != None:
@@ -39,7 +41,7 @@ class TextworldCamera():
 
         # Main & Right
         elif borders[1] > self.chunk_size.width:
-            print(f"MainRight Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Main Range: {borders[0], self.chunk_size.width} Right Range: {0, borders[1] - self.chunk_size.width}")
+            #logging.debug(f"MainRight Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Main Range: {borders[0], self.chunk_size.width} Right Range: {0, borders[1] - self.chunk_size.width}")
             
             main_h = []
             right_h = []
@@ -68,7 +70,7 @@ class TextworldCamera():
         
         # Left & Main
         elif borders[0] < 0:
-            print(f"MainLeft Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Left Range: {self.chunk_size.width + borders[0], self.chunk_size.width} Main Range: {0, borders[1]} ")
+            #logging.debug(f"MainLeft Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Left Range: {self.chunk_size.width + borders[0], self.chunk_size.width} Main Range: {0, borders[1]} ")
 
             left_h = []
             main_h = []
@@ -98,7 +100,7 @@ class TextworldCamera():
 
         # Main & Bottom
         elif borders[3] > self.chunk_size.height:
-            print(f"MainBottom Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Main Range: {borders[2], self.chunk_size.height} Bottom Range: {0, borders[3] - self.chunk_size.height}")
+            #logging.debug(f"MainBottom Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Main Range: {borders[2], self.chunk_size.height} Bottom Range: {0, borders[3] - self.chunk_size.height}")
 
             # Main
             for _y in range(borders[2], self.chunk_size.height):
@@ -113,7 +115,7 @@ class TextworldCamera():
 
         # Main Only
         else:
-            print(f"Main Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
+            #logging.debug(f"Main Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
 
             for _y in range(borders[2], borders[3]):
                 for _x in range(borders[0], borders[1]):

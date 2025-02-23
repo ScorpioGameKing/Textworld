@@ -9,7 +9,6 @@ class TextworldMap():
     __tiles: dict[Coords, Tile]
     noise: np.typing.NDArray
     
-    
     def __init__(self,chunk_size: Size[int]):
         self.rows = chunk_size.height
         self.columns = chunk_size.width

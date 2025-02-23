@@ -8,8 +8,6 @@ from generation.generator import TextworldGenerator
 import pickle, gzip, threading, math, logging
 import numpy as np
 
-logging.basicConfig(level=logging.DEBUG)
-
 class TextworldWorld():
     __chunks: dict[Coords, np.array] = {}
     _chunk_count: Size[int]
@@ -39,8 +37,8 @@ class TextworldWorld():
             logging.debug(f'Height values {0 - half_height} , {half_height}')
             logging.debug(f'Width values {0 - half_width} , {half_width}')
             logging.debug(f'Chunk area {self.chunk_count.area()}')
-            for y in range(self.chunk_count.height):
-                for x in range(self.chunk_count.width):
+            for y in range(-half_height, half_height):
+                for x in range(-half_width, half_width):
                     self.__generate_chunk(Coords(x,y), generator)
                 
         logging.debug('Chunk generation finished')     

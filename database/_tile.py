@@ -1,6 +1,7 @@
 from database._base import Database
 from database._queries import Tile as TileQueries
 from models import Tile
+import logging
 
 class TileDatabase(Database):
 
@@ -13,11 +14,12 @@ class TileDatabase(Database):
     
     def get_tile_by_noise(self, noise: float) -> Tile:
         try:
-            tiles = self.execute_many(TileQueries.SELECT_WITH_COLORS)
-            
+            tiles = self.execute_many(TileQueries.SELECT_ALL)
+            #logging.debug(f"Tiles: {tiles}")
             for t in tiles:
                 if t[2] != None and t[3] != None and t[2] <= noise < t[3]:
-                    return Tile(t[0], t[1])
+                    return Tile(t[0], t[4], t[1])
                 
         except:
+            logging.debug(f"FAILED TO GET TILE WITH NOISE: {noise}")
             return None
