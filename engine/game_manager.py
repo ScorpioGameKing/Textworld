@@ -72,6 +72,8 @@ class TextworldGameManagementSystem(Widget):
         
     # Display Render Loop
     def update_display(self, display, command_input, dt) -> None:
+        #print(f"Chunk Count: {self.active_world.chunk_count}")
+        #print(f"TL: {self.world_position.x - 1, self.world_position.y - 1} T: {self.world_position.x, self.world_position.y - 1} TR: {self.world_position.x + 1, self.world_position.y - 1} \n R: {self.world_position.x - 1, self.world_position.y} M: {self.world_position.x, self.world_position.y} L: {self.world_position.x + 1, self.world_position.y}\n BL: {self.world_position.x - 1, self.world_position.y + 1} B: {self.world_position.x, self.world_position.y + 1} BR: {self.world_position.x + 1, self.world_position.y + 1}")
         view_text = self.camera.selectViewportArea(
             self.world_position,
             self.active_map, # Center Chunk Seperated for faster viewport
