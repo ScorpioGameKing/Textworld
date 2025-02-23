@@ -1,12 +1,15 @@
 #:kivy 1.0.9
 
 <LoadedSaveBtn>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size: (200, 100)
-    text_size: self.size
     halign: 'center'
     valign: 'top'
+    font_name: ".\Fonts\Monocraft.ttf"
+    font_size: 24
+    size_hint_y: None
+    size_hint_x: None
+    size: (200, 100)
+    text_size: self.size
+   
 
 <TextworldLdSaveView>:
     orientation: 'vertical'
@@ -17,7 +20,7 @@
     font_size: 24
     size_hint: (.25, .25)
     text: "Back"
-    on_press: self.parent.parent.parent.manager.current = 'main_menu_ui'
+    on_press: app.get_running_app().game.current = 'main_menu_ui'
 
 <TextworldLdLeftPanel>:
     save_view: save_view

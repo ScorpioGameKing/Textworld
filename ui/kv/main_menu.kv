@@ -13,13 +13,14 @@
     font_size: 24
     size_hint: (.25, .25)
     text: "New Game"
+    on_press: app.get_running_app().game.current = 'new_gen_ui'
     
 <TextworldMMLoad>:
     font_name: ".\Fonts\Monocraft.ttf"
     font_size: 24
     size_hint: (.25, .25)
     text: "Load Game"
-    on_press: self.parent.parent.manager.current = 'load_ui'
+    on_press: app.get_running_app().game.current = 'load_ui'
 
 <TextworldMMTools>:
     font_name: ".\Fonts\Monocraft.ttf"
@@ -32,6 +33,7 @@
     font_size: 24
     size_hint: (.25, .25)
     text: "Exit Game"
+    on_press: app.get_running_app().stop()
 
 <TextworldMMLayout>
     orientation: 'vertical'
