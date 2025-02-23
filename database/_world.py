@@ -18,6 +18,11 @@ class WorldDatabase(Database):
         world = pickle.loads(db_world[0])
         return world
 
+    def delete_world_from_db(self, save_name:str):
+        with self._get_cursor() as cur:
+            cur.fetch_one(WorldQueries.DELETE_BY_NAME, [save_name])
+            logging.debug(f"DELETED: {save_name}")
+
     def load_save_names(self):
         names = []
         with self._get_cursor() as cur:

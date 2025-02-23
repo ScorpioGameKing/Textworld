@@ -68,6 +68,10 @@ class World:
     SELECT load_world(world) FROM worlds WHERE save_name = ?
     """
 
+    DELETE_BY_NAME = """
+    DELETE FROM worlds WHERE save_name = ?
+    """
+
 class Color:
     INIT = """
     CREATE TABLE IF NOT EXISTS colors (

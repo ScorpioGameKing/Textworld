@@ -2,6 +2,8 @@ class Tokens:
     TOKENS:dict[str, str] = {
         # System Command Tokens
         "EXIT" : "SYS",
+        "EXIT_NS" : "SYS",
+        "SAVE" : "SYS",
 
         # Game Command Tokens
         "MOVE" : "ACT",

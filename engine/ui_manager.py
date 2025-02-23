@@ -27,8 +27,9 @@ class TextworldUIManager(ScreenManager):
         self.add_widget(TextworldLdScreen(name='load_ui'))
         self.add_widget(TextworldNGScreen(name='new_gen_ui'))
 
-    def loadSaveMenuCall(self, world):
+    def loadSaveMenuCall(self, world, save_name):
         self.current = 'game_ui'
+        self.screens[1].game_manager.save_name = save_name
         self.screens[1].game_manager.loadWorld(world)
         self.screens[1].game_manager.buildCamera()
     
@@ -55,5 +56,6 @@ class TextworldUIManager(ScreenManager):
             with WorldDatabase() as db:
                 db.save_world_to_db(world.save_world(), _save_name)
             self.current = 'game_ui'
+            self.screens[1].game_manager.save_name = _save_name
             self.screens[1].game_manager.loadWorld(world)
             self.screens[1].game_manager.buildCamera()
