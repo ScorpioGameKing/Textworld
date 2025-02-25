@@ -29,15 +29,100 @@ class TextworldCamera():
 
             # Top Left + Top & Left + Main
             if borders[0] < 0:
-                view_string += "TL T L M"
+                logging.debug(f"TopLCorner Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
+
+                tl_h, t_h, l_h, m_h = [], [], [], []
+
+                # Top Left
+                if surrounding_8[0][0] != None:
+                    for _y in range(self.chunk_size.height + borders[2], self.chunk_size.height):
+                        _row = ""
+                        for _x in range(self.chunk_size.width + borders[0], self.chunk_size.width):
+                            _row += f"[color=#{surrounding_8[0][0][_x, _y].color}]{surrounding_8[0][0][_x, _y].tile_char}[/color]"
+                        tl_h.append(_row)
+                
+                # Top
+                if surrounding_8[0][1] != None:
+                    for _y in range(self.chunk_size.height + borders[2], self.chunk_size.height):
+                        _row = ""
+                        for _x in range(0, borders[1]):
+                            _row += f"[color=#{surrounding_8[0][1][_x, _y].color}]{surrounding_8[0][1][_x, _y].tile_char}[/color]"
+                        t_h.append(_row)
+
+                # Left
+                if surrounding_8[1][0] != None:
+                    for _y in range(0, borders[3]):
+                        _row = ""
+                        for _x in range(self.chunk_size.width + borders[0], self.chunk_size.width):
+                            _row += f"[color=#{surrounding_8[1][0][_x, _y].color}]{surrounding_8[1][0][_x, _y].tile_char}[/color]"
+                        l_h.append(_row)
+                    
+                # Main
+                for _y in range(0, borders[3]):
+                    _row = ""
+                    for _x in range(0, borders[1]):
+                        _row += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                    m_h.append(_row)
+                
+                if len(tl_h) == len(t_h) and len(l_h) == len(m_h):
+                    for strings in zip(tl_h, t_h):
+                        view_string += f"{strings[0]}{strings[1]}"
+                    for strings in zip(l_h, m_h):
+                        view_string += f"{strings[0]}{strings[1]}"
+                else:
+                    for string in m_h:
+                        view_string += f"{string}"
 
             # Top + Top Right & Main + Right
             elif borders[1] > self.chunk_size.width:
-                view_string += "T TR M R"
+                logging.debug(f"TopRCorner Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
+
+                t_h, tr_h, r_h, m_h = [], [], [], []
+
+                # Top
+                if surrounding_8[0][1] != None:
+                    for _y in range(self.chunk_size.height + borders[2], self.chunk_size.height):
+                        _row = ""
+                        for _x in range(borders[0], self.chunk_size.width):
+                            _row += f"[color=#{surrounding_8[0][1][_x, _y].color}]{surrounding_8[0][1][_x, _y].tile_char}[/color]"
+                        t_h.append(_row)
+                
+                # Top Right
+                if surrounding_8[0][2] != None:
+                    for _y in range(self.chunk_size.height + borders[2], self.chunk_size.height):
+                        _row = ""
+                        for _x in range(0, borders[1] - self.chunk_size.width):
+                            _row += f"[color=#{surrounding_8[0][2][_x, _y].color}]{surrounding_8[0][2][_x, _y].tile_char}[/color]"
+                        tr_h.append(_row)
+
+                # Main
+                for _y in range(0, borders[3]):
+                    _row = ""
+                    for _x in range(borders[0], self.chunk_size.width):
+                        _row += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                    m_h.append(_row)
+                    
+                # Right
+                if surrounding_8[1][1] != None:
+                    for _y in range(0, borders[3]):
+                        _row = ""
+                        for _x in range(0, borders[1] - self.chunk_size.width):
+                            _row += f"[color=#{surrounding_8[1][1][_x, _y].color}]{surrounding_8[1][1][_x, _y].tile_char}[/color]"
+                        r_h.append(_row)
+                
+                # Stitching
+                if len(t_h) == len(tr_h) and len(m_h) == len(r_h):
+                    for strings in zip(t_h, tr_h):
+                        view_string += f"{strings[0]}{strings[1]}"
+                    for strings in zip(m_h, r_h):
+                        view_string += f"{strings[0]}{strings[1]}"
+                else:
+                    for string in m_h:
+                        view_string += f"{string}"
             
             # Top & Main
             else:
-                logging.debug(f"TopMain Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Top Range: {self.chunk_size.height + borders[2], self.chunk_size.height} Main Range: {0, borders[3]}")
+                logging.debug(f"TopMain Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
 
                 # Top
                 if surrounding_8[0][1] != None:
@@ -52,18 +137,104 @@ class TextworldCamera():
 
         # Bottom Checks
         elif borders[3] > self.chunk_size.height:
-
+            
             # Left + Main & Bottom Left + Bottom
             if borders[0] < 0:
-                view_string += "L M BL B"
+                logging.debug(f"BotLCorner Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
+
+                l_h, m_h, bl_h, b_h = [], [], [], []
+
+                # Left
+                if surrounding_8[1][0] != None:
+                    for _y in range(borders[2], self.chunk_size.height):
+                        _row = ""
+                        for _x in range(self.chunk_size.width + borders[0], self.chunk_size.width):
+                            _row += f"[color=#{surrounding_8[1][0][_x, _y].color}]{surrounding_8[1][0][_x, _y].tile_char}[/color]"
+                        l_h.append(_row)
+                
+                # Main
+                for _y in range(borders[2], self.chunk_size.height):
+                    _row = ""
+                    for _x in range(0, borders[1]):
+                        _row += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                    m_h.append(_row)
+
+                # Bottom Left
+                if surrounding_8[2][0] != None:
+                    for _y in range(0, borders[3] - self.chunk_size.height):
+                        _row = ""
+                        for _x in range(self.chunk_size.width + borders[0], self.chunk_size.width):
+                            _row += f"[color=#{surrounding_8[2][0][_x, _y].color}]{surrounding_8[2][0][_x, _y].tile_char}[/color]"
+                        bl_h.append(_row)
+                    
+                # Bottom
+                if surrounding_8[2][1] != None:
+                    for _y in range(0, borders[3] - self.chunk_size.height):
+                        _row = ""
+                        for _x in range(0, borders[1]):
+                            _row += f"[color=#{surrounding_8[2][1][_x, _y].color}]{surrounding_8[2][1][_x, _y].tile_char}[/color]"
+                        b_h.append(_row)
+                
+                if len(l_h) == len(m_h) and len(bl_h) == len(b_h):
+                    for strings in zip(l_h, m_h):
+                        view_string += f"{strings[0]}{strings[1]}"
+                    for strings in zip(bl_h, b_h):
+                        view_string += f"{strings[0]}{strings[1]}"
+                else:
+                    for string in m_h:
+                        view_string += f"{string}"
 
             # Main + Right & Bottom + Bottom Right
             elif borders[1] > self.chunk_size.width:
-                view_string += "M R B BR"
+                logging.debug(f"BotRCorner Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
+
+                m_h, r_h, b_h, br_h = [], [], [], []
+
+                # Main
+                for _y in range(borders[2], self.chunk_size.height):
+                    _row = ""
+                    for _x in range(borders[0], self.chunk_size.width):
+                        _row += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                    m_h.append(_row)
+                
+                # Right
+                if surrounding_8[0][1] != None:
+                    for _y in range(borders[2], self.chunk_size.height):
+                        _row = ""
+                        for _x in range(0, borders[1] - self.chunk_size.width):
+                            _row += f"[color=#{surrounding_8[0][1][_x, _y].color}]{surrounding_8[0][1][_x, _y].tile_char}[/color]"
+                        r_h.append(_row)
+
+                # Bottom
+                if surrounding_8[2][1] != None:
+                    for _y in range(0, borders[3] - self.chunk_size.height):
+                        _row = ""
+                        for _x in range(borders[0], self.chunk_size.width):
+                            _row += f"[color=#{surrounding_8[2][1][_x, _y].color}]{surrounding_8[2][1][_x, _y].tile_char}[/color]"
+                        b_h.append(_row)
+                    
+                # Bottom Right
+                if surrounding_8[2][2] != None:
+                    for _y in range(0, borders[3] - self.chunk_size.height):
+                        _row = ""
+                        for _x in range(0, borders[1] - self.chunk_size.width):
+                            _row += f"[color=#{surrounding_8[2][2][_x, _y].color}]{surrounding_8[2][2][_x, _y].tile_char}[/color]"
+                        br_h.append(_row)
+                
+                # Stitching
+                if len(m_h) == len(r_h) and len(b_h) == len(br_h):
+                    for strings in zip(m_h, r_h):
+                        view_string += f"{strings[0]}{strings[1]}"
+                    for strings in zip(b_h, br_h):
+                        view_string += f"{strings[0]}{strings[1]}"
+                else:
+                    for string in m_h:
+                        view_string += f"{string}"
             
+
             # Main & Bottom
             else:
-                logging.debug(f"MainBottom Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Main Range: {borders[2], self.chunk_size.height} Bottom Range: {0, borders[3] - self.chunk_size.height}")
+                logging.debug(f"MainBottom Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
 
                 # Main
                 for _y in range(borders[2], self.chunk_size.height):
@@ -78,10 +249,9 @@ class TextworldCamera():
 
         # Main & Right
         elif borders[1] > self.chunk_size.width:
-            logging.debug(f"MainRight Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Main Range: {borders[0], self.chunk_size.width} Right Range: {0, borders[1] - self.chunk_size.width}")
+            logging.debug(f"MainRight Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
             
-            main_h = []
-            right_h = []
+            main_h, right_h = [], []
 
             # Main
             for _y in range(borders[2], borders[3]):
@@ -97,7 +267,8 @@ class TextworldCamera():
                     for _x in range(0, borders[1] - self.chunk_size.width):
                         _row += f"[color=#{surrounding_8[1][1][_x, _y].color}]{surrounding_8[1][1][_x, _y].tile_char}[/color]"
                     right_h.append(_row)
-                
+
+            # Stitching  
             if len(main_h) == len(right_h):
                 for strings in zip(main_h, right_h):
                     view_string += f"{strings[0]}{strings[1]}"
@@ -107,10 +278,9 @@ class TextworldCamera():
         
         # Left & Main
         elif borders[0] < 0:
-            logging.debug(f"MainLeft Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos} Left Range: {self.chunk_size.width + borders[0], self.chunk_size.width} Main Range: {0, borders[1]} ")
+            logging.debug(f"MainLeft Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
 
-            left_h = []
-            main_h = []
+            left_h, main_h = [], []
 
             # Left
             if surrounding_8[1][0] != None:
@@ -127,9 +297,10 @@ class TextworldCamera():
                     _row += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
                 main_h.append(_row)
             
-            if len(main_h) == len(left_h):
-                for strings in zip(main_h, left_h):
-                    view_string += f"{strings[1]}{strings[0]}"
+            # Stitching
+            if len(left_h) == len(main_h):
+                for strings in zip(left_h, main_h):
+                    view_string += f"{strings[0]}{strings[1]}"
             else:
                 for string in main_h:
                     view_string += f"{string}"
