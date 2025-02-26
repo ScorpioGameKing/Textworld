@@ -38,7 +38,7 @@ class TextworldCamera():
                     for _y in range(self.chunk_size.height + borders[2], self.chunk_size.height):
                         _row = ""
                         for _x in range(self.chunk_size.width + borders[0], self.chunk_size.width):
-                            _row += f"[color=#{surrounding_8[0][0][_x, _y].color}]{surrounding_8[0][0][_x, _y].tile_char}[/color]"
+                            _row += surrounding_8[0][0][_x, _y].get_markdown()
                         tl_h.append(_row)
                 
                 # Top
@@ -46,7 +46,7 @@ class TextworldCamera():
                     for _y in range(self.chunk_size.height + borders[2], self.chunk_size.height):
                         _row = ""
                         for _x in range(0, borders[1]):
-                            _row += f"[color=#{surrounding_8[0][1][_x, _y].color}]{surrounding_8[0][1][_x, _y].tile_char}[/color]"
+                            _row += surrounding_8[0][1][_x, _y].get_markdown()
                         t_h.append(_row)
 
                 # Left
@@ -54,16 +54,17 @@ class TextworldCamera():
                     for _y in range(0, borders[3]):
                         _row = ""
                         for _x in range(self.chunk_size.width + borders[0], self.chunk_size.width):
-                            _row += f"[color=#{surrounding_8[1][0][_x, _y].color}]{surrounding_8[1][0][_x, _y].tile_char}[/color]"
+                            _row += surrounding_8[1][0][_x, _y].get_markdown()
                         l_h.append(_row)
                     
                 # Main
                 for _y in range(0, borders[3]):
                     _row = ""
                     for _x in range(0, borders[1]):
-                        _row += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                        _row += main_chunk[_x, _y].get_markdown()
                     m_h.append(_row)
                 
+                # Stitching
                 if len(tl_h) == len(t_h) and len(l_h) == len(m_h):
                     for strings in zip(tl_h, t_h):
                         view_string += f"{strings[0]}{strings[1]}"
@@ -84,7 +85,7 @@ class TextworldCamera():
                     for _y in range(self.chunk_size.height + borders[2], self.chunk_size.height):
                         _row = ""
                         for _x in range(borders[0], self.chunk_size.width):
-                            _row += f"[color=#{surrounding_8[0][1][_x, _y].color}]{surrounding_8[0][1][_x, _y].tile_char}[/color]"
+                            _row += surrounding_8[0][1][_x, _y].get_markdown()
                         t_h.append(_row)
                 
                 # Top Right
@@ -92,14 +93,14 @@ class TextworldCamera():
                     for _y in range(self.chunk_size.height + borders[2], self.chunk_size.height):
                         _row = ""
                         for _x in range(0, borders[1] - self.chunk_size.width):
-                            _row += f"[color=#{surrounding_8[0][2][_x, _y].color}]{surrounding_8[0][2][_x, _y].tile_char}[/color]"
+                            _row += surrounding_8[0][2][_x, _y].get_markdown()
                         tr_h.append(_row)
 
                 # Main
                 for _y in range(0, borders[3]):
                     _row = ""
                     for _x in range(borders[0], self.chunk_size.width):
-                        _row += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                        _row += main_chunk[_x, _y].get_markdown()
                     m_h.append(_row)
                     
                 # Right
@@ -107,7 +108,7 @@ class TextworldCamera():
                     for _y in range(0, borders[3]):
                         _row = ""
                         for _x in range(0, borders[1] - self.chunk_size.width):
-                            _row += f"[color=#{surrounding_8[1][1][_x, _y].color}]{surrounding_8[1][1][_x, _y].tile_char}[/color]"
+                            _row += surrounding_8[1][1][_x, _y].get_markdown()
                         r_h.append(_row)
                 
                 # Stitching
@@ -128,12 +129,12 @@ class TextworldCamera():
                 if surrounding_8[0][1] != None:
                     for _y in range(self.chunk_size.height + borders[2], self.chunk_size.height):
                         for _x in range(borders[0], borders[1]):
-                            view_string += f"[color=#{surrounding_8[0][1][_x, _y].color}]{surrounding_8[0][1][_x, _y].tile_char}[/color]"
+                            view_string += surrounding_8[0][1][_x, _y].get_markdown()
 
                 # Main
                 for _y in range(0, borders[3]):
                     for _x in range(borders[0], borders[1]):
-                        view_string += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                        view_string += main_chunk[_x, _y].get_markdown()
 
         # Bottom Checks
         elif borders[3] > self.chunk_size.height:
@@ -149,14 +150,14 @@ class TextworldCamera():
                     for _y in range(borders[2], self.chunk_size.height):
                         _row = ""
                         for _x in range(self.chunk_size.width + borders[0], self.chunk_size.width):
-                            _row += f"[color=#{surrounding_8[1][0][_x, _y].color}]{surrounding_8[1][0][_x, _y].tile_char}[/color]"
+                            _row += surrounding_8[1][0][_x, _y].get_markdown()
                         l_h.append(_row)
                 
                 # Main
                 for _y in range(borders[2], self.chunk_size.height):
                     _row = ""
                     for _x in range(0, borders[1]):
-                        _row += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                        _row += main_chunk[_x, _y].get_markdown()
                     m_h.append(_row)
 
                 # Bottom Left
@@ -164,7 +165,7 @@ class TextworldCamera():
                     for _y in range(0, borders[3] - self.chunk_size.height):
                         _row = ""
                         for _x in range(self.chunk_size.width + borders[0], self.chunk_size.width):
-                            _row += f"[color=#{surrounding_8[2][0][_x, _y].color}]{surrounding_8[2][0][_x, _y].tile_char}[/color]"
+                            _row += surrounding_8[2][0][_x, _y].get_markdown()
                         bl_h.append(_row)
                     
                 # Bottom
@@ -172,7 +173,7 @@ class TextworldCamera():
                     for _y in range(0, borders[3] - self.chunk_size.height):
                         _row = ""
                         for _x in range(0, borders[1]):
-                            _row += f"[color=#{surrounding_8[2][1][_x, _y].color}]{surrounding_8[2][1][_x, _y].tile_char}[/color]"
+                            _row += surrounding_8[2][1][_x, _y].get_markdown()
                         b_h.append(_row)
                 
                 if len(l_h) == len(m_h) and len(bl_h) == len(b_h):
@@ -194,7 +195,7 @@ class TextworldCamera():
                 for _y in range(borders[2], self.chunk_size.height):
                     _row = ""
                     for _x in range(borders[0], self.chunk_size.width):
-                        _row += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                        _row += main_chunk[_x, _y].get_markdown()
                     m_h.append(_row)
                 
                 # Right
@@ -202,7 +203,7 @@ class TextworldCamera():
                     for _y in range(borders[2], self.chunk_size.height):
                         _row = ""
                         for _x in range(0, borders[1] - self.chunk_size.width):
-                            _row += f"[color=#{surrounding_8[0][1][_x, _y].color}]{surrounding_8[0][1][_x, _y].tile_char}[/color]"
+                            _row += surrounding_8[0][1][_x, _y].get_markdown()
                         r_h.append(_row)
 
                 # Bottom
@@ -210,7 +211,7 @@ class TextworldCamera():
                     for _y in range(0, borders[3] - self.chunk_size.height):
                         _row = ""
                         for _x in range(borders[0], self.chunk_size.width):
-                            _row += f"[color=#{surrounding_8[2][1][_x, _y].color}]{surrounding_8[2][1][_x, _y].tile_char}[/color]"
+                            _row += surrounding_8[2][1][_x, _y].get_markdown()
                         b_h.append(_row)
                     
                 # Bottom Right
@@ -218,7 +219,7 @@ class TextworldCamera():
                     for _y in range(0, borders[3] - self.chunk_size.height):
                         _row = ""
                         for _x in range(0, borders[1] - self.chunk_size.width):
-                            _row += f"[color=#{surrounding_8[2][2][_x, _y].color}]{surrounding_8[2][2][_x, _y].tile_char}[/color]"
+                            _row += surrounding_8[2][2][_x, _y].get_markdown()
                         br_h.append(_row)
                 
                 # Stitching
@@ -239,13 +240,13 @@ class TextworldCamera():
                 # Main
                 for _y in range(borders[2], self.chunk_size.height):
                     for _x in range(borders[0], borders[1]):
-                        view_string += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                        view_string += main_chunk[_x, _y].get_markdown()
                 
                 # Bottom
                 if surrounding_8[2][1] != None:
                     for _y in range(0, borders[3] - self.chunk_size.height):
                         for _x in range(borders[0], borders[1]):
-                            view_string += f"[color=#{surrounding_8[2][1][_x, _y].color}]{surrounding_8[2][1][_x, _y].tile_char}[/color]"
+                            view_string += surrounding_8[2][1][_x, _y].get_markdown()
 
         # Main & Right
         elif borders[1] > self.chunk_size.width:
@@ -257,7 +258,7 @@ class TextworldCamera():
             for _y in range(borders[2], borders[3]):
                 _row = ""
                 for _x in range(borders[0], self.chunk_size.width):
-                    _row += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                    _row += main_chunk[_x, _y].get_markdown()
                 main_h.append(_row)
 
             # Right
@@ -265,7 +266,7 @@ class TextworldCamera():
                 for _y in range(borders[2], borders[3]):
                     _row = ""
                     for _x in range(0, borders[1] - self.chunk_size.width):
-                        _row += f"[color=#{surrounding_8[1][1][_x, _y].color}]{surrounding_8[1][1][_x, _y].tile_char}[/color]"
+                        _row += surrounding_8[1][1][_x, _y].get_markdown()
                     right_h.append(_row)
 
             # Stitching  
@@ -287,14 +288,14 @@ class TextworldCamera():
                 for _y in range(borders[2], borders[3]):
                     _row = ""
                     for _x in range(self.chunk_size.width + borders[0], self.chunk_size.width):
-                        _row += f"[color=#{surrounding_8[1][0][_x, _y].color}]{surrounding_8[1][0][_x, _y].tile_char}[/color]"
+                        _row += surrounding_8[1][0][_x, _y].get_markdown()
                     left_h.append(_row)
                 
             # Main
             for _y in range(borders[2], borders[3]):
                 _row = ""
                 for _x in range(0, borders[1]):
-                    _row += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                    _row += main_chunk[_x, _y].get_markdown()
                 main_h.append(_row)
             
             # Stitching
@@ -310,6 +311,6 @@ class TextworldCamera():
             logging.debug(f"Main Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
             for _y in range(borders[2], borders[3]):
                 for _x in range(borders[0], borders[1]):
-                    view_string += f"[color=#{main_chunk[_x, _y].color}]{main_chunk[_x, _y].tile_char}[/color]"
+                    view_string += main_chunk[_x, _y].get_markdown()
 
         return view_string
