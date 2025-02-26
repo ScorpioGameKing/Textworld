@@ -12,6 +12,8 @@ class TextworldWorld():
     __chunks: dict[Coords, np.array] = {}
     _chunk_count: Size[int]
     __seed: int
+    _entity_positions: dict[Coords, str] = {}
+
     def __init__(self, chunk_count: Size[int], chunk_size: Size[int], seed:int = int(strftime("%Y%m%d%H%M%S", gmtime()))):
         self.chunk_count = chunk_count
         self.chunk_size = chunk_size
@@ -33,12 +35,12 @@ class TextworldWorld():
             half_height = self.chunk_count.height // 2
             half_width =  self.chunk_count.width // 2
             
-            
-            logging.debug(f'Height values {0 - half_height} , {half_height}')
-            logging.debug(f'Width values {0 - half_width} , {half_width}')
+            logging.debug(f'Height values {0} , {self.chunk_count.height}')
+            logging.debug(f'Width values {0} , {self.chunk_count.width}')
+            logging.debug(f'Spawn Coords {half_width} , {half_height}')
             logging.debug(f'Chunk area {self.chunk_count.area()}')
-            for y in range(-half_height, half_height + 1):
-                for x in range(-half_width, half_width + 1):
+            for y in range(0, self.chunk_count.height):
+                for x in range(0, self.chunk_count.width):
                     self.__generate_chunk(Coords(x,y), generator)
                 
         logging.debug('Chunk generation finished')     

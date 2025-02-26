@@ -1,7 +1,7 @@
 from kivy.uix.screenmanager import ScreenManager
 from kivy.core.window import Window
 from kivy.lang import Builder
-from kivy.clock import Clock
+from kivy.clock import Clock, mainthread
 from ui.game_ui import TextworldGScreen
 from ui.main_menu import TextworldMMScreen
 from ui.load_ui import TextworldLdScreen
@@ -29,6 +29,7 @@ class TextworldUIManager(ScreenManager):
         self.add_widget(TextworldLdScreen(name='load_ui'))
         self.add_widget(TextworldNGScreen(name='new_gen_ui'))
     
+    @mainthread
     def update_gen_progess(self, val:float):
         Clock.schedule_once(partial(self.get_screen('new_gen_ui').layout.progress.update, val), 0)
 

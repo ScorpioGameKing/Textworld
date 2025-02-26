@@ -20,10 +20,9 @@ class TextworldLdSaveView(BoxLayout):
     def updateWorldList(self, save_names):
         self.worlds = save_names
         logging.debug(f"Children: {self.children} Count: {len(self.children)} db Count: {len(self.worlds)}")
-        if len(self.worlds) == 0:
-            for child in self.children:
-                self.remove_widget(child)
-                self.ids = []
+        for child in self.children:
+            self.remove_widget(child)
+        self.ids = []
         for i in range(len(self.worlds)):
             if len(self.children) > 0:
                 if self.children[i - 1].text == self.worlds[i - 1]:

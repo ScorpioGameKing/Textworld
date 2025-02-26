@@ -3,7 +3,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.progressbar import ProgressBar
 from kivy.properties import ObjectProperty
-from kivy.clock import mainthread
 import logging
 
 class TextworldNGTitle(Label):
@@ -22,10 +21,9 @@ class TextworldNGButtonRow(BoxLayout):
     pass
 
 class TextworldNGProgressBar(ProgressBar):  
-    @mainthread
-    def update(self, _value:float):
+    def update(self, _value:float, dt):
         logging.debug(f"Updating: {self._get_value()} To: {_value}")
-        self._set_value(_value)
+        self.value = _value
 
 class TextworldNGLayout(BoxLayout):
     title = ObjectProperty(None)
