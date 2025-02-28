@@ -1,7 +1,6 @@
 import logging
 from time import gmtime, strftime, sleep
 from typing import Callable
-from database import TileDatabase
 from models.coords import Coords
 from models.size import Size
 from generation.generator import TextworldGenerator

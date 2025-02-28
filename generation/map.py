@@ -1,7 +1,5 @@
-
 from models import Size, Coords, Tile
 import numpy as np
-
 
 class TextworldMap():
     columns: int

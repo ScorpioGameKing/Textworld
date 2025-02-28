@@ -28,9 +28,13 @@ class TextworldGenerator():
         self.__db.close()
 
     # Default Map Generation
-    def get_chunk(self, size:Size[int], chunk_coords: Coords) -> TextworldMap:
+    def get_chunk(self, size:Size[int], chunk_coords: Coords, _dumps:bool = False) -> TextworldMap:
         scale = (0.5 * 0.0625)
         chunk = TextworldMap(size)
+
+        if _dumps:
+            _d = open(f".\dumps\\row{chunk_coords.y}col{chunk_coords.x}.txt", "a")
+        else: _d = None
 
         for y in range(size.height):
             for x in range(size.width):
@@ -45,7 +49,9 @@ class TextworldGenerator():
                 if db_tile == None:
                     db_tile = self.__db.get_tile('X')
                 chunk[x,y] = db_tile
-                #logging.debug(f"Chunk: {x, y} Tile: {db_tile} Noise: {noise_val}")
+                if _dumps: _d.write(f"{db_tile.tile_char} ")
+            if _dumps: _d.write("\n")
+        if _dumps: _d.close()
 
         # Return for use
         return chunk
