@@ -14,7 +14,7 @@ class SystemCommands:
         logging.debug("Exiting with No Save")
         App.get_running_app().game.current = 'main_menu_ui'
 
-    def _dump_maps(gm, pos:tuple[int, int] = None):
+    def _dump_map(gm, pos:tuple[int, int] = None):
         if pos == None:
             logging.debug(f"Dumping: {gm.world_position}")
             gm.active_world.dump_chunk(gm.world_position)
@@ -32,5 +32,5 @@ class SystemCommands:
         ("EXIT", "SYS") : [_exit_game, 0],
         ("EXIT_NS", "SYS") : [_exit_game_no_save, 0],
         ("SAVE", "SYS") : [_save_game, 0],
-        ("DUMP_MAPS", "SYS") : [_dump_maps, 2]
+        ("DUMP_MAP", "SYS") : [_dump_map, 2]
     }
