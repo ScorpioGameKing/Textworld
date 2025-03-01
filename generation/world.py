@@ -61,6 +61,15 @@ class TextworldWorld():
         progress_thread.start()
         progress_thread.join()
 
+    def dump_chunk(self, coords: tuple[int, int]):
+        _d = open(f".\dumps\\chunk_{coords.x}_{coords.y}.txt", "w")
+        chunk = self[coords.x, coords.y]
+        for y in range(chunk.rows):
+            for x in range(chunk.columns):
+                _d.write(f"{chunk[x,y].tile_char}")
+            _d.write("\n")
+        _d.close()
+
     def save_world(self):
         data = pickle.dumps(self, protocol=pickle.HIGHEST_PROTOCOL)
         return gzip.compress(data)

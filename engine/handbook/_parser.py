@@ -6,6 +6,7 @@ class HandbookParser:
     def parse_token_list(self, token_list):
         logging.debug(f"|PARSER| Token List: {token_list}")
         for _t in token_list:
+            print(token_list)
             match _t[1]:
                 case "SYS":
                     logging.debug(f"|PARSER| TOKEN: {_t, SystemCommands.COMMANDS.get(tuple(_t))}")
@@ -20,6 +21,18 @@ class HandbookParser:
                         case "SAVE":
                             _func[0](world=App.get_running_app().game.screens[1].game_manager.active_world, save_name=App.get_running_app().game.screens[1].game_manager.save_name)
                             break
-                case _:
+                        case "DUMP_MAPS":
+                            if token_list.index(_t) + _func[1] + 1 <= len(token_list):
+                                args = token_list[token_list.index(_t) + 1 : token_list.index(_t) + _func[1] + 1]
+                            else:
+                                args = None
+                            
+                            if args != None:
+                                logging.debug(f"|PARSER| WITH ARGS")
+                                _func[0](gm=App.get_running_app().game.screens[1].game_manager, pos=[args[0][0], args[1][0]])
+                            else:
+                                logging.debug(f"|PARSER| NO ARGS")
+                                _func[0](gm=App.get_running_app().game.screens[1].game_manager)
+                case "ERROR":
                     logging.debug(f"|PARSER| Either this isn't set up or this isn't a command token: {_t}")
                     break

@@ -8,10 +8,15 @@ class HandbookLexer():
         logging.debug(f"|LEXER| Whitespace Split: {raw_tokens}")
         token_list = []
         for _t in raw_tokens:
-            try:
+            if Tokens.TOKENS.get(_t.upper()):
                 logging.debug(f"|LEXER| TOKEN: {_t.upper(), Tokens.TOKENS.get(_t.upper())}")
                 token_list.append([_t.upper(), Tokens.TOKENS.get(_t.upper())])
-            except:
-                logging.debug(f"|LEXER| Missing TOKEN for: {_t.upper()}")
-                token_list.append([_t.upper()])
+            else:
+                logging.debug(f"|LEXER| Missing TOKEN for: {_t.upper()} trying MISC Matches")
+                try:
+                    logging.debug(f"|LEXER| TOKEN: {int(_t), "INT"}")
+                    token_list.append([int(_t), "INT"])
+                except:
+                    logging.debug(f"|LEXER| TOKEN: {_t, "ERROR"}")
+                    token_list.append([_t.upper(), "ERROR"])
         return token_list

@@ -7,6 +7,10 @@ class TextworldCamera():
     def __init__(self, _view_size:Size, _chunk_size:Size) -> None:
         self.resize_viewport(_view_size, _chunk_size)
         self.position = Coords(m.floor(self.chunk_size.width / 2), m.floor(self.chunk_size.height / 2))
+        self.log = False
+
+    def set_logging(self, state:bool):
+        self.log = state
 
     def resize_viewport(self, _view_size:Size, _chunk_size:Size) -> None:
         self.viewport_size = _view_size
@@ -29,7 +33,7 @@ class TextworldCamera():
 
             # Top Left + Top & Left + Main
             if borders[0] < 0:
-                logging.debug(f"TopLCorner Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
+                if self.log: logging.debug(f"TopLCorner Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
 
                 tl_h, t_h, l_h, m_h = [], [], [], []
 
@@ -76,7 +80,7 @@ class TextworldCamera():
 
             # Top + Top Right & Main + Right
             elif borders[1] > self.chunk_size.width:
-                logging.debug(f"TopRCorner Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
+                if self.log: logging.debug(f"TopRCorner Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
 
                 t_h, tr_h, r_h, m_h = [], [], [], []
 
@@ -123,7 +127,7 @@ class TextworldCamera():
             
             # Top & Main
             else:
-                logging.debug(f"TopMain Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
+                if self.log: logging.debug(f"TopMain Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
 
                 # Top
                 if surrounding_8[0][1] != None:
@@ -141,7 +145,7 @@ class TextworldCamera():
             
             # Left + Main & Bottom Left + Bottom
             if borders[0] < 0:
-                logging.debug(f"BotLCorner Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
+                if self.log: logging.debug(f"BotLCorner Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
 
                 l_h, m_h, bl_h, b_h = [], [], [], []
 
@@ -187,7 +191,7 @@ class TextworldCamera():
 
             # Main + Right & Bottom + Bottom Right
             elif borders[1] > self.chunk_size.width:
-                logging.debug(f"BotRCorner Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
+                if self.log: logging.debug(f"BotRCorner Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
 
                 m_h, r_h, b_h, br_h = [], [], [], []
 
@@ -235,7 +239,7 @@ class TextworldCamera():
 
             # Main & Bottom
             else:
-                logging.debug(f"MainBottom Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
+                if self.log: logging.debug(f"MainBottom Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
 
                 # Main
                 for _y in range(borders[2], self.chunk_size.height):
@@ -250,7 +254,7 @@ class TextworldCamera():
 
         # Main & Right
         elif borders[1] > self.chunk_size.width:
-            logging.debug(f"MainRight Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
+            if self.log: logging.debug(f"MainRight Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
             
             main_h, right_h = [], []
 
@@ -279,7 +283,7 @@ class TextworldCamera():
         
         # Left & Main
         elif borders[0] < 0:
-            logging.debug(f"MainLeft Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
+            if self.log: logging.debug(f"MainLeft Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
 
             left_h, main_h = [], []
 
@@ -308,7 +312,7 @@ class TextworldCamera():
 
         # Main Only
         else:
-            logging.debug(f"Main Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
+            if self.log: logging.debug(f"Main Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
             for _y in range(borders[2], borders[3]):
                 for _x in range(borders[0], borders[1]):
                     view_string += main_chunk[_x, _y].get_markdown()
