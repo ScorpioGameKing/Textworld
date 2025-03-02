@@ -34,49 +34,19 @@ class TextworldCamera():
             # Top Left + Top & Left + Main
             if borders[0] < 0:
                 if self.log: logging.debug(f"TopLCorner Borders: {borders} Cam Pos: {self.position} Chunk Pos: {chunk_pos}")
-
-                tl_h, t_h, l_h, m_h = [], [], [], []
-
-                # Top Left
                 if surrounding_8[0][0] != None:
-                    for _y in range(self.chunk_size.height + borders[2], self.chunk_size.height):
-                        _row = ""
-                        for _x in range(self.chunk_size.width + borders[0], self.chunk_size.width):
-                            _row += surrounding_8[0][0][_x, _y].get_markdown()
-                        tl_h.append(_row)
-                
-                # Top
-                if surrounding_8[0][1] != None:
-                    for _y in range(self.chunk_size.height + borders[2], self.chunk_size.height):
-                        _row = ""
-                        for _x in range(0, borders[1]):
-                            _row += surrounding_8[0][1][_x, _y].get_markdown()
-                        t_h.append(_row)
-
-                # Left
-                if surrounding_8[1][0] != None:
-                    for _y in range(0, borders[3]):
-                        _row = ""
-                        for _x in range(self.chunk_size.width + borders[0], self.chunk_size.width):
-                            _row += surrounding_8[1][0][_x, _y].get_markdown()
-                        l_h.append(_row)
-                    
-                # Main
-                for _y in range(0, borders[3]):
-                    _row = ""
-                    for _x in range(0, borders[1]):
-                        _row += main_chunk[_x, _y].get_markdown()
-                    m_h.append(_row)
-                
-                # Stitching
-                if len(tl_h) == len(t_h) and len(l_h) == len(m_h):
-                    for strings in zip(tl_h, t_h):
-                        view_string += f"{strings[0]}{strings[1]}"
-                    for strings in zip(l_h, m_h):
-                        view_string += f"{strings[0]}{strings[1]}"
-                else:
-                    for string in m_h:
-                        view_string += f"{string}"
+                    for _y in range(abs(borders[2])):
+                        for _c in surrounding_8[0][0][slice([self.chunk_size.width + borders[0], self.chunk_size.height + borders[2]], [self.chunk_size.width, self.chunk_size.height])][_y]:
+                            view_string += _c.get_markdown()
+                        for _c in surrounding_8[0][1][slice([0, self.chunk_size.height + borders[2]], [borders[1], self.chunk_size.height])][_y]:
+                            view_string += _c.get_markdown()
+                        view_string += "\n"
+                    for _y in range(borders[3]):
+                        for _c in surrounding_8[1][0][slice([self.chunk_size.width + borders[0], 0], [self.chunk_size.width, borders[3]])][_y]:
+                            view_string += _c.get_markdown()
+                        for _c in main_chunk[slice([0, 0], [borders[1], borders[3]])][_y]:
+                            view_string += _c.get_markdown()
+                        view_string += "\n"
 
             # Top + Top Right & Main + Right
             elif borders[1] > self.chunk_size.width:
