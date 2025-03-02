@@ -16,17 +16,6 @@ class TextworldWorld():
         self.chunk_size = chunk_size
         self.lock = threading.Lock()
         self.__seed = seed
-
-    def get_render_area(self, pos:Coords):
-        render_area = []
-        for _o in range(-1, 1):
-            for _c in zip(self[pos.x-1, pos.y+_o][slice([0, 0], [self.chunk_size.width, self.chunk_size.height])], self[pos.x, pos.y+_o][slice([0, 0], [self.chunk_size.width, self.chunk_size.height])], self[pos.x+1, pos.y+_o][slice([0, 0], [self.chunk_size.width, self.chunk_size.height])]):
-                for _r in _c:
-                    row = []
-                    for _t in _r: 
-                        row.append(_t)
-                    render_area.append(row)
-        return render_area
         
     def __generate_chunk(self, coords: Coords, generator: TextworldGenerator):
         logging.debug(f"Generation for Chunk [{coords.x}, {coords.y}] started")
