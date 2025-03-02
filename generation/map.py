@@ -1,7 +1,5 @@
-
 from models import Size, Coords, Tile
 import numpy as np
-
 
 class TextworldMap():
     columns: int
@@ -26,7 +24,6 @@ class TextworldMap():
                     row.append(self.__tiles[Coords(x,y)])
                 rows.append(row)
             return rows
-                     
         else:
             return self.__tiles.get(Coords.from_tuple(__slice), None)
     

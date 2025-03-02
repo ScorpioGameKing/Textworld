@@ -40,12 +40,8 @@ class TextworldGenerator():
                     noise_y = ((y + (chunk_coords.y * size.height)) * scale)
                     noise_val += self.__noise_generator.noise3(noise_x, noise_y, z)
                 noise_val = np.clip(noise_val, -1, 1)
-                
                 db_tile = self.__db.get_tile_by_noise(noise_val)
-                if db_tile == None:
-                    db_tile = self.__db.get_tile('X')
                 chunk[x,y] = db_tile
-                #logging.debug(f"Chunk: {x, y} Tile: {db_tile} Noise: {noise_val}")
 
         # Return for use
         return chunk

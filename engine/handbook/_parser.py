@@ -20,6 +20,14 @@ class HandbookParser:
                         case "SAVE":
                             _func[0](world=App.get_running_app().game.screens[1].game_manager.active_world, save_name=App.get_running_app().game.screens[1].game_manager.save_name)
                             break
-                case _:
+                        case "DUMP_MAP":
+                            if token_list.index(_t) + _func[1] + 1 <= len(token_list):
+                                args = token_list[token_list.index(_t) + 1 : token_list.index(_t) + _func[1] + 1]
+                                _func[0](gm=App.get_running_app().game.screens[1].game_manager, pos=[args[0][0], args[1][0]])
+                                break
+                            else:
+                                _func[0](gm=App.get_running_app().game.screens[1].game_manager)
+                                break       
+                case "ERROR":
                     logging.debug(f"|PARSER| Either this isn't set up or this isn't a command token: {_t}")
                     break

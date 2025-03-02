@@ -6,3 +6,4 @@ share/*
 **/__pycache__/*
 pyvenv.cfg
 testing.py
+dumps/*

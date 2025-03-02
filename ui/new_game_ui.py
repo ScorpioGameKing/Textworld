@@ -20,9 +20,9 @@ class TextworldNGCountRow(BoxLayout):
 class TextworldNGButtonRow(BoxLayout):
     pass
 
-class TextworldNGProgressBar(ProgressBar):
-    def update_progress(self, _value:float):
-        logging.debug(f"Updating: {_value}")
+class TextworldNGProgressBar(ProgressBar):  
+    def update(self, _value:float, dt):
+        logging.debug(f"Updating: {self._get_value()} To: {_value}")
         self.value = _value
 
 class TextworldNGLayout(BoxLayout):

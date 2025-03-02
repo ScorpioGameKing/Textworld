@@ -27,52 +27,44 @@ class TextworldGameManagementSystem(Widget):
     # Keyboard Parsing, May move to standalone class and just pass keys
     def _on_key_down(self, keyboard, keycode, text, modifiers) -> None:
         if App.get_running_app().game.current == 'game_ui':
-            # keycode is a tuple (integer, string)
-            #logging.debug(keycode[1])
+            #logging.debug(keycode)
             match keycode[1]:
                 case 'left':
                     self.camera.position.x -= 1
-                    if self.camera.position.x < 0:
-                        self.camera.position.x = self.camera.chunk_size.width - 1
+                    if self.camera.position.x <= 0:
                         self.world_position.x -= 1
+                        self.setMap(self.world_position)
+                        self.camera.position.x = self.camera.chunk_size.width - 1
                 case 'right':
                     self.camera.position.x += 1
-                    if self.camera.position.x > self.camera.chunk_size.width:
-                        self.camera.position.x = 1
+                    if self.camera.position.x >= self.camera.chunk_size.width:
                         self.world_position.x += 1
+                        self.setMap(self.world_position)
+                        self.camera.position.x = 1
                 case 'up':
                     self.camera.position.y -= 1
-                    if self.camera.position.y < 0:
-                        self.camera.position.y = self.camera.chunk_size.height - 1
+                    if self.camera.position.y <= 0:
                         self.world_position.y -= 1
+                        self.setMap(self.world_position)
+                        self.camera.position.y = self.camera.chunk_size.height - 1
                 case 'down':
                     self.camera.position.y += 1
-                    if self.camera.position.y > self.camera.chunk_size.height:
-                        self.camera.position.y = 1
+                    if self.camera.position.y >= self.camera.chunk_size.height:
                         self.world_position.y += 1
+                        self.setMap(self.world_position)
+                        self.camera.position.y = 1
 
-    def buildCamera(self, _view_size:Size = Size(25, 106), _chunk_size:Size = Size(150, 150)) -> None:
+    def buildCamera(self, _view_size:Size, _chunk_size:Size) -> None:
         self.camera = TextworldCamera(_view_size, _chunk_size)
 
-    # Takes an overload of either an existing world or the settings to create a world
+    # Takes an existing world
     def loadWorld(self, *world) -> None:
-        if len(world) == 1:
-            self.active_world = world[0]
-            self.setMap(self.world_position)
-        else:
-            self.active_world = TextworldWorld(world[0], world[1], world[2])
-            self.setMap(world[3])
+        self.active_world = world[0]
+        self.world_position = Coords(self.active_world.chunk_count.width // 2, self.active_world.chunk_count.height // 2)
+        self.setMap(self.world_position)
 
     def setMap(self, pos:Coords) -> None:
         self.active_map = self.active_world[pos.x, pos.y]
-        logging.debug(self.active_world[pos.x, pos.y])
-
-    # Get a World Map, none if OOB currently, eventually proc new generation
-    def getMap(self, pos:Coords) -> TextworldMap | None:
-        if pos.x < 0 or pos.y > self.active_world.chunk_size.width - 1 or pos.y < 0 or pos.y > self.active_world.chunk_size.height - 1:
-            return None
-        else:
-            return self.active_world[pos.x, pos.y]
         
     # Display Render Loop
     def update_display(self, display, command_input, dt) -> None:
