@@ -20,7 +20,7 @@ class TextworldUIManager(ScreenManager):
 
         Builder.load_file(".\\ui\\kv\\new_game_ui.kv")
         Builder.load_file(".\\ui\\kv\\load_ui.kv")
-        Builder.load_file(".\\ui\\kv\\mod_tools_ui.kv")
+        Builder.load_file(".\\ui\\kv\\tools_ui.kv")
         Builder.load_file(".\\ui\\kv\\main_menu.kv")
         Builder.load_file(".\\ui\\kv\\game_ui.kv")
 
