@@ -1,8 +1,6 @@
-import logging
 from time import gmtime, strftime, sleep
 from typing import Callable
-from models.coords import Coords
-from models.size import Size
+from models import Coords, Size, Tile
 from generation.generator import TextworldGenerator
 import pickle, gzip, threading, math, logging
 import numpy as np
@@ -18,6 +16,17 @@ class TextworldWorld():
         self.chunk_size = chunk_size
         self.lock = threading.Lock()
         self.__seed = seed
+
+    def get_render_area(self, pos:Coords):
+        render_area = []
+        for _o in range(-1, 1):
+            for _c in zip(self[pos.x-1, pos.y+_o][slice([0, 0], [self.chunk_size.width, self.chunk_size.height])], self[pos.x, pos.y+_o][slice([0, 0], [self.chunk_size.width, self.chunk_size.height])], self[pos.x+1, pos.y+_o][slice([0, 0], [self.chunk_size.width, self.chunk_size.height])]):
+                for _r in _c:
+                    row = []
+                    for _t in _r: 
+                        row.append(_t)
+                    render_area.append(row)
+        return render_area
         
     def __generate_chunk(self, coords: Coords, generator: TextworldGenerator):
         logging.debug(f"Generation for Chunk [{coords.x}, {coords.y}] started")
@@ -74,8 +83,11 @@ class TextworldWorld():
         data = pickle.dumps(self, protocol=pickle.HIGHEST_PROTOCOL)
         return gzip.compress(data)
         
-    def __getitem__(self, coords: tuple[int,int]) -> np.typing.NDArray:
-        return self.__chunks[Coords(*coords)]
+    def __getitem__(self, coords: tuple[int,int]) -> np.typing.NDArray | None:
+        try:
+            return self.__chunks[Coords(*coords)]
+        except:
+            return None
     
     def __setitem__(self, _: Coords, __:np.array):
         raise NotImplementedError('TextworldWorld object does not support setting indecies')

@@ -32,26 +32,30 @@ class TextworldGameManagementSystem(Widget):
             match keycode[1]:
                 case 'left':
                     self.camera.position.x -= 1
-                    if self.camera.position.x < 0:
+                    if self.camera.position.x <= 0:
                         self.world_position.x -= 1
+                        self.setMap(self.world_position)
                         self.camera.position.x = self.camera.chunk_size.width - 1
                 case 'right':
                     self.camera.position.x += 1
-                    if self.camera.position.x > self.camera.chunk_size.width:
+                    if self.camera.position.x >= self.camera.chunk_size.width:
                         self.world_position.x += 1
+                        self.setMap(self.world_position)
                         self.camera.position.x = 1
                 case 'up':
                     self.camera.position.y -= 1
-                    if self.camera.position.y < 0:
+                    if self.camera.position.y <= 0:
                         self.world_position.y -= 1
+                        self.setMap(self.world_position)
                         self.camera.position.y = self.camera.chunk_size.height - 1
                 case 'down':
                     self.camera.position.y += 1
-                    if self.camera.position.y > self.camera.chunk_size.height:
+                    if self.camera.position.y >= self.camera.chunk_size.height:
                         self.world_position.y += 1
+                        self.setMap(self.world_position)
                         self.camera.position.y = 1
 
-    def buildCamera(self, _view_size:Size = Size(25, 106), _chunk_size:Size = Size(150, 150)) -> None:
+    def buildCamera(self, _view_size:Size = Size(24, 104), _chunk_size:Size = Size(150, 150)) -> None:
         self.camera = TextworldCamera(_view_size, _chunk_size)
 
     # Takes an existing world
@@ -59,6 +63,7 @@ class TextworldGameManagementSystem(Widget):
         self.active_world = world[0]
         self.world_position = Coords(self.active_world.chunk_count.width // 2, self.active_world.chunk_count.height // 2)
         self.setMap(self.world_position)
+        print(self.active_world.get_render_area(self.world_position))
 
     def setMap(self, pos:Coords) -> None:
         self.active_map = self.active_world[pos.x, pos.y]

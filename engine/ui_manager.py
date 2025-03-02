@@ -37,7 +37,7 @@ class TextworldUIManager(ScreenManager):
         self.current = 'game_ui'
         self.screens[1].game_manager.save_name = save_name
         self.screens[1].game_manager.loadWorld(world)
-        self.screens[1].game_manager.buildCamera()
+        self.screens[1].game_manager.buildCamera(Size(24, 104), self.screens[1].game_manager.active_world.chunk_size)
     
     def newGenMenuCall(self):
         _save_name = self.get_screen(self.current).layout.name_row.save_name.text
@@ -64,4 +64,4 @@ class TextworldUIManager(ScreenManager):
             self.current = 'game_ui'
             self.screens[1].game_manager.save_name = _save_name
             self.screens[1].game_manager.loadWorld(world)
-            self.screens[1].game_manager.buildCamera()
+            self.screens[1].game_manager.buildCamera(Size(24, 104), self.screens[1].game_manager.active_world.chunk_size)
