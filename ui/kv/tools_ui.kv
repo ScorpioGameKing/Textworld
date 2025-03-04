@@ -1,1 +1,84 @@
 #:kivy 1.0.9
+
+<TextworldTLTitle>:
+    markup: True
+    font_name: ".\Fonts\Monocraft.ttf"
+    font_size: 64
+    halign: 'center'
+    valign: 'center'
+    text: "TEXTWORLD TOOLS"
+
+<TextworldTLTileBtn>:
+    font_name: ".\Fonts\Monocraft.ttf"
+    font_size: 24
+    size_hint: (.25, .25)
+    text: "Tile Builder"
+
+<TextworldTLItemBtn>:
+    font_name: ".\Fonts\Monocraft.ttf"
+    font_size: 24
+    size_hint: (.25, .25)
+    text: "Item Builder"
+
+<TextworldTLClassBtn>:
+    font_name: ".\Fonts\Monocraft.ttf"
+    font_size: 24
+    size_hint: (.25, .25)
+    text: "Class Builder"
+
+<TextworldTLNPCBtn>:
+    font_name: ".\Fonts\Monocraft.ttf"
+    font_size: 24
+    size_hint: (.25, .25)
+    text: "NPC Builder"
+
+<TextworldTLObjBtn>:
+    font_name: ".\Fonts\Monocraft.ttf"
+    font_size: 24
+    size_hint: (.25, .25)
+    text: "OBJ Builder"
+
+<TextworldTLQstBtn>:
+    font_name: ".\Fonts\Monocraft.ttf"
+    font_size: 24
+    size_hint: (.25, .25)
+    text: "Quest Builder"
+
+<TextworldTLBackBtn>:
+    font_name: ".\Fonts\Monocraft.ttf"
+    font_size: 24
+    size_hint: (.25, .25)
+    text: "Back"
+    on_press: app.get_running_app().game.current = 'main_menu_ui'
+
+<TextworldTLLayout>:
+    orientation: 'vertical'
+    title: title
+    tile_builder_btn: tile_builder_btn
+    item_builder_btn: item_builder_btn
+    class_builder_btn: class_builder_btn
+    npc_builder_btn: npc_builder_btn
+    object_builder_btn: object_builder_btn
+    quest_builder_btn: quest_builder_btn
+    back_btn: back_btn
+    TextworldTLTitle:
+        id: title
+    TextworldTLTileBtn:
+        id: tile_builder_btn
+    TextworldTLItemBtn:
+        id: item_builder_btn
+    TextworldTLClassBtn:
+        id: class_builder_btn
+    TextworldTLNPCBtn:
+        id: npc_builder_btn
+    TextworldTLObjBtn:
+        id: object_builder_btn
+    TextworldTLQstBtn:
+        id: quest_builder_btn
+    TextworldTLBackBtn:
+        id: back_btn
+
+<TextworldTLScreen>:
+    layout: layout
+    TextworldTLLayout:
+        id: layout

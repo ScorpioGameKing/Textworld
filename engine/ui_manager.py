@@ -6,6 +6,7 @@ from ui.game_ui import TextworldGScreen
 from ui.main_menu import TextworldMMScreen
 from ui.load_ui import TextworldLdScreen
 from ui.new_game_ui import TextworldNGScreen
+from ui.tools_ui import TextworldTLScreen
 from generation import TextworldWorld
 from models import Size
 from database import WorldDatabase
@@ -28,6 +29,7 @@ class TextworldUIManager(ScreenManager):
         self.add_widget(TextworldGScreen(name='game_ui'))
         self.add_widget(TextworldLdScreen(name='load_ui'))
         self.add_widget(TextworldNGScreen(name='new_gen_ui'))
+        self.add_widget(TextworldTLScreen(name='tools_ui'))
     
     @mainthread
     def update_gen_progess(self, val:float):
