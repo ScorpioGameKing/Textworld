@@ -1,34 +1,38 @@
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.screenmanager import Screen
-from kivy.uix.label import Label
-from kivy.uix.button import Button
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.label import MDLabel
+from kivymd.uix.button import MDButton
+from kivymd.app import MDApp
+from kivymd.uix.transition.transition import MDSlideTransition
 from kivy.properties import ObjectProperty
 
-class TextworldTLTitle(Label):
+class TextworldTLTitle(MDLabel):
     pass
 
-class TextworldTLTileBtn(Button):
+class TextworldTLTileBtn(MDButton):
     pass
 
-class TextworldTLItemBtn(Button):
+class TextworldTLItemBtn(MDButton):
     pass
 
-class TextworldTLClassBtn(Button):
+class TextworldTLClassBtn(MDButton):
     pass
 
-class TextworldTLNPCBtn(Button):
+class TextworldTLNPCBtn(MDButton):
     pass
 
-class TextworldTLObjBtn(Button):
+class TextworldTLObjBtn(MDButton):
     pass
 
-class TextworldTLQstBtn(Button):
+class TextworldTLQstBtn(MDButton):
     pass
 
-class TextworldTLBackBtn(Button):
-    pass
+class TextworldTLBackBtn(MDButton):
+    def on_press(self):
+        MDApp.get_running_app().game.transition = MDSlideTransition(direction='right')
+        MDApp.get_running_app().game.current = 'main_menu_ui'
 
-class TextworldTLLayout(BoxLayout):
+class TextworldTLLayout(MDBoxLayout):
     title = ObjectProperty(None)
     tile_builder_btn = ObjectProperty(None)
     item_builder_btn = ObjectProperty(None)
@@ -38,5 +42,5 @@ class TextworldTLLayout(BoxLayout):
     quest_builder_btn = ObjectProperty(None)
     back_btn = ObjectProperty(None)
 
-class TextworldTLScreen(Screen):
+class TextworldTLScreen(MDScreen):
     layout = ObjectProperty(None)

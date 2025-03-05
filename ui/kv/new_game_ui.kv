@@ -1,89 +1,85 @@
 #:kivy 1.0.9
 
 <TextworldNGTitle>:
-    markup: True
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 64
+    text: "World Generation Settings"
     halign: 'center'
     valign: 'center'
-    text: "World Generation Settings"
+    text_color: "snow"
+    font_style: "monocraft"
+    role: 'large'    
 
 <TextworldNGNameRow>:
     orientation: 'horizontal'
-    padding: [8,8,8,8]
+    padding: [12,12,12,12]
+    spacing: 12
     save_name: save_name
-    Label:
-        markup: True
-        font_name: ".\Fonts\Monocraft.ttf"
-        font_size: 24
-        halign: 'center'
-        valign: 'center'
+    MDLabel:
         text: "Save Name"
-    TextInput:
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
+    MDTextField:
         id: save_name
-        multiline: False
         font_name: ".\Fonts\Monocraft.ttf"
-        font_size: 24
-        size_hint_y: None
-        height: 34
+        multiline: False
+        mode: "outlined"
     
 <TextworldNGSizeRow>:
     orientation: 'horizontal'
-    padding: [8,8,8,8]
+    padding: [12,12,12,12]
+    spacing: 12
     chunk_size: chunk_size
-    Label:
-        markup: True
-        font_name: ".\Fonts\Monocraft.ttf"
-        font_size: 24
-        halign: 'center'
-        valign: 'center'
+    MDLabel:
         text: "Chunk Size"
-    TextInput:
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
+    MDTextField:
         id: chunk_size
-        multiline: False
         font_name: ".\Fonts\Monocraft.ttf"
-        font_size: 24
-        size_hint_y: None
-        height: 34
+        multiline: False
+        mode: "outlined"
 
 <TextworldNGCountRow>:
     orientation: 'horizontal'
-    padding: [8,8,8,8]
+    padding: [12,12,12,12]
+    spacing: 12
     chunk_count: chunk_count
-    Label:
-        markup: True
-        font_name: ".\Fonts\Monocraft.ttf"
-        font_size: 24
-        halign: 'center'
-        valign: 'center'
+    MDLabel:
         text: "Chunk Count"
-    TextInput:
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
+    MDTextField:
         id: chunk_count
-        multiline: False
         font_name: ".\Fonts\Monocraft.ttf"
-        font_size: 24
-        size_hint_y: None
-        height: 34
+        multiline: False
+        mode: "outlined"
 
 <TextworldNGButtonRow>:
     orientation: 'horizontal'
-    padding: [8,8,8,8]
-    Button:
-        markup: True
-        font_name: ".\Fonts\Monocraft.ttf"
-        font_size: 24
-        halign: 'center'
-        valign: 'center'
-        text: "Back"
+    padding: [12,12,12,12]
+    spacing: 12
+    MDButton:
+        style: "outlined"
+        height: "56dp"
         on_press: app.get_running_app().game.current = 'main_menu_ui'
-    Button:
-        markup: True
-        font_name: ".\Fonts\Monocraft.ttf"
-        font_size: 24
-        halign: 'center'
-        valign: 'center'
-        text: "Generate"
+        MDButtonText:
+            text: "Back"
+            theme_text_color: "Custom"
+            text_color: "snow"
+            font_style: "monocraft"
+            role: 'small'
+    MDButton:
+        style: "outlined"
+        height: "56dp"
         on_press: app.get_running_app().game.newGenMenuCall()
+        MDButtonText:
+            text: "Generate"
+            theme_text_color: "Custom"
+            text_color: "snow"
+            font_style: "monocraft"
+            role: 'small'
 
 <TextworldNGProgressBar>:
     min: 0
@@ -91,7 +87,8 @@
 
 <TextworldNGLayout>:
     orientation: 'vertical'
-    padding: [8,8,8,8]
+    padding: [12,12,12,12]
+    spacing: 12
     title: title
     name_row: name_row
     size_row: size_row

@@ -1,31 +1,31 @@
-from kivy.uix.label import Label
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.screenmanager import Screen
-from kivy.uix.progressbar import ProgressBar
+from kivymd.uix.label import MDLabel
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.progressindicator import MDLinearProgressIndicator
 from kivy.properties import ObjectProperty
 import logging
 
-class TextworldNGTitle(Label):
+class TextworldNGTitle(MDLabel):
     pass
 
-class TextworldNGNameRow(BoxLayout):
+class TextworldNGNameRow(MDBoxLayout):
     pass
 
-class TextworldNGSizeRow(BoxLayout):
+class TextworldNGSizeRow(MDBoxLayout):
     pass
 
-class TextworldNGCountRow(BoxLayout):
+class TextworldNGCountRow(MDBoxLayout):
     pass
 
-class TextworldNGButtonRow(BoxLayout):
+class TextworldNGButtonRow(MDBoxLayout):
     pass
 
-class TextworldNGProgressBar(ProgressBar):  
+class TextworldNGProgressBar(MDLinearProgressIndicator):  
     def update(self, _value:float, dt):
         logging.debug(f"Updating: {self._get_value()} To: {_value}")
         self.value = _value
 
-class TextworldNGLayout(BoxLayout):
+class TextworldNGLayout(MDBoxLayout):
     title = ObjectProperty(None)
     name_row = ObjectProperty(None)
     size_row = ObjectProperty(None)
@@ -33,5 +33,5 @@ class TextworldNGLayout(BoxLayout):
     button_row = ObjectProperty(None)
     progress = ObjectProperty(None)
 
-class TextworldNGScreen(Screen):
+class TextworldNGScreen(MDScreen):
     layout = ObjectProperty(None)

@@ -28,7 +28,7 @@ class TextworldLdSaveView(MDBoxLayout):
         self.ids = []
         for i in range(len(self.worlds)):
             if len(self.children) > 0:
-                if self.children[i - 1].text == self.worlds[i - 1]:
+                if self.children[i - 1].txt.text == self.worlds[i - 1]:
                     continue
                 else:
                     btn = LoadedSaveBtn(world=self.worlds[i - 1])

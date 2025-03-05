@@ -1,58 +1,87 @@
 #:kivy 1.0.9
 
 <TextworldTLTitle>:
-    markup: True
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 64
+    text: "TEXTWORLD TOOLS"
     halign: 'center'
     valign: 'center'
-    text: "TEXTWORLD TOOLS"
+    text_color: "snow"
+    font_style: "monocraft"
+    role: 'large'
 
 <TextworldTLTileBtn>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint: (.25, .25)
-    text: "Tile Builder"
-
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Tile Builder"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
+    
 <TextworldTLItemBtn>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint: (.25, .25)
-    text: "Item Builder"
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Item Builder"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
 
 <TextworldTLClassBtn>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint: (.25, .25)
-    text: "Class Builder"
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Class Builder"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
 
 <TextworldTLNPCBtn>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint: (.25, .25)
-    text: "NPC Builder"
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "NPC Builder"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
 
 <TextworldTLObjBtn>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint: (.25, .25)
-    text: "OBJ Builder"
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Object Builder"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
 
 <TextworldTLQstBtn>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint: (.25, .25)
-    text: "Quest Builder"
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Quest Builder"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
 
 <TextworldTLBackBtn>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint: (.25, .25)
-    text: "Back"
-    on_press: app.get_running_app().game.current = 'main_menu_ui'
-
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Back"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
+    
 <TextworldTLLayout>:
     orientation: 'vertical'
+    padding: [12,12,12,12]
+    spacing: 12
     title: title
     tile_builder_btn: tile_builder_btn
     item_builder_btn: item_builder_btn

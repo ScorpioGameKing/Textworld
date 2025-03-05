@@ -13,11 +13,13 @@ class TextworldMMNew(MDButton):
     def on_press(self):
         MDApp.get_running_app().game.transition = MDSlideTransition(direction='down')
         MDApp.get_running_app().game.current = 'new_gen_ui'
+        MDApp.get_running_app().game.transition = MDSlideTransition(direction='up')
 
 class TextworldMMLoad(MDButton):
     def on_press(self):
         MDApp.get_running_app().game.transition = MDSlideTransition(direction='up')
         MDApp.get_running_app().game.current = 'load_ui'
+        MDApp.get_running_app().game.transition = MDSlideTransition(direction='down')
 
 class TextworldMMTools(MDButton):
     def on_press(self):
