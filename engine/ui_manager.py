@@ -1,4 +1,4 @@
-from kivy.uix.screenmanager import ScreenManager
+from kivymd.uix.screenmanager import MDScreenManager
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.clock import Clock, mainthread
@@ -13,7 +13,7 @@ from database import WorldDatabase
 from functools import partial
 import logging
 
-class TextworldUIManager(ScreenManager):
+class TextworldUIManager(MDScreenManager):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 

@@ -1,26 +1,35 @@
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.screenmanager import Screen
-from kivy.uix.button import Button
+from kivymd.app import MDApp
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.transition.transition import MDSlideTransition
+from kivymd.uix.label import MDLabel
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.button import MDButton
 from kivy.properties import ObjectProperty
 
-class TextworldMMTitle(Label):
+class TextworldMMTitle(MDLabel):
     pass
 
-class TextworldMMNew(Button):
-    pass
+class TextworldMMNew(MDButton):
+    def on_press(self):
+        MDApp.get_running_app().game.transition = MDSlideTransition(direction='down')
+        MDApp.get_running_app().game.current = 'new_gen_ui'
 
-class TextworldMMLoad(Button):
-    pass
+class TextworldMMLoad(MDButton):
+    def on_press(self):
+        MDApp.get_running_app().game.transition = MDSlideTransition(direction='up')
+        MDApp.get_running_app().game.current = 'load_ui'
 
-class TextworldMMTools(Button):
-    pass
+class TextworldMMTools(MDButton):
+    def on_press(self):
+        MDApp.get_running_app().game.transition = MDSlideTransition(direction='left')
+        MDApp.get_running_app().game.current = 'tools_ui'
 
-class TextworldMMExit(Button):
-    pass
+class TextworldMMExit(MDButton):
+    def on_press(self):
+        MDApp.get_running_app().stop()
 
 # Container for Title and Menu Buttons
-class TextworldMMLayout(BoxLayout):
+class TextworldMMLayout(MDBoxLayout):
     title = ObjectProperty(None)
     btn_new = ObjectProperty(None)
     btn_load = ObjectProperty(None)
@@ -28,5 +37,5 @@ class TextworldMMLayout(BoxLayout):
     btn_exit = ObjectProperty(None)
 
 # Wraps the Layout into a screen
-class TextworldMMScreen(Screen):
+class TextworldMMScreen(MDScreen):
     layout = ObjectProperty(None)

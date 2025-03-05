@@ -1,13 +1,44 @@
-from kivy.app import App
+from kivy.core.text import LabelBase
+from kivy.metrics import sp
+from kivy.utils import hex_colormap
+from kivymd.app import MDApp
 from engine.ui_manager import TextworldUIManager
 from database import Database
 from database import Color, World, Tile
 
 # The main kivy App, build the required parts, schedule the loops and return
-class TextworldApp(App):
+class TextworldApp(MDApp):
 
     # This Runs everything
     def build(self):
+
+        LabelBase.register(
+            name="monocraft", 
+            fn_regular=".\Fonts\Monocraft.ttf"
+        )
+
+        print(hex_colormap.keys())
+
+        self.theme_cls.theme_style = "Dark"
+        self.theme_cls.primary_palette = "Gray"
+
+        self.theme_cls.font_styles["monocraft"] = {
+            "large": {
+                "line-height": 1.64,
+                "font-name": "monocraft",
+                "font-size": sp(57)
+            },
+            "medium": {
+                "line-height": 1.52,
+                "font-name": "monocraft",
+                "font-size": sp(45)
+            },
+            "small": {
+                "line-height": 1.44,
+                "font-name": "monocraft",
+                "font-size": sp(36)
+            }
+        }
 
         # Init UI and Management System
         self.game = TextworldUIManager()

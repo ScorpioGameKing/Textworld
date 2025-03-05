@@ -1,44 +1,58 @@
 #:kivy 1.0.9
 
 <TextworldMMTitle>:
-    markup: True
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 64
+    text: "TEXTWORLD"
     halign: 'center'
     valign: 'center'
-    text: "TEXTWORLD"
+    theme_text_color: "Custom"
+    text_color: "snow"
+    font_style: "monocraft"
+    role: 'large'
 
 <TextworldMMNew>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint: (.25, .25)
-    text: "New Game"
-    on_press: app.get_running_app().game.current = 'new_gen_ui'
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "New Game"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
     
 <TextworldMMLoad>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint: (.25, .25)
-    text: "Load Game"
-    on_press: app.get_running_app().game.current = 'load_ui'
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Load Game"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
 
 <TextworldMMTools>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint: (.25, .25)
-    text: "Mod Tools"
-    on_press: app.get_running_app().game.current = 'tools_ui'
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Mod Tools"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
 
 <TextworldMMExit>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint: (.25, .25)
-    text: "Exit Game"
-    on_press: app.get_running_app().stop()
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Exit Game"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
 
 <TextworldMMLayout>
     orientation: 'vertical'
-    padding: [8,8,8,8]
+    padding: [12,12,12,12]
+    spacing: 12
     title: title
     btn_new: btn_new
     btn_load: btn_load

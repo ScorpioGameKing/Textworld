@@ -1,27 +1,35 @@
 #:kivy 1.0.9
 
 <LoadedSaveBtn>:
-    halign: 'center'
-    valign: 'top'
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint_y: None
-    size_hint_x: None
-    size: (200, 100)
-    text_size: self.size
+    style: "outlined"
+    height: "56dp"
+    txt: txt
+    MDButtonText:
+        id: txt
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
 
 <TextworldLdSaveView>:
     orientation: 'vertical'
-    padding: [8,8,8,8]
+    padding: [2,2,2,2]
+    spacing: 12
 
 <TextworldLdBackBtn>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint: (.25, .25)
-    text: "Back"
-    on_press: app.get_running_app().game.current = 'main_menu_ui'
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Back"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
 
 <TextworldLdLeftPanel>:
+    orientation: 'vertical'
+    padding: [2,2,2,2]
+    spacing: 12
     save_view: save_view
     back_btn: back_btn
     TextworldLdSaveView:
@@ -30,28 +38,41 @@
         id: back_btn
 
 <TextworldLdDeleteBtn>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint: (.25, .25)
-    text: "Delete"
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Delete"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
 
 <TextworldLdLoadBtn>:
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 24
-    size_hint: (.25, .25)
-    text: "Load"
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Load"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
 
 <TextworldLdInfoPanel>:
     orientation: 'horizontal'
-    padding: [8,8,8,8]
+    padding: [2,2,2,2]
+    spacing: 12
     world_name: name
-    Label:
+    MDLabel:
         id: name
-        text: "Test"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'small'
 
 <TextworldLdOptions>:
     orientation: 'horizontal'
-    padding: [8,8,8,8]
+    padding: [2,2,2,2]
+    spacing: 12
     delete: delete
     load: load
     TextworldLdDeleteBtn:
@@ -61,7 +82,8 @@
 
 <TextworldLdRightPanel>:
     orientation: 'vertical'
-    padding: [8,8,8,8]
+    padding: [2,2,2,2]
+    spacing: 12
     info_panel: info_panel
     options: options
     TextworldLdInfoPanel:
@@ -71,7 +93,8 @@
 
 <TextworldLdMenuLayout>:
     orientation: 'horizontal'
-    padding: [8,8,8,8]
+    padding: [2,2,2,2]
+    spacing: 12
     left_panel: left_panel
     right_panel: right_panel
     TextworldLdLeftPanel:

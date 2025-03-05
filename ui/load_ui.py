@@ -1,22 +1,25 @@
-from kivy.uix.button import Button
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.screenmanager import Screen
+from kivymd.uix.button import MDButton
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.transition.transition import MDSlideTransition
 from kivy.properties import ObjectProperty
-from kivy.app import App
+from kivymd.app import MDApp
 from database import WorldDatabase
 import logging
 
-class LoadedSaveBtn(Button):
+class LoadedSaveBtn(MDButton):
+    txt = ObjectProperty(None)
 
     def __init__(self, world, **kwargs):
         super(LoadedSaveBtn, self).__init__(**kwargs)
         self.id = world
+        self.txt.text = world
     
     def on_press(self):
         self.parent.parent.parent.right_panel.update_panel(self.id)
         return super().on_press()
 
-class TextworldLdSaveView(BoxLayout):
+class TextworldLdSaveView(MDBoxLayout):
     def updateWorldList(self, save_names):
         self.worlds = save_names
         logging.debug(f"Children: {self.children} Count: {len(self.children)} db Count: {len(self.worlds)}")
@@ -28,24 +31,26 @@ class TextworldLdSaveView(BoxLayout):
                 if self.children[i - 1].text == self.worlds[i - 1]:
                     continue
                 else:
-                    btn = LoadedSaveBtn(world=self.worlds[i - 1], text=self.worlds[i - 1])
+                    btn = LoadedSaveBtn(world=self.worlds[i - 1])
                     self.ids[f'{self.worlds[i - 1]}'] = btn
                     self.add_widget(btn)
             else:
-                btn = LoadedSaveBtn(world=self.worlds[i - 1], text=self.worlds[i - 1])
+                btn = LoadedSaveBtn(world=self.worlds[i - 1])
                 self.ids[f'{self.worlds[i - 1]}'] = btn
                 self.add_widget(btn)
         logging.debug(f"Layout Children: {self.ids} Count: {len(self.children)}")
         
 
-class TextworldLdBackBtn(Button):
-    pass
+class TextworldLdBackBtn(MDButton):
+    def on_press(self):
+        MDApp.get_running_app().game.transition = MDSlideTransition(direction='down')
+        MDApp.get_running_app().game.current = 'main_menu_ui'
 
-class TextworldLdLeftPanel(BoxLayout):
+class TextworldLdLeftPanel(MDBoxLayout):
     save_view = ObjectProperty(None)
     back_btn = ObjectProperty(None)
 
-class TextworldLdDeleteBtn(Button):
+class TextworldLdDeleteBtn(MDButton):
     world_id:str
     db:WorldDatabase
     def on_press(self):
@@ -54,22 +59,22 @@ class TextworldLdDeleteBtn(Button):
         self.parent.parent.parent.left_panel.save_view.updateWorldList(self.db.load_save_names())
         return super().on_press()
 
-class TextworldLdLoadBtn(Button):
+class TextworldLdLoadBtn(MDButton):
     world_id:str
     db:WorldDatabase
     def on_press(self):
         world_data = self.db.load_world_from_db(self.world_id)
-        App.get_running_app().game.loadSaveMenuCall(world_data, self.world_id)
+        MDApp.get_running_app().game.loadSaveMenuCall(world_data, self.world_id)
         return super().on_press()
 
-class TextworldLdOptions(BoxLayout):
+class TextworldLdOptions(MDBoxLayout):
     delete = ObjectProperty(None)
     load = ObjectProperty(None)
 
-class TextworldLdInfoPanel(BoxLayout):
+class TextworldLdInfoPanel(MDBoxLayout):
     pass
 
-class TextworldLdRightPanel(BoxLayout):
+class TextworldLdRightPanel(MDBoxLayout):
     info_panel = ObjectProperty(None)
     options = ObjectProperty(None)
 
@@ -78,11 +83,11 @@ class TextworldLdRightPanel(BoxLayout):
         self.options.load.world_id = world_id
         self.options.delete.world_id = world_id
 
-class TextworldLdMenuLayout(BoxLayout):
+class TextworldLdMenuLayout(MDBoxLayout):
     left_panel = ObjectProperty(None)
     right_panel = ObjectProperty(None)
 
-class TextworldLdScreen(Screen):
+class TextworldLdScreen(MDScreen):
     layout = ObjectProperty(None)
     __db: WorldDatabase
 
