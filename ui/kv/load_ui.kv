@@ -32,6 +32,13 @@
     spacing: 12
     save_view: save_view
     back_btn: back_btn
+    MDLabel:
+        text: "SAVES"
+        halign: 'left'
+        valign: 'top'
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'medium'
     TextworldLdSaveView:
         id: save_view
     TextworldLdBackBtn:
@@ -58,7 +65,7 @@
         role: 'medium'
 
 <TextworldLdInfoPanel>:
-    orientation: 'horizontal'
+    orientation: 'vertical'
     padding: [2,2,2,2]
     spacing: 12
     world_name: name
@@ -67,6 +74,8 @@
         theme_text_color: "Custom"
         text_color: "snow"
         font_style: "monocraft"
+        halign: 'left'
+        valign: 'top'
         role: 'medium'
 
 <TextworldLdOptions>:
@@ -86,6 +95,13 @@
     spacing: 12
     info_panel: info_panel
     options: options
+    MDLabel:
+        text: "WORLD DETAILS"
+        halign: 'center'
+        valign: 'top'
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'medium'
     TextworldLdInfoPanel:
         id: info_panel
     TextworldLdOptions:

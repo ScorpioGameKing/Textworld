@@ -14,13 +14,11 @@ class TextworldApp(MDApp):
 
         LabelBase.register(
             name="monocraft", 
-            fn_regular=".\Fonts\Monocraft.ttf"
+            fn_regular="./Fonts/Monocraft.ttf"
         )
 
-        print(hex_colormap.keys())
-
         self.theme_cls.theme_style = "Dark"
-        self.theme_cls.primary_palette = "Gray"
+        self.theme_cls.backgroundColor = '#505050'
 
         self.theme_cls.font_styles["monocraft"] = {
             "large": {
