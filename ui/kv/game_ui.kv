@@ -1,51 +1,36 @@
 #:kivy 1.0.9
 
 <TextworldGDisplay>:
-    markup: True
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 12
+    size_hint: (1, 1)
     text_size: self.size
-    halign: 'center'
-    valign: 'center'
+    markup: True
+    font_style: "monocraft"
+    role: 'small'
 
 <TextworldGTerminal>:
-    canvas:
-        Color:
-            rgba: (.15, .35, .35, .25)
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    markup: True
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 18
-    text_size: self.size
+    font_style: "monocraft"
+    role: 'small'
     halign: 'left'
     valign: 'bottom'
 
 <TextworldGInput>:
     multiline: False
     font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 18
-    size_hint_y: None
-    height: 34
+    mode: "outlined"
 
 <TextworldGMenu>:
+    size_hint: (1, 1)
     markup: True
-    font_name: ".\Fonts\Monocraft.ttf"
-    font_size: 18
-    text_size: self.size
-    halign: 'center'
+    text: "DEBUG CONTROLS:\nARROWS: Move Camera\nCLICK COMMAND INPUT: Enable Typing"
+    font_style: "monocraft"
+    role: 'small'
+    halign: 'left'
     valign: 'top'
 
 <TextworldLLayout>:
-    canvas:
-        Color:
-            rgba: (.0625, .0625, .0625, 1)
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    size_hint: (1.5, 1)
-    padding: [6,6,6,6]
+    padding: [4,4,4,4]
+    spacing: 2
+    size_hint: (0.6, 1)
     orientation: 'vertical'
     display: display
     command_terminal: command_terminal
@@ -58,28 +43,26 @@
         id: command_input
 
 <TextworldRLayout>:
-    padding: [2,2,2,2]
-    size_hint: (.75, 1)
+    padding: [4,4,4,4]
+    spacing: 2
+    size_hint: (0.3, 1)
+    orientation: 'vertical'
     game_menu: game_menu
-    orientation: 'horizontal'
     TextworldGMenu:
         id: game_menu
 
 <TextworldMiddleLayout>:
-    canvas:
-        Color:
-            rgba: (.35, .15, .15, 1)
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    padding: [2,2,2,2]
-    size_hint: (.25, 1)
+    padding: [4,4,4,4]
+    spacing: 2
+    size_hint: (0.1, 1)
     #status_bars: status_bars
     #menu_buttons: menu_buttons
     orientation: 'horizontal'
 
 <TextworldGLayout>:
     padding: [2,2,2,2]
+    spacing: 2
+    size_hint: (1, 1)
     left_panel: left_panel
     middle_panel: middle_panel
     right_panel: right_panel

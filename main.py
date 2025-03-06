@@ -26,17 +26,17 @@ class TextworldApp(MDApp):
             "large": {
                 "line-height": 1.64,
                 "font-name": "monocraft",
-                "font-size": sp(57)
+                "font-size": sp(64)
             },
             "medium": {
                 "line-height": 1.52,
                 "font-name": "monocraft",
-                "font-size": sp(45)
+                "font-size": sp(28)
             },
             "small": {
-                "line-height": 1.44,
+                "line-height": 1,
                 "font-name": "monocraft",
-                "font-size": sp(36)
+                "font-size": sp(12)
             }
         }
 

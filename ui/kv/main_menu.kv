@@ -1,5 +1,9 @@
 #:kivy 1.0.9
 
+<TextworldMMBackground>:
+    source: './Assets/TextFightRunning.png'
+    size: self.texture_size
+
 <TextworldMMTitle>:
     text: "TEXTWORLD"
     halign: 'center'
@@ -16,7 +20,7 @@
         theme_text_color: "Custom"
         text_color: "snow"
         font_style: "monocraft"
-        role: 'small'
+        role: 'medium'
     
 <TextworldMMLoad>:
     style: "outlined"
@@ -26,7 +30,7 @@
         theme_text_color: "Custom"
         text_color: "snow"
         font_style: "monocraft"
-        role: 'small'
+        role: 'medium'
 
 <TextworldMMTools>:
     style: "outlined"
@@ -36,7 +40,7 @@
         theme_text_color: "Custom"
         text_color: "snow"
         font_style: "monocraft"
-        role: 'small'
+        role: 'medium'
 
 <TextworldMMExit>:
     style: "outlined"
@@ -46,7 +50,7 @@
         theme_text_color: "Custom"
         text_color: "snow"
         font_style: "monocraft"
-        role: 'small'
+        role: 'medium'
 
 <TextworldMMLayout>
     orientation: 'vertical'
@@ -69,6 +73,9 @@
         id: btn_exit
 
 <TextworldMMScreen>:
+    bg: bg
     layout: layout
+    TextworldMMBackground:
+        id: bg
     TextworldMMLayout:
         id: layout

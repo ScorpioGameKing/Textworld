@@ -1,10 +1,14 @@
 from kivymd.app import MDApp
+from kivy.uix.image import Image
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.transition.transition import MDSlideTransition
 from kivymd.uix.label import MDLabel
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDButton
 from kivy.properties import ObjectProperty
+
+class TextworldMMBackground(Image):
+    pass
 
 class TextworldMMTitle(MDLabel):
     pass
