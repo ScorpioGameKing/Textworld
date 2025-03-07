@@ -2,12 +2,12 @@ from kivymd.uix.screenmanager import MDScreenManager
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.clock import Clock
-from ui.game_ui import TextworldGScreen
-from ui.main_menu import TextworldMMScreen
-from ui.load_ui import TextworldLdScreen
-from ui.new_game_ui import TextworldNGScreen
-from ui.tools_ui import TextworldTLScreen
-from ui.tools.tile_builder import TileBuilderScreen
+from engine.ui import TextworldGScreen
+from engine.ui import TextworldMMScreen
+from engine.ui import TextworldLdScreen
+from engine.ui import TextworldNGScreen
+from engine.ui import TextworldTLScreen
+from engine.ui import TileBuilderScreen
 from generation import TextworldWorld
 from models import Size
 from database import WorldDatabase
@@ -20,12 +20,12 @@ class TextworldUIManager(MDScreenManager):
 
         Window.size = (1438,720)
 
-        Builder.load_file("./ui/kv/new_game_ui.kv")
-        Builder.load_file("./ui/kv/load_ui.kv")
-        Builder.load_file("./ui/kv/tools_ui.kv")
-        Builder.load_file("./ui/kv/main_menu.kv")
-        Builder.load_file("./ui/kv/game_ui.kv")
-        Builder.load_file("./ui/kv/tools/tile_builder.kv")
+        Builder.load_file("./engine/ui/kv/new_game_ui.kv")
+        Builder.load_file("./engine/ui/kv/load_ui.kv")
+        Builder.load_file("./engine/ui/kv/tools_ui.kv")
+        Builder.load_file("./engine/ui/kv/main_menu.kv")
+        Builder.load_file("./engine/ui/kv/game_ui.kv")
+        Builder.load_file("./engine/ui/kv/tools/tile_builder.kv")
 
         self.add_widget(TextworldMMScreen(name='main_menu_ui'))
         self.add_widget(TextworldGScreen(name='game_ui'))

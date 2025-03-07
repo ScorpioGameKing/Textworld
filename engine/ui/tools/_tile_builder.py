@@ -11,7 +11,7 @@ class TileBuilder():
     def load_tile_db(self):
         with TileDatabase() as db:
             db.open()
-            self.sys_tiles = db.execute_one(Tile.SELECT_ALL)
+            self.sys_tiles = db.execute_many(Tile.SELECT_ALL)
         print(self.sys_tiles)
 
 class TileBuilderTitle(MDLabel):
