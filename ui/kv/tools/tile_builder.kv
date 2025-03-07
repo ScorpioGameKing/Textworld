@@ -1,1 +1,35 @@
 #:kivy 1.0.9
+
+<TileBuilderTitle>:
+    text: "TILE BUILDER"
+    halign: 'center'
+    valign: 'center'
+    text_color: "snow"
+    font_style: "monocraft"
+    role: 'large'
+
+<TileBuilderBackBtn>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Back"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft"
+        role: 'medium'
+
+<TileBuilderLayout>:
+    orientation: 'vertical'
+    padding: [12,12,12,12]
+    spacing: 12
+    title: title
+    back_btn: back_btn
+    TileBuilderTitle:
+        id: title
+    TileBuilderBackBtn:
+        id: back_btn
+
+<TileBuilderScreen>:
+    layout: layout
+    TileBuilderLayout:
+        id: layout

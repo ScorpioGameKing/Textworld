@@ -10,7 +10,9 @@ class TextworldTLTitle(MDLabel):
     pass
 
 class TextworldTLTileBtn(MDButton):
-    pass
+    def on_press(self):
+        MDApp.get_running_app().game.transition = MDSlideTransition(direction='left')
+        MDApp.get_running_app().game.current = 'tile_builder'
 
 class TextworldTLItemBtn(MDButton):
     pass

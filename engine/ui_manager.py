@@ -7,6 +7,7 @@ from ui.main_menu import TextworldMMScreen
 from ui.load_ui import TextworldLdScreen
 from ui.new_game_ui import TextworldNGScreen
 from ui.tools_ui import TextworldTLScreen
+from ui.tools.tile_builder import TileBuilderScreen
 from generation import TextworldWorld
 from models import Size
 from database import WorldDatabase
@@ -19,17 +20,19 @@ class TextworldUIManager(MDScreenManager):
 
         Window.size = (1438,720)
 
-        Builder.load_file(".\\ui\\kv\\new_game_ui.kv")
-        Builder.load_file(".\\ui\\kv\\load_ui.kv")
-        Builder.load_file(".\\ui\\kv\\tools_ui.kv")
-        Builder.load_file(".\\ui\\kv\\main_menu.kv")
-        Builder.load_file(".\\ui\\kv\\game_ui.kv")
+        Builder.load_file("./ui/kv/new_game_ui.kv")
+        Builder.load_file("./ui/kv/load_ui.kv")
+        Builder.load_file("./ui/kv/tools_ui.kv")
+        Builder.load_file("./ui/kv/main_menu.kv")
+        Builder.load_file("./ui/kv/game_ui.kv")
+        Builder.load_file("./ui/kv/tools/tile_builder.kv")
 
         self.add_widget(TextworldMMScreen(name='main_menu_ui'))
         self.add_widget(TextworldGScreen(name='game_ui'))
         self.add_widget(TextworldLdScreen(name='load_ui'))
         self.add_widget(TextworldNGScreen(name='new_gen_ui'))
         self.add_widget(TextworldTLScreen(name='tools_ui'))
+        self.add_widget(TileBuilderScreen(name='tile_builder'))
     
     def update_gen_progess(self, val:float):
         Clock.schedule_once(partial(self.get_screen('new_gen_ui').layout.progress.update, val), 0)
