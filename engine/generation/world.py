@@ -1,7 +1,7 @@
 from time import gmtime, strftime, sleep
 from typing import Callable
 from models import Coords, Size, Tile
-from generation.generator import TextworldGenerator
+from engine.generation.generator import TextworldGenerator
 import pickle, gzip, threading, math, logging
 import numpy as np
 

@@ -1,4 +1,4 @@
-from generation import TextworldMap
+from engine.generation import TextworldMap
 from models import Coords, Size
 import math as m
 import logging

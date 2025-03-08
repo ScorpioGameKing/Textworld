@@ -3,8 +3,7 @@ from kivy.metrics import sp
 from kivy.utils import hex_colormap
 from kivymd.app import MDApp
 from engine.ui_manager import TextworldUIManager
-from database import Database
-from database import Color, World, Tile
+from engine.database import Database, Color, World, Tile
 
 # The main kivy App, build the required parts, schedule the loops and return
 class TextworldApp(MDApp):

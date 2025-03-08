@@ -1,11 +1,8 @@
 import logging
 from time import gmtime, strftime
-# import numpy as np
-# from noise import snoise2
-
-from generation.map import TextworldMap
+from engine.generation.map import TextworldMap
 from models import Size, Coords
-from database import TileDatabase
+from engine.database import TileDatabase
 from opensimplex import OpenSimplex
 import numpy as np
 

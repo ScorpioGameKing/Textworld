@@ -8,9 +8,9 @@ from engine.ui import TextworldLdScreen
 from engine.ui import TextworldNGScreen
 from engine.ui import TextworldTLScreen
 from engine.ui import TileBuilderScreen
-from generation import TextworldWorld
+from engine.generation import TextworldWorld
 from models import Size
-from database import WorldDatabase
+from engine.database import WorldDatabase
 from functools import partial
 import logging
 

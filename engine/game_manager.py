@@ -1,7 +1,7 @@
 from kivy.uix.widget import Widget
 from kivy.core.window import Window, Keyboard
 from kivy.app import App
-from generation import TextworldMap, TextworldWorld
+from engine.generation import TextworldMap, TextworldWorld
 from engine.camera import TextworldCamera
 from models import Size, Coords
 import logging
