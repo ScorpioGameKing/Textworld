@@ -32,14 +32,14 @@ class TextworldGenerator():
         scale = (0.5 * 0.0625)
         chunk = TextworldMap(size)
 
+        _w = np.array([((x + (chunk_coords.x * size.width)) * scale) for x in range(size.height)])
+        _h = np.array([((y + (chunk_coords.y * size.height)) * scale) for y in range(size.height)])
+        
+        noise_field = self.__noise_generator.noise2array(_w, _h)
+
         for y in range(size.height):
             for x in range(size.width):
-                noise_val = 0
-                for z in range(4):
-                    noise_x = ((x + (chunk_coords.x * size.width)) * scale)
-                    noise_y = ((y + (chunk_coords.y * size.height)) * scale)
-                    noise_val += self.__noise_generator.noise3(noise_x, noise_y, z)
-                noise_val = np.clip(noise_val, -1, 1)
+                noise_val = noise_field[y][x]
                 db_tile = self.__db.get_tile_by_noise(noise_val)
                 chunk[x,y] = db_tile
 
