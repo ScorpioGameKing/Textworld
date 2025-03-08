@@ -2,7 +2,7 @@
 
 #### -Yet another version of Textworld.
 
-![image info](./git_data/images/037%20Temp%20Main%20Menu%201.png)
+![image info](./Assets/git_data/images/037%20Temp%20Main%20Menu%201.png)
 
 ## Foreward
   -- Now what do I mean by "another" version? Well scattered arcoss my github are various repos name
@@ -14,7 +14,7 @@
   you could get, Attack and Run, 2 actions and some pretty cheesy writing but it worked and it was
   a game I made, the beginning of Textworld.
 
-  ![image info](./git_data/images/TextFightRunning.png)
+  ![image info](./Assets/git_data/images/TextFightRunning.png)
 
   -- Textworld quickly went from a simple 2 command game to a randomly generated open world dungeon
   crawler. Towns and dungeons would spawn around a grid and you'd spawn somewhere on the map. As you
@@ -31,7 +31,7 @@
   the project. But just before that there was one other project. A theoretical one that gave me a
   new spark and desire to work on Textworld.
 
-  ![image info](./git_data/images/000%20display.png)
+  ![image info](./Assets/git_data/images/000%20display.png)
 
   -- I'm a big fan of Rouge-likes and lites as well as old school dungeon crawlers. I'm an avid survial game
   player, randomly generated worlds can have such potential for emergent gameplay with creating bases and

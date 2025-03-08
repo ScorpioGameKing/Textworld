@@ -13,27 +13,49 @@ class TextworldApp(MDApp):
     def build(self):
 
         LabelBase.register(
-            name="monocraft", 
-            fn_regular="./Fonts/Monocraft.ttf"
+            name="monocraft-ui", 
+            fn_regular="./Assets/Fonts/Monocraft.ttf"
+        )
+        LabelBase.register(
+            name="monocraft-game", 
+            fn_regular="./Assets/Fonts/Monocraft.ttf"
         )
 
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.backgroundColor = '#505050'
 
-        self.theme_cls.font_styles["monocraft"] = {
+        self.theme_cls.font_styles["monocraft-ui"] = {
             "large": {
                 "line-height": 1.64,
-                "font-name": "monocraft",
+                "font-name": "monocraft-ui",
                 "font-size": sp(64)
             },
             "medium": {
                 "line-height": 1.52,
-                "font-name": "monocraft",
+                "font-name": "monocraft-ui",
                 "font-size": sp(28)
             },
             "small": {
                 "line-height": 1,
-                "font-name": "monocraft",
+                "font-name": "monocraft-ui",
+                "font-size": sp(18)
+            }
+        }
+
+        self.theme_cls.font_styles["monocraft-game"] = {
+            "large": {
+                "line-height": 1.64,
+                "font-name": "monocraft-game",
+                "font-size": sp(64)
+            },
+            "medium": {
+                "line-height": 1.52,
+                "font-name": "monocraft-game",
+                "font-size": sp(28)
+            },
+            "small": {
+                "line-height": 1,
+                "font-name": "monocraft-game",
                 "font-size": sp(12)
             }
         }
