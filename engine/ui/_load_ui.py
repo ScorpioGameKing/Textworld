@@ -23,23 +23,12 @@ class TextworldLdSaveView(MDBoxLayout):
     def updateWorldList(self, save_names):
         self.worlds = save_names
         logging.debug(f"Children: {self.children} Count: {len(self.children)} db Count: {len(self.worlds)}")
-        for child in self.children:
-            self.remove_widget(child)
-        self.ids = []
+        self.clear_widgets()
         for i in range(len(self.worlds)):
-            if len(self.children) > 0:
-                if self.children[i - 1].txt.text == self.worlds[i - 1]:
-                    continue
-                else:
-                    btn = LoadedSaveBtn(world=self.worlds[i - 1])
-                    self.ids[f'{self.worlds[i - 1]}'] = btn
-                    self.add_widget(btn)
-            else:
                 btn = LoadedSaveBtn(world=self.worlds[i - 1])
                 self.ids[f'{self.worlds[i - 1]}'] = btn
                 self.add_widget(btn)
         logging.debug(f"Layout Children: {self.ids} Count: {len(self.children)}")
-        
 
 class TextworldLdBackBtn(MDButton):
     def on_press(self):
