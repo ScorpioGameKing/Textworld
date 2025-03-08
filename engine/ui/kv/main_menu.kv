@@ -1,0 +1,82 @@
+#:kivy 1.0.9
+
+<TextworldMMBackground>:
+    source: './Assets/TextFightRunning.png'
+    size: self.texture_size
+
+<TextworldMMTitle>:
+    text: "TEXTWORLD"
+    text_size: self.size
+    halign: 'left'
+    valign: 'center'
+    text_color: "snow"
+    font_style: "monocraft-ui"
+    role: 'large'
+
+<TextworldMMNew>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "New Game"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+    
+<TextworldMMLoad>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Load Game"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+
+<TextworldMMTools>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Mod Tools"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+
+<TextworldMMExit>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Exit Game"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+
+<TextworldMMLayout>
+    orientation: 'vertical'
+    padding: [12,12,12,12]
+    spacing: 12
+    title: title
+    btn_new: btn_new
+    btn_load: btn_load
+    btn_tools: btn_tools
+    btn_exit: btn_exit
+    TextworldMMTitle:
+        id: title
+    TextworldMMNew:
+        id: btn_new
+    TextworldMMLoad:
+        id: btn_load
+    TextworldMMTools:
+        id: btn_tools
+    TextworldMMExit:
+        id: btn_exit
+
+<TextworldMMScreen>:
+    bg: bg
+    layout: layout
+    TextworldMMBackground:
+        id: bg
+    TextworldMMLayout:
+        id: layout

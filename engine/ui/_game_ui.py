@@ -1,7 +1,7 @@
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-from kivy.uix.screenmanager import Screen
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.label import MDLabel
+from kivymd.uix.textfield import MDTextField
+from kivymd.uix.screen import MDScreen
 from kivy.properties import ObjectProperty
 from kivy.clock import Clock
 from engine.handbook import HandbookLang
@@ -9,27 +9,27 @@ from engine.game_manager import TextworldGameManagementSystem
 from functools import partial
 
 # Container for Display, Terminal and Input
-class TextworldLLayout(BoxLayout):
+class TextworldLLayout(MDBoxLayout):
     display = ObjectProperty(None)
     command_terminal = ObjectProperty(None)
     command_input = ObjectProperty(None)
 
 # Container for Menus
-class TextworldRLayout(BoxLayout):
+class TextworldRLayout(MDBoxLayout):
     game_menu = ObjectProperty(None)
 
 # Container for Status Bars and Menu Buttons
-class TextworldMiddleLayout(BoxLayout):
+class TextworldMiddleLayout(MDBoxLayout):
     status_bars = ObjectProperty(None)
     menu_buttons = ObjectProperty(None)
 
 # Display Class
-class TextworldGDisplay(Label):
+class TextworldGDisplay(MDLabel):
     def update_text(self, text:str):
         self.text = text
 
 # Terminal Input class, the main interface a play uses to interact with the game
-class TextworldGInput(TextInput):
+class TextworldGInput(MDTextField):
     def __init__(self, **kwargs):
         super(TextworldGInput, self).__init__(**kwargs)
         self.typing = False
@@ -44,7 +44,7 @@ class TextworldGInput(TextInput):
             self.typing = False
 
 # Terminal to hold old player inputs and game outputs
-class TextworldGTerminal(Label):
+class TextworldGTerminal(MDLabel):
     handbook:HandbookLang
     command_queue = []
     max_queue = 10
@@ -69,21 +69,21 @@ class TextworldGTerminal(Label):
             # Remove messages outside queue max size
             case 'AGED':
                 self.command_queue.pop(0)
-                self.text = ""
+                self.txt.text = ""
                 for cmd in self.command_queue:
                     self.text += f'{cmd}\n'
 
 # The right side menu for Stats, Equipment, Spells, etc
-class TextworldGMenu(Label):
-    text = "DEBUG CONTROLS:\nARROWS: Move Camera\nCLICK COMMAND INPUT: Enable Typing"
+class TextworldGMenu(MDLabel):
+    pass
 
 # Game Container
-class TextworldGLayout(BoxLayout):
+class TextworldGLayout(MDBoxLayout):
     left_panel = ObjectProperty(None)
     right_panel = ObjectProperty(None)
 
 # Wraps everything in a screen
-class TextworldGScreen(Screen):
+class TextworldGScreen(MDScreen):
     game_layout = ObjectProperty(None)
     game_manager = TextworldGameManagementSystem()
 

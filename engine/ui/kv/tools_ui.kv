@@ -1,0 +1,114 @@
+#:kivy 1.0.9
+
+<TextworldTLTitle>:
+    text: "TEXTWORLD TOOLS"
+    text_size: self.size
+    halign: 'center'
+    valign: 'top'
+    text_color: "snow"
+    font_style: "monocraft-ui"
+    role: 'large'
+
+<TextworldTLTileBtn>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Tile Builder"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+    
+<TextworldTLItemBtn>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Item Builder"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+
+<TextworldTLClassBtn>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Class Builder"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+
+<TextworldTLNPCBtn>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "NPC Builder"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+
+<TextworldTLObjBtn>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Object Builder"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+
+<TextworldTLQstBtn>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Quest Builder"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+
+<TextworldTLBackBtn>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Back"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+    
+<TextworldTLLayout>:
+    orientation: 'vertical'
+    padding: [12,12,12,12]
+    spacing: 12
+    title: title
+    tile_builder_btn: tile_builder_btn
+    item_builder_btn: item_builder_btn
+    class_builder_btn: class_builder_btn
+    npc_builder_btn: npc_builder_btn
+    object_builder_btn: object_builder_btn
+    quest_builder_btn: quest_builder_btn
+    back_btn: back_btn
+    TextworldTLTitle:
+        id: title
+    TextworldTLTileBtn:
+        id: tile_builder_btn
+    TextworldTLItemBtn:
+        id: item_builder_btn
+    TextworldTLClassBtn:
+        id: class_builder_btn
+    TextworldTLNPCBtn:
+        id: npc_builder_btn
+    TextworldTLObjBtn:
+        id: object_builder_btn
+    TextworldTLQstBtn:
+        id: quest_builder_btn
+    TextworldTLBackBtn:
+        id: back_btn
+
+<TextworldTLScreen>:
+    layout: layout
+    TextworldTLLayout:
+        id: layout

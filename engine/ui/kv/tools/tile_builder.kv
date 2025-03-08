@@ -1,0 +1,84 @@
+#:kivy 1.0.9
+
+<TileBuilderTitle>:
+    text: "TILE BUILDER"
+    text_size: self.size
+    halign: 'center'
+    valign: 'top'
+    text_color: "snow"
+    font_style: "monocraft-ui"
+    role: 'large'
+
+<TileBuilderBackBtn>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Back"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+
+<TileBuilderLoadedTiles>:
+    orientation: 'vertical'
+    padding: [12,12,12,12]
+    spacing: 12
+
+<TileBuilderTileWeights>:
+    orientation: 'vertical'
+    padding: [12,12,12,12]
+    spacing: 12
+
+<TileBuilderTileProps>:
+    orientation: 'vertical'
+    padding: [12,12,12,12]
+    spacing: 12
+
+<TileBuilderLeftPanel>:
+    orientation: 'vertical'
+    padding: [12,12,12,12]
+    spacing: 12
+    loaded_tiles: loaded_tiles
+    back_btn: back_btn
+    TileBuilderLoadedTiles:
+        id: loaded_tiles
+    TileBuilderBackBtn:
+        id: back_btn
+
+<TileBuilderCenterPanel>:
+    orientation: 'vertical'
+    padding: [12,12,12,12]
+    spacing: 12
+    title: title
+    tile_weights: tile_weights
+    TileBuilderTitle:
+        id: title
+    TileBuilderTileWeights:
+        id: tile_weights
+
+<TileBuilderRightPanel>:
+    orientation: 'vertical'
+    padding: [12,12,12,12]
+    spacing: 12
+    tile_props: tile_props
+    TileBuilderTileProps:
+        id: tile_props
+
+<TileBuilderLayout>:
+    orientation: 'horizontal'
+    padding: [12,12,12,12]
+    spacing: 12
+    left_panel: left_panel
+    center_panel: center_panel
+    right_panel: right_panel
+    TileBuilderLeftPanel:
+        id: left_panel
+    TileBuilderCenterPanel:
+        id: center_panel
+    TileBuilderRightPanel:
+        id: right_panel
+
+<TileBuilderScreen>:
+    layout: layout
+    TileBuilderLayout:
+        id: layout

@@ -1,35 +1,39 @@
-from kivy.uix.screenmanager import ScreenManager
+from kivymd.uix.screenmanager import MDScreenManager
 from kivy.core.window import Window
 from kivy.lang import Builder
-from kivy.clock import Clock, mainthread
-from ui.game_ui import TextworldGScreen
-from ui.main_menu import TextworldMMScreen
-from ui.load_ui import TextworldLdScreen
-from ui.new_game_ui import TextworldNGScreen
-from generation import TextworldWorld
+from kivy.clock import Clock
+from engine.ui import TextworldGScreen
+from engine.ui import TextworldMMScreen
+from engine.ui import TextworldLdScreen
+from engine.ui import TextworldNGScreen
+from engine.ui import TextworldTLScreen
+from engine.ui import TileBuilderScreen
+from engine.generation import TextworldWorld
 from models import Size
-from database import WorldDatabase
+from engine.database import WorldDatabase
 from functools import partial
 import logging
 
-class TextworldUIManager(ScreenManager):
+class TextworldUIManager(MDScreenManager):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
         Window.size = (1438,720)
 
-        Builder.load_file(".\\ui\\kv\\new_game_ui.kv")
-        Builder.load_file(".\\ui\\kv\\load_ui.kv")
-        Builder.load_file(".\\ui\\kv\\tools_ui.kv")
-        Builder.load_file(".\\ui\\kv\\main_menu.kv")
-        Builder.load_file(".\\ui\\kv\\game_ui.kv")
+        Builder.load_file("./engine/ui/kv/new_game_ui.kv")
+        Builder.load_file("./engine/ui/kv/load_ui.kv")
+        Builder.load_file("./engine/ui/kv/tools_ui.kv")
+        Builder.load_file("./engine/ui/kv/main_menu.kv")
+        Builder.load_file("./engine/ui/kv/game_ui.kv")
+        Builder.load_file("./engine/ui/kv/tools/tile_builder.kv")
 
         self.add_widget(TextworldMMScreen(name='main_menu_ui'))
         self.add_widget(TextworldGScreen(name='game_ui'))
         self.add_widget(TextworldLdScreen(name='load_ui'))
         self.add_widget(TextworldNGScreen(name='new_gen_ui'))
+        self.add_widget(TextworldTLScreen(name='tools_ui'))
+        self.add_widget(TileBuilderScreen(name='tile_builder'))
     
-    @mainthread
     def update_gen_progess(self, val:float):
         Clock.schedule_once(partial(self.get_screen('new_gen_ui').layout.progress.update, val), 0)
 

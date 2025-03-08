@@ -1,0 +1,124 @@
+#:kivy 1.0.9
+
+<TextworldNGTitle>:
+    text: "World Generation Settings"
+    halign: 'center'
+    valign: 'center'
+    text_size: self.size
+    text_color: "snow"
+    font_style: "monocraft-ui"
+    role: 'large'    
+
+<TextworldNGNameRow>:
+    orientation: 'horizontal'
+    padding: [12,12,12,12]
+    spacing: 12
+    save_name: save_name
+    MDLabel:
+        text: "Save Name"
+        halign: 'center'
+        valign: 'center'
+        text_size: self.size
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+    MDTextField:
+        id: save_name
+        font_name: "./Assets/Fonts/Monocraft.ttf"
+        multiline: False
+        mode: "outlined"
+    
+<TextworldNGSizeRow>:
+    orientation: 'horizontal'
+    padding: [12,12,12,12]
+    spacing: 12
+    chunk_size: chunk_size
+    MDLabel:
+        text: "Chunk Size"
+        halign: 'center'
+        valign: 'center'
+        text_size: self.size
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+    MDTextField:
+        id: chunk_size
+        font_name: "./Assets/Fonts/Monocraft.ttf"
+        multiline: False
+        mode: "outlined"
+
+<TextworldNGCountRow>:
+    orientation: 'horizontal'
+    padding: [12,12,12,12]
+    spacing: 12
+    chunk_count: chunk_count
+    MDLabel:
+        text: "Chunk Count"
+        halign: 'center'
+        valign: 'center'
+        text_size: self.size
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+    MDTextField:
+        id: chunk_count
+        font_name: "./Assets/Fonts/Monocraft.ttf"
+        multiline: False
+        mode: "outlined"
+
+<TextworldNGButtonRow>:
+    orientation: 'horizontal'
+    padding: [12,12,12,12]
+    spacing: 12
+    MDButton:
+        style: "outlined"
+        height: "56dp"
+        on_press: app.get_running_app().game.current = 'main_menu_ui'
+        MDButtonText:
+            text: "Back"
+            theme_text_color: "Custom"
+            text_color: "snow"
+            font_style: "monocraft-ui"
+            role: 'medium'
+    MDButton:
+        style: "outlined"
+        height: "56dp"
+        on_press: app.get_running_app().game.newGenMenuCall()
+        MDButtonText:
+            text: "Generate"
+            theme_text_color: "Custom"
+            text_color: "snow"
+            font_style: "monocraft-ui"
+            role: 'medium'
+
+<TextworldNGProgressBar>:
+    min: 0
+    max: 1
+
+<TextworldNGLayout>:
+    orientation: 'vertical'
+    padding: [12,12,12,12]
+    spacing: 12
+    title: title
+    name_row: name_row
+    size_row: size_row
+    count_row: count_row
+    button_row: button_row
+    progress: progress
+    TextworldNGTitle:
+        id: title
+    TextworldNGNameRow:
+        id: name_row
+    TextworldNGSizeRow:
+        id: size_row
+    TextworldNGCountRow:
+        id: count_row
+    TextworldNGButtonRow:
+        id: button_row
+    TextworldNGProgressBar:
+        id: progress
+
+<TextworldNGScreen>:
+    layout: layout
+    TextworldNGLayout:
+        id: layout

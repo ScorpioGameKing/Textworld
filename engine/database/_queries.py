@@ -13,12 +13,12 @@ class Tile:
         INSERT INTO tiles (tile, name, min_noise, max_noise, cid) VALUES 
 
         ("~", "Water", -1.0, -0.5, 'Deep Blue'),
-        ("s", "Sand", -0.75, -0.5, 'Light Yellow'),
-        ("g", "Grass", -0.75, 0, 'Mid Green'),
-        ("d", "Dirt", 0, 0.25, 'Brown'),
-        ("f", "Forest", 0.25, 0.5, 'Dark Green'),
+        ("s", "Sand", -0.5, -0.25, 'Light Yellow'),
+        ("g", "Grass", -0.25, 0.25, 'Mid Green'),
+        ("d", "Dirt", 0.25, 0.35, 'Brown'),
+        ("f", "Forest", 0.35, 0.5, 'Dark Green'),
         ("m", "Mountain", 0.5, 0.75, 'Light Gray'),
-        ("w", "Snow", 0.75, 10, 'White'),
+        ("w", "Snow", 0.75, 1, 'White'),
         ('X', 'Background', NULL, NULL, 'Purple'),
         ('p', 'Path', NULL, NULL, 'Black') ON CONFLICT(tile) 
         DO UPDATE SET 

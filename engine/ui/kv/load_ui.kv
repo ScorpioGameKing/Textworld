@@ -1,0 +1,138 @@
+#:kivy 1.0.9
+
+<LoadedSaveBtn>:
+    style: "outlined"
+    height: "56dp"
+    txt: txt
+    MDButtonText:
+        id: txt
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+
+<TextworldLdSaveView>:
+    orientation: 'vertical'
+    padding: [2,2,2,2]
+    spacing: 12
+
+<TextworldLdBackBtn>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Back"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+
+<LoadedTile>:
+    style: "outlined"
+    height: "56dp"
+    char: char
+    MDButtonText:
+        id: char
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'small'
+
+<TextworldLdLeftPanel>:
+    orientation: 'vertical'
+    padding: [2,2,2,2]
+    spacing: 12
+    save_view: save_view
+    back_btn: back_btn
+    MDLabel:
+        text: "SAVES"
+        text_size: self.size
+        halign: 'center'
+        valign: 'top'
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+    TextworldLdSaveView:
+        id: save_view
+    TextworldLdBackBtn:
+        id: back_btn
+
+<TextworldLdDeleteBtn>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Delete"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+
+<TextworldLdLoadBtn>:
+    style: "outlined"
+    height: "56dp"
+    MDButtonText:
+        text: "Load"
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+
+<TextworldLdInfoPanel>:
+    orientation: 'vertical'
+    padding: [2,2,2,2]
+    spacing: 12
+    world_name: name
+    MDLabel:
+        id: name
+        theme_text_color: "Custom"
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        text_size: self.size
+        halign: 'left'
+        valign: 'top'
+        role: 'medium'
+
+<TextworldLdOptions>:
+    orientation: 'horizontal'
+    padding: [2,2,2,2]
+    spacing: 12
+    delete: delete
+    load: load
+    TextworldLdDeleteBtn:
+        id: delete
+    TextworldLdLoadBtn:
+        id: load
+
+<TextworldLdRightPanel>:
+    orientation: 'vertical'
+    padding: [2,2,2,2]
+    spacing: 12
+    info_panel: info_panel
+    options: options
+    MDLabel:
+        text: "WORLD DETAILS"
+        text_size: self.size
+        halign: 'center'
+        valign: 'top'
+        text_color: "snow"
+        font_style: "monocraft-ui"
+        role: 'medium'
+    TextworldLdInfoPanel:
+        id: info_panel
+    TextworldLdOptions:
+        id: options
+
+<TextworldLdMenuLayout>:
+    orientation: 'horizontal'
+    padding: [2,2,2,2]
+    spacing: 12
+    left_panel: left_panel
+    right_panel: right_panel
+    TextworldLdLeftPanel:
+        id: left_panel
+    TextworldLdRightPanel:
+        id: right_panel
+
+<TextworldLdScreen>:
+    layout: layout
+    TextworldLdMenuLayout:
+        id: layout
