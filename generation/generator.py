@@ -1,4 +1,4 @@
-import logging
+import logger
 from time import gmtime, strftime
 # import numpy as np
 # from noise import snoise2
@@ -29,6 +29,7 @@ class TextworldGenerator():
 
     # Default Map Generation
     def get_chunk(self, size:Size[int], chunk_coords: Coords) -> TextworldMap:
+        logger.trace(f'Generating map chunk at {chunk_coords} with size {size}')
         scale = (0.5 * 0.0625)
         chunk = TextworldMap(size)
 
