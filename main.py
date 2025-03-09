@@ -1,7 +1,7 @@
 from kivy.config import Config
 
 
-Config.set('kivy', 'log_level', 'error')
+Config.set('kivy', 'log_level', 'debug')
 Config.write()
 
 from kivy.core.text import LabelBase

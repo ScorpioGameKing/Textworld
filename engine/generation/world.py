@@ -9,21 +9,21 @@ import os
 
 class TextworldWorld():
     __chunks: dict[Coords, np.array] = {}
-    __chunk_count: Size[int]
-    __chunk_size: Size[int]
+    chunk_count: Size[int]
+    chunk_size: Size[int]
     __seed: int
     _entity_positions: dict[Coords, str] = {}
 
     def __init__(self, chunk_count: Size[int], chunk_size: Size[int], seed:int = int(strftime("%Y%m%d%H%M%S", gmtime()))):
-        self.__chunk_count = chunk_count
-        self.__chunk_size = chunk_size
+        self.chunk_count = chunk_count
+        self.chunk_size = chunk_size
         self.lock = threading.Lock()
         self.__seed = seed
         
     def __generate_chunk(self, coords: Coords, generator: TextworldGenerator):
         logger.trace(f"Generation for Chunk [{coords.x}, {coords.y}] started")
         
-        chunk = generator.get_chunk(self.__chunk_size, coords)
+        chunk = generator.get_chunk(self.chunk_size, coords)
         with self.lock:
             self.__chunks[coords] = chunk
         logger.trace(f"Generation for Chunk [{coords.x}, {coords.y}] finished")
@@ -32,15 +32,15 @@ class TextworldWorld():
         logger.trace('Chunk generation started')
         
         with TextworldGenerator(self.__seed) as generator:
-            half_height = self.__chunk_count.height // 2
-            half_width =  self.__chunk_count.width // 2
+            half_height = self.chunk_count.height // 2
+            half_width =  self.chunk_count.width // 2
             
-            logger.debug(f'Height values {0} , {self.__chunk_count.height}')
-            logger.debug(f'Width values {0} , {self.__chunk_count.width}')
+            logger.debug(f'Height values {0} , {self.chunk_count.height}')
+            logger.debug(f'Width values {0} , {self.chunk_count.width}')
             logger.debug(f'Spawn Coords {half_width} , {half_height}')
-            logger.debug(f'Chunk area {self.__chunk_count.area()}')
-            for y in range(0, self.__chunk_count.height):
-                for x in range(0, self.__chunk_count.width):
+            logger.debug(f'Chunk area {self.chunk_count.area()}')
+            for y in range(0, self.chunk_count.height):
+                for x in range(0, self.chunk_count.width):
                     self.__generate_chunk(Coords(x,y), generator)
                 
         logger.debug('Chunk generation finished')     
@@ -55,7 +55,7 @@ class TextworldWorld():
             logger.debug("Progress thread started")
             while t.is_alive():
                 sleep(3)
-                _progress =  len(self.__chunks.keys()) / self.__chunk_count.area()
+                _progress =  len(self.__chunks.keys()) / self.chunk_count.area()
                 progress_callback(_progress)
         
         progress_thread = threading.Thread(target=progress, name='progress thread' )
@@ -92,10 +92,10 @@ class TextworldWorld():
     
     def __getstate__(self):
         self.lock = None
-        return (self.__chunk_count, self.__chunk_size, self.__chunks)
+        return (self.chunk_count, self.chunk_size, self.__chunks)
     
     def __setstate__(self, state):
-        (self.__chunk_count, self.__chunk_size, self.__chunks) = state
+        (self.chunk_count, self.chunk_size, self.__chunks) = state
         self.lock = threading.Lock()
             
     def __repr__(self) -> str:
