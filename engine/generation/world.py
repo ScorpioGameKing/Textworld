@@ -2,13 +2,16 @@ from time import gmtime, strftime, sleep
 from typing import Callable
 from models import Coords, Size, Tile
 from engine.generation.generator import TextworldGenerator
-import pickle, gzip, threading, math, logging
+import pickle, gzip, threading, math, logger
 import numpy as np
 from engine.entities import Entity
+import logger
+import os
 
 class TextworldWorld():
     __chunks: dict[Coords, np.array] = {}
-    _chunk_count: Size[int]
+    chunk_count: Size[int]
+    chunk_size: Size[int]
     __seed: int
     _player_chunks: list[Coords]
 
@@ -20,38 +23,38 @@ class TextworldWorld():
         self.player_chunks = []
         
     def __generate_chunk(self, coords: Coords, generator: TextworldGenerator):
-        logging.debug(f"Generation for Chunk [{coords.x}, {coords.y}] started")
+        logger.trace(f"Generation for Chunk [{coords.x}, {coords.y}] started")
         
         chunk = generator.get_chunk(self.chunk_size, coords)
         with self.lock:
             self.__chunks[coords] = chunk
-        logging.debug(f"Generation for Chunk [{coords.x}, {coords.y}] finished")
+        logger.trace(f"Generation for Chunk [{coords.x}, {coords.y}] finished")
         
     def __generate_chunks(self):
-        logging.debug('Chunk generation started')
+        logger.trace('Chunk generation started')
         
         with TextworldGenerator(self.__seed) as generator:
             half_height = self.chunk_count.height // 2
             half_width =  self.chunk_count.width // 2
             
-            logging.debug(f'Height values {0} , {self.chunk_count.height}')
-            logging.debug(f'Width values {0} , {self.chunk_count.width}')
-            logging.debug(f'Spawn Coords {half_width} , {half_height}')
-            logging.debug(f'Chunk area {self.chunk_count.area()}')
+            logger.debug(f'Height values {0} , {self.chunk_count.height}')
+            logger.debug(f'Width values {0} , {self.chunk_count.width}')
+            logger.debug(f'Spawn Coords {half_width} , {half_height}')
+            logger.debug(f'Chunk area {self.chunk_count.area()}')
             for y in range(0, self.chunk_count.height):
                 for x in range(0, self.chunk_count.width):
                     self.__generate_chunk(Coords(x,y), generator)
                 
-        logging.debug('Chunk generation finished')     
+        logger.debug('Chunk generation finished')     
     
-    def generate_map(self, progress_callback: Callable[[],None] = (lambda x:logging.debug(f"Progress: {math.floor(x*100)}%"))):
-
+    def generate_map(self, progress_callback: Callable[[],None] = (lambda x:logger.debug(f"Progress: {math.floor(x*100)}%"))):
+        logger.trace('Generating map with size {self._chunk_count} and chunk size {self.chunk_size}')
         t = threading.Thread(target=self.__generate_chunks)
         t.start()
         
         def progress():
             
-            logging.debug("Progress thread started")
+            logger.debug("Progress thread started")
             while t.is_alive():
                 sleep(3)
                 _progress =  len(self.__chunks.keys()) / self.chunk_count.area()
@@ -62,15 +65,21 @@ class TextworldWorld():
         progress_thread.join()
 
     def dump_chunk(self, coords: tuple[int, int]):
-        _d = open(f".\dumps\\chunk_{coords.x}_{coords.y}.txt", "w")
-        chunk = self[coords.x, coords.y]
-        for y in range(chunk.rows):
-            for x in range(chunk.columns):
-                _d.write(f"{chunk[x,y].tile_char}")
-            _d.write("\n")
-        _d.close()
+        logger.trace(f"Dumping chunk {coords}")
+        try:
+            path = './dumps/chunk_{coords.x}_{coords.y}.txt'
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w") as _d:
+                chunk = self[coords.x, coords.y]
+                for y in range(chunk.rows):
+                    for x in range(chunk.columns):
+                        _d.write(f"{chunk[x,y].tile_char}")
+                    _d.write("\n")
+        except Exception as e:
+            logger.error(f"Failed to dump chunk {coords} with error {e}")
 
     def save_world(self):
+        logger.trace(f'Saving world with {len(self.__chunks.keys())} chunks')
         data = pickle.dumps(self, protocol=pickle.HIGHEST_PROTOCOL)
         return gzip.compress(data)
         
