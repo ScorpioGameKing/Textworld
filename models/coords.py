@@ -20,3 +20,7 @@ class Coords:
     
     def __setstate__(self, state):
         (self.x, self.y) = state
+        
+    def __iter__(self):
+        yield self.x
+        yield self.y

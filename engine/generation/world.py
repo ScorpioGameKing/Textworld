@@ -4,12 +4,13 @@ from models import Coords, Size, Tile
 from engine.generation.generator import TextworldGenerator
 import pickle, gzip, threading, math, logging
 import numpy as np
+from engine.entities import Entity
 
 class TextworldWorld():
     __chunks: dict[Coords, np.array] = {}
     _chunk_count: Size[int]
     __seed: int
-    _entity_positions: dict[Coords, str] = {}
+    _entity_positions: list[Entity] = []
 
     def __init__(self, chunk_count: Size[int], chunk_size: Size[int], seed:int = int(strftime("%Y%m%d%H%M%S", gmtime()))):
         self.chunk_count = chunk_count

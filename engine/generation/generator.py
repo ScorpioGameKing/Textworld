@@ -27,7 +27,7 @@ class TextworldGenerator():
     # Default Map Generation
     def get_chunk(self, size:Size[int], chunk_coords: Coords) -> TextworldMap:
         scale = (0.5 * 0.0625)
-        chunk = TextworldMap(size)
+        chunk = TextworldMap(size, position=chunk_coords)
 
         _w = np.array([((x + (chunk_coords.x * size.width)) * scale) for x in range(size.height)])
         _h = np.array([((y + (chunk_coords.y * size.height)) * scale) for y in range(size.height)])
