@@ -3,8 +3,11 @@ from kivy.core.window import Window, Keyboard
 from kivy.app import App
 from engine.generation import TextworldMap, TextworldWorld
 from engine.camera import TextworldCamera
-from models import Size, Coords
+from engine.entities import Player
+from models import Size, Coords, Tile
+from models.direction import Direction
 import logging
+import math as m
 
 # Management system. This is the center for most data, Map, World, Active NPC lists, etc
 class TextworldGameManagementSystem(Widget):
@@ -28,28 +31,53 @@ class TextworldGameManagementSystem(Widget):
     def _on_key_down(self, keyboard, keycode, text, modifiers) -> None:
         if App.get_running_app().game.current == 'game_ui':
             #logging.debug(keycode)
+            old_pos = self.player.tile.position
             match keycode[1]:
                 case 'left':
-                    self.camera.position.x -= 1
-                    if self.camera.position.x < 0:
+                    self.player.move(Direction.WEST)
+                    self.camera.position = self.player.tile.position
+                    if self.player.tile.position.x < 0:
+                        self.active_map.delete_entity_coords(old_pos)
                         self.setMap(self.world_position, x_dir=-1)
-                        self.camera.position.x = self.camera.chunk_size.width - 1
+                        self.active_map.set_entity_coords(self.player.tile.position, self.player)
+                        self.player.tile.position.x = self.camera.chunk_size.width - 1
+                        self.camera.position = self.player.tile.position
+                    else:
+                        self.active_map.update_entity_coords(old_pos, self.player.tile.position, self.player)
                 case 'right':
-                    self.camera.position.x += 1
-                    if self.camera.position.x > self.camera.chunk_size.width:
+                    self.player.move(Direction.EAST)
+                    self.camera.position = self.player.tile.position
+                    if self.player.tile.position.x > self.camera.chunk_size.width:
+                        self.active_map.delete_entity_coords(old_pos)
                         self.setMap(self.world_position, x_dir=1)
-                        self.camera.position.x = 1
+                        self.active_map.set_entity_coords(self.player.tile.position, self.player)
+                        self.player.tile.position.x = 1
+                        self.camera.position = self.player.tile.position
+                    else:
+                        self.active_map.update_entity_coords(old_pos, self.player.tile.position, self.player)
                 case 'up':
-                    self.camera.position.y -= 1
-                    if self.camera.position.y < 0:
+                    self.player.move(Direction.NORTH)
+                    self.camera.position = self.player.tile.position
+                    if self.player.tile.position.y < 0:
+                        self.active_map.delete_entity_coords(old_pos)
                         self.setMap(self.world_position, y_dir=-1)
-                        self.camera.position.y = self.camera.chunk_size.height - 1
+                        self.active_map.set_entity_coords(self.player.tile.position, self.player)
+                        self.player.tile.position.y = self.camera.chunk_size.height - 1
+                        self.camera.position = self.player.tile.position
+                    else:
+                        self.active_map.update_entity_coords(old_pos, self.player.tile.position, self.player)
                 case 'down':
-                    self.camera.position.y += 1
-                    if self.camera.position.y > self.camera.chunk_size.height:
+                    self.player.move(Direction.SOUTH)
+                    self.camera.position = self.player.tile.position
+                    if self.player.tile.position.y > self.camera.chunk_size.height:
+                        self.active_map.delete_entity_coords(old_pos)
                         self.setMap(self.world_position, y_dir=1)
-                        self.camera.position.y = 1
-
+                        self.active_map.set_entity_coords(self.player.tile.position, self.player)
+                        self.player.tile.position.y = 1
+                        self.camera.position = self.player.tile.position
+                    else:
+                        self.active_map.update_entity_coords(old_pos, self.player.tile.position, self.player)
+            
     def buildCamera(self, _view_size:Size, _chunk_size:Size) -> None:
         self.camera = TextworldCamera(_view_size, _chunk_size)
 
@@ -58,6 +86,8 @@ class TextworldGameManagementSystem(Widget):
         self.active_world = world[0]
         self.world_position = Coords(self.active_world.chunk_count.width // 2, self.active_world.chunk_count.height // 2)
         self.setMap(self.world_position)
+        self.player = Player(Tile("P", "ffffff", "Player", Coords(m.floor(self.active_world.chunk_size.width / 2), m.floor(self.active_world.chunk_size.height / 2))), Size(1, 1), 10, 10, 1, 3)
+        self.active_map.set_entity_coords(self.player.tile.position, self.player)
 
     def setMap(self, pos:Coords, x_dir:int = 0, y_dir:int = 0) -> None:
         self.world_position.x += x_dir

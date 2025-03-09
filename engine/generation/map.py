@@ -1,10 +1,12 @@
 from models import Size, Coords, Tile
+from engine.entities import Entity
 import numpy as np
 
 class TextworldMap():
     columns: int
     rows: int
     __tiles: dict[Coords, Tile]
+    entities: dict[Coords, Entity]
     noise: np.typing.NDArray
     chunk_position: Coords
     
@@ -12,6 +14,7 @@ class TextworldMap():
         self.rows = chunk_size.height
         self.columns = chunk_size.width
         self.__tiles = {}
+        self.entities = {}
         self.noise = np.zeros(shape=(self.rows, self.columns))
         self.chunk_position = position
     
@@ -33,15 +36,25 @@ class TextworldMap():
         self.__tiles[Coords.from_tuple(coords)] = tile
 
     def __getstate__(self):
-        return (self.columns, self.rows, self.__tiles, self.chunk_position)
+        return (self.columns, self.rows, self.__tiles, self.entities, self.chunk_position)
     
     def __setstate__(self, state):
-        (self.columns, self.rows, self.__tiles, self.chunk_position) = state
+        (self.columns, self.rows, self.__tiles, self.entities, self.chunk_position) = state
         
-    def contains_coords(self, coords: Coords) -> bool:
-        start_x = self.chunk_position.x * self.columns
-        start_y = self.chunk_position.y * self.rows
-        
-        return  start_x <= coords.x < start_x + self.columns and \
-            start_y <= coords.y < start_y+ self.rows
+    def get_entity_coords(self, entity: Entity) -> Coords:
+        try:
+            return self.entities[Coords(*coords)]
+        except:
+            return None
+
+    def set_entity_coords(self, coords: Coords, entity: Entity):
+        self.entities[Coords(*coords)] = entity
+
+    def update_entity_coords(self, old_coords: Coords, coords: Coords, entity: Entity):
+        if self.entities.__contains__(Coords(*old_coords)):
+            self.entities.pop(Coords(*old_coords))
+        self.entities[Coords(*coords)] = entity
+
+    def delete_entity_coords(self, old_coords: Coords):
+        self.entities.pop(Coords(*old_coords))
         

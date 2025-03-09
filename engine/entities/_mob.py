@@ -1,9 +1,6 @@
-
 from engine.entities._attacker import Attacker
 from engine.entities._mover import Mover
-from models import Coords, Size
-
-
+from models import Coords, Size, Tile
 
 class Mob(Attacker, Mover):
     
@@ -16,6 +13,6 @@ class Mob(Attacker, Mover):
     internal_engergy: int = 0
     unity: int = 0
 
-    def __init__(self, name: str, position: Coords, size: Size[int], health: int, defense: int, movement_speed: int, attack_power: int):
-        Attacker.__init__(self, name, position, size, health, defense, attack_power)
-        Mover.__init__(self, name, position, size, health, defense, movement_speed)
+    def __init__(self, tile: Tile, size: Size[int], health: int, defense: int, movement_speed: int, attack_power: int):
+        Attacker.__init__(self, tile, size, health, defense, attack_power)
+        Mover.__init__(self, tile, size, health, defense, movement_speed)

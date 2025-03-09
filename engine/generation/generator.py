@@ -38,6 +38,7 @@ class TextworldGenerator():
             for x in range(size.width):
                 noise_val = noise_field[y][x]
                 db_tile = self.__db.get_tile_by_noise(noise_val)
+                db_tile.position = Coords(x,y)
                 chunk[x,y] = db_tile
 
         # Return for use

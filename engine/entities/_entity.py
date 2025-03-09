@@ -1,16 +1,15 @@
-from models import Coords, Size
+from models import Coords, Size, Tile
 
 class Entity():
     position: Coords
-    name: str
+    tile: Tile
     size: Size[int]
     health: int
     defense: int
     is_dead: bool = False
     
-    def __init__(self, name: str, position: Coords, size: Size[int], health: int, defense: int):
-        self.name = name
-        self.position = Coords(*position)
+    def __init__(self, tile: Tile, size: Size[int], health: int, defense: int):
+        self.tile = tile
         self.size = size
         self.health = health
         self.defense = defense
@@ -21,6 +20,5 @@ class Entity():
             self.health = 0
             self.is_dead = True
     
-    
     def __repr__(self):
-        return f"Entity {self.name} at {self.position} with size {self.size} and health {self.health}"
+        return f"Entity {self.tile.name} at {self.tile.position} with size {self.size} and health {self.health}"
