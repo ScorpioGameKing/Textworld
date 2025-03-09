@@ -1,4 +1,4 @@
-import logging
+import logger
 import sqlite3
 from typing import Any
 
@@ -16,16 +16,18 @@ class Cursor:
         self.__cursor.close()
 
     def fetch_one(self, query, params=()) -> Any:
-        #logging.debug(f'Executing query: {query[:30]}...')
+        logger.trace(f'Executing {query}with\n {params}')
         self.__cursor.execute(query, params)
         self.__connection.commit()
         return self.__cursor.fetchone()
     
     def fetch_many(self, query, params=(), amount=-1) -> list:
-        #logging.debug(f'Executing query: {query[:30]}...')
+        logger.trace(f'Executing {query}with\n {params}\nexpected return amount {amount}')
+        
         self.__cursor.execute(query, params)
         return self.__cursor.fetchmany(size=amount)
     
     def execute(self, query, params=()) -> None:
+        logger.trace(f'Executing {query}with\n {params}')
         self.__cursor.execute(query, params)
         self.__connection.commit()

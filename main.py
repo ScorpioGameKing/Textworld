@@ -1,9 +1,18 @@
+from kivy.config import Config
+
+
+Config.set('kivy', 'log_level', 'error')
+Config.write()
+
 from kivy.core.text import LabelBase
 from kivy.metrics import sp
 from kivy.utils import hex_colormap
 from kivymd.app import MDApp
 from engine.ui_manager import TextworldUIManager
 from engine.database import Database, Color, World, Tile
+import logger
+
+logger.trace("Logger configured")
 
 # The main kivy App, build the required parts, schedule the loops and return
 class TextworldApp(MDApp):
@@ -67,6 +76,10 @@ class TextworldApp(MDApp):
 
 # Config Write settings to be moved
 if __name__ == '__main__':
+    logger.trace('Initializing Application')
+
     with Database() as db:
         db.init_db(Color.INIT, Color.FILL, Tile.INIT, Tile.FILL, World.INIT)
+    logger.Config.set_log_level(logger.Level.INFO)
+    logger.debug('check if level updated')
     TextworldApp().run()

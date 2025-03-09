@@ -1,4 +1,4 @@
-import logging
+import logger
 from time import gmtime, strftime
 from engine.generation.map import TextworldMap
 from models import Size, Coords
@@ -26,6 +26,7 @@ class TextworldGenerator():
 
     # Default Map Generation
     def get_chunk(self, size:Size[int], chunk_coords: Coords) -> TextworldMap:
+        logger.trace(f'Generating map chunk at {chunk_coords} with size {size}')
         scale = (0.5 * 0.0625)
         chunk = TextworldMap(size)
 
