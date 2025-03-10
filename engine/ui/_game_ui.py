@@ -39,7 +39,7 @@ class TextworldGInput(MDTextField):
         if value:
             self.typing = True
         else:
-            instance.parent.command_terminal.updateText(self.text)
+            instance.parent.command_terminal.update_text(self.text)
             self.text = ""
             self.typing = False
 
@@ -49,7 +49,7 @@ class TextworldGTerminal(MDLabel):
     command_queue = []
     max_queue = 10
     # Take in some text, add it to the queue and display it
-    def updateText(self, text:str):
+    def update_text(self, text:str):
         if text == "":
             return
         else:
@@ -57,10 +57,10 @@ class TextworldGTerminal(MDLabel):
             self.command_queue.append(text)
             self.text += f'{text}\n'
         if len(self.command_queue) > self.max_queue:
-            self.clearQueue('AGED')
+            self.clear_queue('AGED')
 
     # Take in a clearing mode and the queue will clear per mode
-    def clearQueue(self, mode:str):
+    def clear_queue(self, mode:str):
         match mode:
             # Remove everything
             case 'CLEAR':

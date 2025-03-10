@@ -4,8 +4,7 @@ from kivy.app import App
 from engine.generation import TextworldMap, TextworldWorld
 from engine.camera import TextworldCamera
 from engine.entities import Player
-from models import Size, Coords, Tile
-from models.direction import Direction
+from models import Size, Coords, Tile, Direction
 import logger
 import math as m
 
@@ -38,7 +37,7 @@ class TextworldGameManagementSystem(Widget):
                     self.camera.position = self.player.tile.position
                     if self.player.tile.position.x < 0:
                         self.active_map.delete_entity_coords(old_pos)
-                        self.setMap(self.world_position, x_dir=-1)
+                        self.set_map(self.world_position, x_dir=-1)
                         self.active_map.set_entity_coords(self.player.tile.position, self.player)
                         self.player.tile.position.x = self.camera.chunk_size.width - 1
                         self.camera.position = self.player.tile.position
@@ -50,7 +49,7 @@ class TextworldGameManagementSystem(Widget):
                     self.camera.position = self.player.tile.position
                     if self.player.tile.position.x > self.camera.chunk_size.width:
                         self.active_map.delete_entity_coords(old_pos)
-                        self.setMap(self.world_position, x_dir=1)
+                        self.set_map(self.world_position, x_dir=1)
                         self.active_map.set_entity_coords(self.player.tile.position, self.player)
                         self.player.tile.position.x = 1
                         self.camera.position = self.player.tile.position
@@ -62,7 +61,7 @@ class TextworldGameManagementSystem(Widget):
                     self.camera.position = self.player.tile.position
                     if self.player.tile.position.y < 0:
                         self.active_map.delete_entity_coords(old_pos)
-                        self.setMap(self.world_position, y_dir=-1)
+                        self.set_map(self.world_position, y_dir=-1)
                         self.active_map.set_entity_coords(self.player.tile.position, self.player)
                         self.player.tile.position.y = self.camera.chunk_size.height - 1
                         self.camera.position = self.player.tile.position
@@ -74,7 +73,7 @@ class TextworldGameManagementSystem(Widget):
                     self.camera.position = self.player.tile.position
                     if self.player.tile.position.y > self.camera.chunk_size.height:
                         self.active_map.delete_entity_coords(old_pos)
-                        self.setMap(self.world_position, y_dir=1)
+                        self.set_map(self.world_position, y_dir=1)
                         self.active_map.set_entity_coords(self.player.tile.position, self.player)
                         self.player.tile.position.y = 1
                         self.camera.position = self.player.tile.position
@@ -82,18 +81,21 @@ class TextworldGameManagementSystem(Widget):
                     else:
                         self.active_map.update_entity_coords(old_pos, self.player.tile.position, self.player)
             
-    def buildCamera(self, _view_size:Size, _chunk_size:Size) -> None:
+    def build_camera(self, _view_size:Size, _chunk_size:Size) -> None:
         self.camera = TextworldCamera(_view_size, _chunk_size)
 
     # Takes an existing world
-    def loadWorld(self, *world) -> None:
+    def load_world(self, *world) -> None:
         self.active_world = world[0]
         self.world_position = Coords(self.active_world.chunk_count.width // 2, self.active_world.chunk_count.height // 2)
-        self.setMap(self.world_position)
+        self.set_map(self.world_position)
+        self.load_player()
+
+    def load_player(self) -> None:
         self.player = Player(Tile("P", "ffffff", "Player", Coords(m.floor(self.active_world.chunk_size.width / 2), m.floor(self.active_world.chunk_size.height / 2))), Size(1, 1), 10, 10, 1, 3)
         self.active_map.set_entity_coords(self.player.tile.position, self.player)
 
-    def setMap(self, pos:Coords, x_dir:int = 0, y_dir:int = 0) -> None:
+    def set_map(self, pos:Coords, x_dir:int = 0, y_dir:int = 0) -> None:
         self.world_position.x += x_dir
         self.world_position.y += y_dir
         self.active_map = self.active_world[pos.x, pos.y]
@@ -101,7 +103,7 @@ class TextworldGameManagementSystem(Widget):
     # Display Render Loop
     def update_display(self, display, command_input, dt) -> None:
         #logger.debug(f"TL: {self.world_position.x - 1, self.world_position.y - 1} T: {self.world_position.x, self.world_position.y - 1} TR: {self.world_position.x + 1, self.world_position.y - 1} \n R: {self.world_position.x - 1, self.world_position.y} M: {self.world_position.x, self.world_position.y} L: {self.world_position.x + 1, self.world_position.y}\n BL: {self.world_position.x - 1, self.world_position.y + 1} B: {self.world_position.x, self.world_position.y + 1} BR: {self.world_position.x + 1, self.world_position.y + 1}")
-        view_text = self.camera.selectViewportArea(
+        view_text = self.camera.select_viewport_area(
             self.world_position,
             self.active_map, # Center Chunk Seperated for faster viewport
             [ # Surrounding 8 list, Only look at those in the veiwport based on how it overflows the main chunk

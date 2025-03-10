@@ -37,13 +37,13 @@ class TextworldUIManager(MDScreenManager):
     def update_gen_progess(self, val:float):
         Clock.schedule_once(partial(self.get_screen('new_gen_ui').layout.progress.update, val), 0)
 
-    def loadSaveMenuCall(self, world, save_name):
+    def load_save_menu_call(self, world, save_name):
         self.current = 'game_ui'
         self.screens[1].game_manager.save_name = save_name
-        self.screens[1].game_manager.loadWorld(world)
-        self.screens[1].game_manager.buildCamera(Size(24, 104), self.screens[1].game_manager.active_world.chunk_size)
+        self.screens[1].game_manager.load_world(world)
+        self.screens[1].game_manager.build_camera(Size(24, 104), self.screens[1].game_manager.active_world.chunk_size)
     
-    def newGenMenuCall(self):
+    def new_gen_menu_call(self):
         _save_name = self.get_screen(self.current).layout.name_row.save_name.text
         _chunk_size = self.get_screen(self.current).layout.size_row.chunk_size.text
         _chunk_count = self.get_screen(self.current).layout.count_row.chunk_count.text
@@ -67,5 +67,5 @@ class TextworldUIManager(MDScreenManager):
                 db.save_world_to_db(world.save_world(), _save_name)
             self.current = 'game_ui'
             self.screens[1].game_manager.save_name = _save_name
-            self.screens[1].game_manager.loadWorld(world)
-            self.screens[1].game_manager.buildCamera(Size(24, 104), self.screens[1].game_manager.active_world.chunk_size)
+            self.screens[1].game_manager.load_world(world)
+            self.screens[1].game_manager.build_camera(Size(24, 104), self.screens[1].game_manager.active_world.chunk_size)

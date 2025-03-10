@@ -20,7 +20,7 @@ class LoadedSaveBtn(MDButton):
         return super().on_press()
 
 class TextworldLdSaveView(MDBoxLayout):
-    def updateWorldList(self, save_names):
+    def update_world_list(self, save_names):
         self.worlds = save_names
         logger.debug(f"Children: {self.children} Count: {len(self.children)} db Count: {len(self.worlds)}")
         self.clear_widgets()
@@ -45,7 +45,7 @@ class TextworldLdDeleteBtn(MDButton):
     def on_press(self):
         self.db.delete_world_from_db(self.world_id)
         self.parent.parent.info_panel.world_name.text = "Click Save to load Info"
-        self.parent.parent.parent.left_panel.save_view.updateWorldList(self.db.load_save_names())
+        self.parent.parent.parent.left_panel.save_view.update_world_list(self.db.load_save_names())
         return super().on_press()
 
 class TextworldLdLoadBtn(MDButton):
@@ -53,7 +53,7 @@ class TextworldLdLoadBtn(MDButton):
     db:WorldDatabase
     def on_press(self):
         world_data = self.db.load_world_from_db(self.world_id)
-        MDApp.get_running_app().game.loadSaveMenuCall(world_data, self.world_id)
+        MDApp.get_running_app().game.load_save_menu_call(world_data, self.world_id)
         return super().on_press()
 
 class TextworldLdOptions(MDBoxLayout):
@@ -89,7 +89,7 @@ class TextworldLdScreen(MDScreen):
         self.__db.close()
 
     def on_pre_enter(self, *args):
-        self.layout.left_panel.save_view.updateWorldList(self.__db.load_save_names())
+        self.layout.left_panel.save_view.update_world_list(self.__db.load_save_names())
         self.layout.right_panel.options.load.db = self.__db
         self.layout.right_panel.options.delete.db = self.__db
         return super().on_enter(*args)

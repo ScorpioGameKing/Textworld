@@ -21,7 +21,7 @@ class TextworldCamera():
             m.floor(0 - (self.viewport_size.height * 0.5)), #up
             m.floor(0 + (self.viewport_size.height * 0.5))] #down
 
-    def selectViewportArea(self, chunk_pos:Coords, main_chunk:TextworldMap, surrounding_8) -> str:
+    def select_viewport_area(self, chunk_pos:Coords, main_chunk:TextworldMap, surrounding_8) -> str:
         view_string = ""
         borders = [  # MIN | MAX, MIN | MAX
             (self.viewport_dim_offset[0] + self.position.x), (self.viewport_dim_offset[1] + self.position.x),
