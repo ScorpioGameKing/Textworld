@@ -1,8 +1,6 @@
-
 from engine.entities._entity import Entity
 from models import Coords, Size, Tile
 from models.direction import Direction
-
 class Mover(Entity):
     movement_speed: int
     

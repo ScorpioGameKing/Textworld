@@ -12,7 +12,7 @@ from engine.generation import TextworldWorld
 from models import Size
 from engine.database import WorldDatabase
 from functools import partial
-import logging
+import logger
 
 class TextworldUIManager(MDScreenManager):
     def __init__(self, **kwargs):
@@ -51,13 +51,13 @@ class TextworldUIManager(MDScreenManager):
         try:
             _chunk_size = int(_chunk_size)
         except:
-            logging.debug("Size is not a number!")
+            logger.debug("Size is not a number!")
             pass
 
         try:
             _chunk_count = int(_chunk_count)
         except:
-            logging.debug("Count is not a number!")
+            logger.debug("Count is not a number!")
             pass
 
         if type(_chunk_size) == int and type(_chunk_count) == int:

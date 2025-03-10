@@ -17,6 +17,10 @@ class HandbookLexer():
                     logger.debug(f"|LEXER| TOKEN: {int(_t), 'INT'}")
                     token_list.append([int(_t), "INT"])
                 except:
-                    logger.debug(f"|LEXER| TOKEN: {_t, 'ERROR'}")
-                    token_list.append([_t.upper(), "ERROR"])
+                    if isinstance(_t.upper, str):
+                        logger.debug(f"|LEXER| TOKEN: {_t, 'STRING'}")
+                        token_list.append([_t.upper(), "STRING"])
+                    else:
+                        logger.debug(f"|LEXER| TOKEN: {_t, 'ERROR'}")
+                        token_list.append([_t.upper(), "ERROR"])
         return token_list

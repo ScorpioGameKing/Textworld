@@ -92,6 +92,7 @@ class Color:
     ( "Dark Green", "45814C"),
     ( "Gray", "5C8084"),
     ( "White", "FFFFFF"),
+    ( "Red", "FF0000"),
     ( "Light Gray", "666666"),
     ( "Black", "000000") ON CONFLICT(cid) DO NOTHING;
     """
@@ -100,11 +101,46 @@ class Color:
     SELECT * FROM colors WHERE cid = ?
     """
 
+class Mobs:
+    INIT = """
+    CREATE TABLE IF NOT EXISTS mobs (
+        name TEXT PRIMARY KEY,
+        tile TEXT NOT NULL,
+        cid TEXT NOT NULL,
+        width INTEGER NOT NULL,
+        height INTEGER NOT NULL,
+        health INTEGER NOT NULL,
+        defense INTEGER NOT NULL,
+        move_speed INTEGER NOT NULL,
+        attack_power INTEGER NOT NULL
+    )
+    """
+    
+    FILL = """
+        INSERT INTO mobs (name, tile, cid, width, height, health, defense, move_speed, attack_power) VALUES 
+        ( "BANDIT", "B", "Red", 1, 1, 10, 10, 1, 3) ON CONFLICT(name) DO NOTHING;
+    """
 
+    SELECT_BY_NAME = """
+    SELECT mobs.tile, mobs.name, colors.bbstring, mobs.width, mobs.height, mobs.health, mobs.defense, mobs.move_speed, mobs.attack_power FROM mobs JOIN colors USING (cid) WHERE name = ?
+    """
 
-
-
-
-
-
-
+class Players:
+    INIT = """
+    CREATE TABLE IF NOT EXISTS players (
+        name TEXT PRIMARY KEY,
+        tile TEXT NOT NULL,
+        cid TEXT NOT NULL,
+        width INTEGER NOT NULL,
+        height INTEGER NOT NULL,
+        health INTEGER NOT NULL,
+        defense INTEGER NOT NULL,
+        move_speed INTEGER NOT NULL,
+        attack_power INTEGER NOT NULL
+    )
+    """
+    
+    FILL = """
+        INSERT INTO players (name, tile, cid, width, height, health, defense, move_speed, attack_power) VALUES 
+        ( "PLAYER", "P", "White", 1, 1, 10, 10, 1, 3) ON CONFLICT(name) DO NOTHING; 
+    """

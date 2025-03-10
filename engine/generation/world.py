@@ -23,15 +23,15 @@ class TextworldWorld():
         self.player_chunks = []
         
     def __generate_chunk(self, coords: Coords, generator: TextworldGenerator):
-        logger.trace(f"Generation for Chunk [{coords.x}, {coords.y}] started")
+        logger.debug(f"Generation for Chunk [{coords.x}, {coords.y}] started")
         
         chunk = generator.get_chunk(self.chunk_size, coords)
         with self.lock:
             self.__chunks[coords] = chunk
-        logger.trace(f"Generation for Chunk [{coords.x}, {coords.y}] finished")
+        logger.debug(f"Generation for Chunk [{coords.x}, {coords.y}] finished")
         
     def __generate_chunks(self):
-        logger.trace('Chunk generation started')
+        logger.debug('Chunk generation started')
         
         with TextworldGenerator(self.__seed) as generator:
             half_height = self.chunk_count.height // 2
@@ -48,7 +48,7 @@ class TextworldWorld():
         logger.debug('Chunk generation finished')     
     
     def generate_map(self, progress_callback: Callable[[],None] = (lambda x:logger.debug(f"Progress: {math.floor(x*100)}%"))):
-        logger.trace('Generating map with size {self._chunk_count} and chunk size {self.chunk_size}')
+        logger.debug('Generating map with size {self._chunk_count} and chunk size {self.chunk_size}')
         t = threading.Thread(target=self.__generate_chunks)
         t.start()
         
@@ -65,7 +65,7 @@ class TextworldWorld():
         progress_thread.join()
 
     def dump_chunk(self, coords: tuple[int, int]):
-        logger.trace(f"Dumping chunk {coords}")
+        logger.debug(f"Dumping chunk {coords}")
         try:
             path = './dumps/chunk_{coords.x}_{coords.y}.txt'
             os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -79,7 +79,7 @@ class TextworldWorld():
             logger.error(f"Failed to dump chunk {coords} with error {e}")
 
     def save_world(self):
-        logger.trace(f'Saving world with {len(self.__chunks.keys())} chunks')
+        logger.debug(f'Saving world with {len(self.__chunks.keys())} chunks')
         data = pickle.dumps(self, protocol=pickle.HIGHEST_PROTOCOL)
         return gzip.compress(data)
         

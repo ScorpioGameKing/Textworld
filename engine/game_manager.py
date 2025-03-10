@@ -6,7 +6,7 @@ from engine.camera import TextworldCamera
 from engine.entities import Player
 from models import Size, Coords, Tile
 from models.direction import Direction
-import logging
+import logger
 import math as m
 
 # Management system. This is the center for most data, Map, World, Active NPC lists, etc
@@ -30,7 +30,7 @@ class TextworldGameManagementSystem(Widget):
     # Keyboard Parsing, May move to standalone class and just pass keys
     def _on_key_down(self, keyboard, keycode, text, modifiers) -> None:
         if App.get_running_app().game.current == 'game_ui':
-            #logging.debug(keycode)
+            #logger.debug(keycode)
             old_pos = self.player.tile.position
             match keycode[1]:
                 case 'left':
@@ -42,6 +42,7 @@ class TextworldGameManagementSystem(Widget):
                         self.active_map.set_entity_coords(self.player.tile.position, self.player)
                         self.player.tile.position.x = self.camera.chunk_size.width - 1
                         self.camera.position = self.player.tile.position
+                        self.active_map.update_entity_coords(self.player.tile.position, self.player.tile.position, self.player)
                     else:
                         self.active_map.update_entity_coords(old_pos, self.player.tile.position, self.player)
                 case 'right':
@@ -53,6 +54,7 @@ class TextworldGameManagementSystem(Widget):
                         self.active_map.set_entity_coords(self.player.tile.position, self.player)
                         self.player.tile.position.x = 1
                         self.camera.position = self.player.tile.position
+                        self.active_map.update_entity_coords(self.player.tile.position, self.player.tile.position, self.player)
                     else:
                         self.active_map.update_entity_coords(old_pos, self.player.tile.position, self.player)
                 case 'up':
@@ -64,6 +66,7 @@ class TextworldGameManagementSystem(Widget):
                         self.active_map.set_entity_coords(self.player.tile.position, self.player)
                         self.player.tile.position.y = self.camera.chunk_size.height - 1
                         self.camera.position = self.player.tile.position
+                        self.active_map.update_entity_coords(self.player.tile.position, self.player.tile.position, self.player)
                     else:
                         self.active_map.update_entity_coords(old_pos, self.player.tile.position, self.player)
                 case 'down':
@@ -75,6 +78,7 @@ class TextworldGameManagementSystem(Widget):
                         self.active_map.set_entity_coords(self.player.tile.position, self.player)
                         self.player.tile.position.y = 1
                         self.camera.position = self.player.tile.position
+                        self.active_map.update_entity_coords(self.player.tile.position, self.player.tile.position, self.player)
                     else:
                         self.active_map.update_entity_coords(old_pos, self.player.tile.position, self.player)
             
@@ -96,7 +100,7 @@ class TextworldGameManagementSystem(Widget):
         
     # Display Render Loop
     def update_display(self, display, command_input, dt) -> None:
-        #logging.debug(f"TL: {self.world_position.x - 1, self.world_position.y - 1} T: {self.world_position.x, self.world_position.y - 1} TR: {self.world_position.x + 1, self.world_position.y - 1} \n R: {self.world_position.x - 1, self.world_position.y} M: {self.world_position.x, self.world_position.y} L: {self.world_position.x + 1, self.world_position.y}\n BL: {self.world_position.x - 1, self.world_position.y + 1} B: {self.world_position.x, self.world_position.y + 1} BR: {self.world_position.x + 1, self.world_position.y + 1}")
+        #logger.debug(f"TL: {self.world_position.x - 1, self.world_position.y - 1} T: {self.world_position.x, self.world_position.y - 1} TR: {self.world_position.x + 1, self.world_position.y - 1} \n R: {self.world_position.x - 1, self.world_position.y} M: {self.world_position.x, self.world_position.y} L: {self.world_position.x + 1, self.world_position.y}\n BL: {self.world_position.x - 1, self.world_position.y + 1} B: {self.world_position.x, self.world_position.y + 1} BR: {self.world_position.x + 1, self.world_position.y + 1}")
         view_text = self.camera.selectViewportArea(
             self.world_position,
             self.active_map, # Center Chunk Seperated for faster viewport

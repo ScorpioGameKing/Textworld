@@ -1,7 +1,6 @@
 import logger
 import sqlite3
 from typing import Any
-
 class Cursor:
     __connection: sqlite3.Connection
     __cursor: sqlite3.Cursor = None

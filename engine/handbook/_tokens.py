@@ -5,6 +5,7 @@ class Tokens:
         "EXIT_NS" : "SYS",
         "SAVE" : "SYS",
         "DUMP_MAP": "SYS",
+        "SPAWN_MOB": "SYS",
 
         # Game Command Tokens
         "MOVE" : "ACT",

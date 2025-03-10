@@ -5,7 +5,7 @@ from kivymd.uix.transition.transition import MDSlideTransition
 from kivy.properties import ObjectProperty
 from kivymd.app import MDApp
 from engine.database import WorldDatabase
-import logging
+import logger
 
 class LoadedSaveBtn(MDButton):
     txt = ObjectProperty(None)
@@ -22,13 +22,13 @@ class LoadedSaveBtn(MDButton):
 class TextworldLdSaveView(MDBoxLayout):
     def updateWorldList(self, save_names):
         self.worlds = save_names
-        logging.debug(f"Children: {self.children} Count: {len(self.children)} db Count: {len(self.worlds)}")
+        logger.debug(f"Children: {self.children} Count: {len(self.children)} db Count: {len(self.worlds)}")
         self.clear_widgets()
         for i in range(len(self.worlds)):
                 btn = LoadedSaveBtn(world=self.worlds[i - 1])
                 self.ids[f'{self.worlds[i - 1]}'] = btn
                 self.add_widget(btn)
-        logging.debug(f"Layout Children: {self.ids} Count: {len(self.children)}")
+        logger.debug(f"Layout Children: {self.ids} Count: {len(self.children)}")
 
 class TextworldLdBackBtn(MDButton):
     def on_press(self):

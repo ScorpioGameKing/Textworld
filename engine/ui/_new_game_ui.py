@@ -3,7 +3,7 @@ from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.progressindicator import MDLinearProgressIndicator
 from kivy.properties import ObjectProperty
-import logging
+import logger
 
 class TextworldNGTitle(MDLabel):
     pass
@@ -22,7 +22,7 @@ class TextworldNGButtonRow(MDBoxLayout):
 
 class TextworldNGProgressBar(MDLinearProgressIndicator):  
     def update(self, _value:float, dt):
-        logging.debug(f"Updating: {self._get_value()} To: {_value}")
+        logger.debug(f"Updating: {self._get_value()} To: {_value}")
         self.value = _value
 
 class TextworldNGLayout(MDBoxLayout):

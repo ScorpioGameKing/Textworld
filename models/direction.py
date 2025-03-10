@@ -1,6 +1,4 @@
-
 from enum import StrEnum
-
 
 class Direction(StrEnum):
     """Direction enum."""
