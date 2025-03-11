@@ -9,10 +9,12 @@ from engine.ui import TextworldNGScreen
 from engine.ui import TextworldTLScreen
 from engine.ui import TileBuilderScreen
 from engine.generation import TextworldWorld
-from models import Size
+from models import Size, Coords, Tile
+from engine.entities import Player
 from engine.database import WorldDatabase
 from functools import partial
 import logger
+import math as m
 
 class TextworldUIManager(MDScreenManager):
     def __init__(self, **kwargs):
@@ -39,9 +41,13 @@ class TextworldUIManager(MDScreenManager):
 
     def load_save_menu_call(self, world, save_name):
         self.current = 'game_ui'
+
+        # HACK
+        self.player = world.players[1]
+
         self.screens[1].game_manager.save_name = save_name
-        self.screens[1].game_manager.load_world(world)
-        self.screens[1].game_manager.build_camera(Size(24, 104), self.screens[1].game_manager.active_world.chunk_size)
+        self.screens[1].game_manager.load_world(self.player, world)
+        self.screens[1].game_manager.build_camera(self.screens[1].game_manager.player.tile.position, Size(24, 104), self.screens[1].game_manager.active_world.chunk_size)
     
     def new_gen_menu_call(self):
         _save_name = self.get_screen(self.current).layout.name_row.save_name.text
@@ -66,6 +72,10 @@ class TextworldUIManager(MDScreenManager):
             with WorldDatabase() as db:
                 db.save_world_to_db(world.save_world(), _save_name)
             self.current = 'game_ui'
+            
+            # HACK
+            self.player = Player(Tile("P", "ffffff", "Player", Coords(m.floor(world.chunk_size.width / 2), m.floor(world.chunk_size.height / 2))), Coords(world.chunk_count.width // 2, world.chunk_count.height // 2), Size(1, 1), 10, 10, 1, 3)
+
             self.screens[1].game_manager.save_name = _save_name
-            self.screens[1].game_manager.load_world(world)
-            self.screens[1].game_manager.build_camera(Size(24, 104), self.screens[1].game_manager.active_world.chunk_size)
+            self.screens[1].game_manager.load_world(self.player, world)
+            self.screens[1].game_manager.build_camera(Coords(self.screens[1].game_manager.active_world.chunk_count.width // 2, self.screens[1].game_manager.active_world.chunk_count.height // 2), Size(24, 104), self.screens[1].game_manager.active_world.chunk_size)

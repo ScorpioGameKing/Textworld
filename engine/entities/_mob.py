@@ -13,6 +13,6 @@ class Mob(Attacker, Mover):
     internal_engergy: int = 0
     unity: int = 0
 
-    def __init__(self, tile: Tile, size: Size[int], health: int, defense: int, movement_speed: int, attack_power: int):
-        Attacker.__init__(self, tile, size, health, defense, attack_power)
-        Mover.__init__(self, tile, size, health, defense, movement_speed)
+    def __init__(self, tile: Tile, chunk_pos:Coords, size: Size[int], health: int, defense: int, movement_speed: int, attack_power: int):
+        Attacker.__init__(self, tile, chunk_pos, size, health, defense, attack_power)
+        Mover.__init__(self, tile, chunk_pos, size, health, defense, movement_speed)

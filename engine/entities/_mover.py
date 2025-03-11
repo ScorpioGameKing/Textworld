@@ -4,8 +4,8 @@ from models.direction import Direction
 class Mover(Entity):
     movement_speed: int
     
-    def __init__(self, tile: Tile, size: Size[int], health: int, defense: int, movement_speed: int):
-        Entity.__init__(self, tile, size, health, defense)
+    def __init__(self, tile: Tile, chunk_pos:Coords, size: Size[int], health: int, defense: int, movement_speed: int):
+        Entity.__init__(self, tile, chunk_pos, size, health, defense)
 
         self.movement_speed = movement_speed
     

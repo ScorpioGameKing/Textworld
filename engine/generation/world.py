@@ -13,14 +13,14 @@ class TextworldWorld():
     chunk_count: Size[int]
     chunk_size: Size[int]
     __seed: int
-    _player_chunks: list[Coords]
+    _players: dict[int, Entity]
 
     def __init__(self, chunk_count: Size[int], chunk_size: Size[int], seed:int = int(strftime("%Y%m%d%H%M%S", gmtime()))):
         self.chunk_count = chunk_count
         self.chunk_size = chunk_size
         self.lock = threading.Lock()
         self.__seed = seed
-        self.player_chunks = []
+        self.players = {}
         
     def __generate_chunk(self, coords: Coords, generator: TextworldGenerator):
         logger.debug(f"Generation for Chunk [{coords.x}, {coords.y}] started")
@@ -94,10 +94,10 @@ class TextworldWorld():
     
     def __getstate__(self):
         self.lock = None
-        return (self.chunk_count, self.chunk_size, self.__chunks)
+        return (self.chunk_count, self.chunk_size, self.__chunks, self.players)
     
     def __setstate__(self, state):
-        (self.chunk_count, self.chunk_size, self.__chunks) = state
+        (self.chunk_count, self.chunk_size, self.__chunks, self.players) = state
         self.lock = threading.Lock()
             
     def __repr__(self) -> str:

@@ -81,24 +81,34 @@ class TextworldGameManagementSystem(Widget):
                     else:
                         self.active_map.update_entity_coords(old_pos, self.player.tile.position, self.player)
             
-    def build_camera(self, _view_size:Size, _chunk_size:Size) -> None:
-        self.camera = TextworldCamera(_view_size, _chunk_size)
+    def build_camera(self, position:Coords, _view_size:Size, _chunk_size:Size) -> None:
+        self.camera = TextworldCamera(position, _view_size, _chunk_size)
 
-    # Takes an existing world
-    def load_world(self, *world) -> None:
-        self.active_world = world[0]
-        self.world_position = Coords(self.active_world.chunk_count.width // 2, self.active_world.chunk_count.height // 2)
-        self.set_map(self.world_position)
-        self.load_player()
+    def load_world(self, player, world) -> None:
+        self.active_world = world
+        #self.world_position = Coords(self.active_world.chunk_count.width // 2, self.active_world.chunk_count.height // 2)
+        self.load_player(player)
 
-    def load_player(self) -> None:
-        self.player = Player(Tile("P", "ffffff", "Player", Coords(m.floor(self.active_world.chunk_size.width / 2), m.floor(self.active_world.chunk_size.height / 2))), Size(1, 1), 10, 10, 1, 3)
-        self.active_map.set_entity_coords(self.player.tile.position, self.player)
+    def load_player(self, player) -> None:
+        #self.player = Player(Tile("P", "ffffff", "Player", Coords(m.floor(self.active_world.chunk_size.width / 2), m.floor(self.active_world.chunk_size.height / 2))), Size(1, 1), 10, 10, 1, 3)
+        if player.id in self.active_world.players:
+            self.player = self.active_world.players[player.id]
+            self.world_position = self.player.chunk_pos
+            logger.debug(f"World Position{self.world_position}")
+            self.set_map(self.world_position)
+            self.active_map.set_entity_coords(self.player.tile.position, self.player)
+        else:
+            self.player = player
+            self.active_world.players[player.id] = player
+            self.world_position = Coords(self.active_world.chunk_count.width // 2, self.active_world.chunk_count.height // 2)
+            self.set_map(self.world_position)
+            self.active_map.set_entity_coords(self.player.tile.position, self.player)
 
     def set_map(self, pos:Coords, x_dir:int = 0, y_dir:int = 0) -> None:
         self.world_position.x += x_dir
         self.world_position.y += y_dir
         self.active_map = self.active_world[pos.x, pos.y]
+        self.player.chunk_pos = self.world_position
         
     # Display Render Loop
     def update_display(self, display, command_input, dt) -> None:

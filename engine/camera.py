@@ -4,9 +4,9 @@ import math as m
 import logger
 
 class TextworldCamera():
-    def __init__(self, _view_size:Size, _chunk_size:Size) -> None:
+    def __init__(self, position:Coords, _view_size:Size, _chunk_size:Size) -> None:
         self.resize_viewport(_view_size, _chunk_size)
-        self.position = Coords(m.floor(self.chunk_size.width / 2), m.floor(self.chunk_size.height / 2))
+        self.position = position
         self.log = False
 
     def set_logging(self, state:bool):

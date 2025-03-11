@@ -128,7 +128,8 @@ class Mobs:
 class Players:
     INIT = """
     CREATE TABLE IF NOT EXISTS players (
-        name TEXT PRIMARY KEY,
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL,
         tile TEXT NOT NULL,
         cid TEXT NOT NULL,
         width INTEGER NOT NULL,
@@ -142,5 +143,8 @@ class Players:
     
     FILL = """
         INSERT INTO players (name, tile, cid, width, height, health, defense, move_speed, attack_power) VALUES 
-        ( "PLAYER", "P", "White", 1, 1, 10, 10, 1, 3) ON CONFLICT(name) DO NOTHING; 
+        ( "PLAYER", "P", "White", 1, 1, 10, 10, 1, 3) ON CONFLICT(id) 
+        DO UPDATE SET 
+        id = excluded.id,
+        name = excluded.name
     """
